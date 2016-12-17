@@ -1,0 +1,38 @@
+<h2>Listing mind objects</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Title</th>
+      <th>Content</th>
+      <th>Number</th>
+      <th>Date</th>
+      <th>Datetime</th>
+      <th>Data</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for mind_object <- @mind_objects do %>
+    <tr>
+      <td><%= mind_object.id %></td>
+      <td><%= mind_object.title %></td>
+      <td><%= mind_object.content %></td>
+      <td><%= mind_object.number %></td>
+      <td><%= mind_object.date %></td>
+      <td><%= mind_object.datetime %></td>
+      <td><%= mind_object.data %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: mind_object_path(@conn, :show, mind_object), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: mind_object_path(@conn, :edit, mind_object), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: mind_object_path(@conn, :delete, mind_object), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New mind object", to: mind_object_path(@conn, :new) %>

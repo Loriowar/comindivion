@@ -1,0 +1,6 @@
+<h2>Edit mind object</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: mind_object_path(@conn, :update, @mind_object) %>
+
+<%= link "Back", to: mind_object_path(@conn, :index) %>

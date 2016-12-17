@@ -1,0 +1,43 @@
+<h2>Show mind object</h2>
+
+<ul>
+
+  <li>
+    <strong>Id:</strong>
+    <%= @mind_object.id %>
+  </li>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @mind_object.title %>
+  </li>
+
+  <li>
+    <strong>Content:</strong>
+    <%= @mind_object.content %>
+  </li>
+
+  <li>
+    <strong>Number:</strong>
+    <%= @mind_object.number %>
+  </li>
+
+  <li>
+    <strong>Date:</strong>
+    <%= @mind_object.date %>
+  </li>
+
+  <li>
+    <strong>Datetime:</strong>
+    <%= @mind_object.datetime %>
+  </li>
+
+  <li>
+    <strong>Data:</strong>
+    <%= @mind_object.data %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: mind_object_path(@conn, :edit, @mind_object) %>
+<%= link "Back", to: mind_object_path(@conn, :index) %>
