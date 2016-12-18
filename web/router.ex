@@ -17,6 +17,8 @@ defmodule Comindivion.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+
+    resources "/mind_objects", MindObjectController
   end
 
   # Other scopes may use custom stacks.

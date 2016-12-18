@@ -40,4 +40,5 @@
 </ul>
 
 <%= link "Edit", to: mind_object_path(@conn, :edit, @mind_object) %>
+<br>
 <%= link "Back", to: mind_object_path(@conn, :index) %>
