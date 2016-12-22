@@ -1,0 +1,7 @@
+{
+  "name": "Comindivion",
+  "dependencies": {
+    "jquery": "~> 2.1",
+    "bootstrap-datepicker": "~> 1.5.1"
+  }
+}
