@@ -23,3 +23,7 @@ import "phoenix_html"
 import initializeDatepickers from "./datepicker"
 
 initializeDatepickers()
+
+import initializeDatetimepickers from "./datetimepicker"
+
+initializeDatetimepickers()

@@ -31,7 +31,7 @@
 
   <div class="form-group">
     <%= label f, :datetime, class: "control-label" %>
-    <%= datetime_select f, :datetime, class: "form-control" %>
+    <%= text_input f, :datetime, class: "form-control datetimepicker" %>
     <%= error_tag f, :datetime %>
   </div>
 
