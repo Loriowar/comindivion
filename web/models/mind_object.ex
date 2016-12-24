@@ -7,6 +7,7 @@ defmodule Comindivion.MindObject do
   schema "mind_objects" do
     field :title, :string
     field :content, :string
+    field :uri, :string
     field :number, :decimal
     field :date, Ecto.Date
     field :datetime, Ecto.DateTime
@@ -20,7 +21,7 @@ defmodule Comindivion.MindObject do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:title, :content, :number, :date, :datetime, :data])
+    |> cast(params, [:title, :content, :uri, :number, :date, :datetime, :data])
     |> validate_required([:title])
   end
 end

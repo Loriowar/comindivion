@@ -2,7 +2,21 @@ defmodule Comindivion.MindObjectControllerTest do
   use Comindivion.ConnCase
 
   alias Comindivion.MindObject
-  @valid_attrs %{content: "some content", data: "some content", date: %{day: 17, month: 4, year: 2010}, datetime: %{day: 17, hour: 14, min: 0, month: 4, sec: 0, year: 2010}, id: "7488a646-e31f-11e4-aace-600308960662", number: "120.5", title: "some content"}
+  @valid_attrs %{content: "some content",
+                 data: "some content",
+                 date: %{day: 17,
+                         month: 4,
+                         year: 2010},
+                 datetime: %{day: 17,
+                             hour: 14,
+                             min: 0,
+                             month: 4,
+                             sec: 0,
+                             year: 2010},
+                 id: "7488a646-e31f-11e4-aace-600308960662",
+                 number: "120.5",
+                 title: "some content",
+                 uri: "protocol://some.example.com/"}
   @invalid_attrs %{}
 
   test "lists all entries on index", %{conn: conn} do

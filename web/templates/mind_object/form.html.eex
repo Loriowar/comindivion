@@ -18,6 +18,12 @@
   </div>
 
   <div class="form-group">
+    <%= label f, :uri, class: "control-label" %>
+    <%= text_input f, :uri, class: "form-control" %>
+    <%= error_tag f, :uri %>
+  </div>
+
+  <div class="form-group">
     <%= label f, :number, class: "control-label" %>
     <%= number_input f, :number, step: "any", class: "form-control" %>
     <%= error_tag f, :number %>
