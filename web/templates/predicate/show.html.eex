@@ -1,0 +1,19 @@
+<h2>Show predicate</h2>
+
+<ul>
+
+  <li>
+    <strong>Id:</strong>
+    <%= @predicate.id %>
+  </li>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @predicate.name %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: predicate_path(@conn, :edit, @predicate) %>
+<br>
+<%= link "Back", to: predicate_path(@conn, :index) %>

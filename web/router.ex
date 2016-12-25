@@ -19,6 +19,7 @@ defmodule Comindivion.Router do
     get "/", PageController, :index
 
     resources "/mind_objects", MindObjectController
+    resources "/predicates", PredicateController
   end
 
   # Other scopes may use custom stacks.

@@ -13,7 +13,6 @@ defmodule Comindivion.MindObjectControllerTest do
                              month: 4,
                              sec: 0,
                              year: 2010},
-                 id: "7488a646-e31f-11e4-aace-600308960662",
                  number: "120.5",
                  title: "some content",
                  uri: "protocol://some.example.com/"}

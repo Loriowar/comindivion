@@ -1,0 +1,28 @@
+<h2>Listing predicates</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for predicate <- @predicates do %>
+    <tr>
+      <td><%= predicate.id %></td>
+      <td><%= predicate.name %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: predicate_path(@conn, :show, predicate), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: predicate_path(@conn, :edit, predicate), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: predicate_path(@conn, :delete, predicate), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New predicate", to: predicate_path(@conn, :new) %>

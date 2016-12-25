@@ -1,0 +1,6 @@
+<h2>New predicate</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: predicate_path(@conn, :create) %>
+
+<%= link "Back", to: predicate_path(@conn, :index) %>
