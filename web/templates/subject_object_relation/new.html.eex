@@ -1,0 +1,6 @@
+<h2>New subject object relation</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: subject_object_relation_path(@conn, :create) %>
+
+<%= link "Back", to: subject_object_relation_path(@conn, :index) %>

@@ -1,0 +1,32 @@
+<h2>Listing subject object relations</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Subject</th>
+      <th>Object</th>
+      <th>Predicate</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for subject_object_relation <- @subject_object_relations do %>
+    <tr>
+      <td><%= subject_object_relation.id %></td>
+      <td><%= subject_object_relation.subject_id %></td>
+      <td><%= subject_object_relation.object_id %></td>
+      <td><%= subject_object_relation.predicate_id %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: subject_object_relation_path(@conn, :show, subject_object_relation), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: subject_object_relation_path(@conn, :edit, subject_object_relation), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: subject_object_relation_path(@conn, :delete, subject_object_relation), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New subject object relation", to: subject_object_relation_path(@conn, :new) %>

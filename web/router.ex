@@ -20,6 +20,7 @@ defmodule Comindivion.Router do
 
     resources "/mind_objects", MindObjectController
     resources "/predicates", PredicateController
+    resources "/subject_object_relations", SubjectObjectRelationController
   end
 
   # Other scopes may use custom stacks.

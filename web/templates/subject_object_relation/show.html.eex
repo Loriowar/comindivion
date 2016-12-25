@@ -1,0 +1,29 @@
+<h2>Show subject object relation</h2>
+
+<ul>
+
+  <li>
+    <strong>Id:</strong>
+    <%= @subject_object_relation.id %>
+  </li>
+
+  <li>
+    <strong>Subject:</strong>
+    <%= @subject_object_relation.subject_id %>
+  </li>
+
+  <li>
+    <strong>Object:</strong>
+    <%= @subject_object_relation.object_id %>
+  </li>
+
+  <li>
+    <strong>Predicate:</strong>
+    <%= @subject_object_relation.predicate_id %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: subject_object_relation_path(@conn, :edit, @subject_object_relation) %>
+<br>
+<%= link "Back", to: subject_object_relation_path(@conn, :index) %>
