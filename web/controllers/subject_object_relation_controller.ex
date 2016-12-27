@@ -10,6 +10,7 @@ defmodule Comindivion.SubjectObjectRelationController do
 
   def new(conn, _params) do
     changeset = SubjectObjectRelation.changeset(%SubjectObjectRelation{})
+    mind_objects = Repo.all(MindObject)
     render(conn, "new.html", changeset: changeset)
   end
 
