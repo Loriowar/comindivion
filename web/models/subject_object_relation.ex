@@ -18,7 +18,7 @@ defmodule Comindivion.SubjectObjectRelation do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [])
-    |> validate_required([])
+    |> cast(params, [:subject_id, :object_id, :predicate_id])
+    |> validate_required([:subject_id, :object_id, :predicate_id])
   end
 end

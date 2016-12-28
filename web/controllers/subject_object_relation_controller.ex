@@ -2,6 +2,8 @@ defmodule Comindivion.SubjectObjectRelationController do
   use Comindivion.Web, :controller
 
   alias Comindivion.SubjectObjectRelation
+  alias Comindivion.MindObject
+  alias Comindivion.Predicate
 
   def index(conn, _params) do
     subject_object_relations = Repo.all(SubjectObjectRelation)
@@ -10,8 +12,11 @@ defmodule Comindivion.SubjectObjectRelationController do
 
   def new(conn, _params) do
     changeset = SubjectObjectRelation.changeset(%SubjectObjectRelation{})
-    mind_objects = Repo.all(MindObject)
-    render(conn, "new.html", changeset: changeset)
+    mind_objects_for_select = Repo.all(MindObject) |> Enum.map(&{&1.title, &1.id})
+    predicates_for_select = Repo.all(Predicate) |> Enum.map(&{&1.name, &1.id})
+    render(conn, "new.html", changeset: changeset,
+                             mind_objects_for_select: mind_objects_for_select,
+                             predicates_for_select: predicates_for_select)
   end
 
   def create(conn, %{"subject_object_relation" => subject_object_relation_params}) do
@@ -35,7 +40,12 @@ defmodule Comindivion.SubjectObjectRelationController do
   def edit(conn, %{"id" => id}) do
     subject_object_relation = Repo.get!(SubjectObjectRelation, id)
     changeset = SubjectObjectRelation.changeset(subject_object_relation)
-    render(conn, "edit.html", subject_object_relation: subject_object_relation, changeset: changeset)
+    mind_objects_for_select = Repo.all(MindObject) |> Enum.map(&{&1.title, &1.id})
+    predicates_for_select = Repo.all(Predicate) |> Enum.map(&{&1.name, &1.id})
+    render(conn, "edit.html", subject_object_relation: subject_object_relation,
+                              changeset: changeset,
+                              mind_objects_for_select: mind_objects_for_select,
+                              predicates_for_select: predicates_for_select)
   end
 
   def update(conn, %{"id" => id, "subject_object_relation" => subject_object_relation_params}) do

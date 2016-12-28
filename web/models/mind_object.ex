@@ -1,6 +1,8 @@
 defmodule Comindivion.MindObject do
   use Comindivion.Web, :model
 
+  alias Comindivion.Repo
+
   # :binary_id is managed by drivers/adapters, it will be UUID for mysql, postgres
   #  but can be ObjectID if later you decide to use mongo
   @primary_key {:id, :binary_id, autogenerate: true}
