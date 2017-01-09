@@ -5,8 +5,8 @@
     <tr>
       <th>Id</th>
       <th>Subject</th>
-      <th>Object</th>
       <th>Predicate</th>
+      <th>Object</th>
 
       <th></th>
     </tr>
@@ -15,9 +15,9 @@
 <%= for subject_object_relation <- @subject_object_relations do %>
     <tr>
       <td><%= subject_object_relation.id %></td>
-      <td><%= subject_object_relation.subject_id %></td>
-      <td><%= subject_object_relation.object_id %></td>
-      <td><%= subject_object_relation.predicate_id %></td>
+      <td><%= subject_object_relation.subject.title %></td>
+      <td><%= subject_object_relation.predicate.name %></td>
+      <td><%= subject_object_relation.object.title %></td>
 
       <td class="text-right">
         <%= link "Show", to: subject_object_relation_path(@conn, :show, subject_object_relation), class: "btn btn-default btn-xs" %>

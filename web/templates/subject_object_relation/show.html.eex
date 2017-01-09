@@ -9,17 +9,17 @@
 
   <li>
     <strong>Subject:</strong>
-    <%= @subject_object_relation.subject_id %>
-  </li>
-
-  <li>
-    <strong>Object:</strong>
-    <%= @subject_object_relation.object_id %>
+    <%= @subject_object_relation.subject.title %>
   </li>
 
   <li>
     <strong>Predicate:</strong>
-    <%= @subject_object_relation.predicate_id %>
+    <%= @subject_object_relation.predicate.name %>
+  </li>
+
+  <li>
+    <strong>Object:</strong>
+    <%= @subject_object_relation.object.title %>
   </li>
 
 </ul>

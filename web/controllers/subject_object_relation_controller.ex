@@ -6,7 +6,7 @@ defmodule Comindivion.SubjectObjectRelationController do
   alias Comindivion.Predicate
 
   def index(conn, _params) do
-    subject_object_relations = Repo.all(SubjectObjectRelation)
+    subject_object_relations = Repo.all(from s in SubjectObjectRelation, preload: [:subject, :predicate, :object])
     render(conn, "index.html", subject_object_relations: subject_object_relations)
   end
 
@@ -33,7 +33,7 @@ defmodule Comindivion.SubjectObjectRelationController do
   end
 
   def show(conn, %{"id" => id}) do
-    subject_object_relation = Repo.get!(SubjectObjectRelation, id)
+    subject_object_relation = Repo.get!(SubjectObjectRelation, id) |> Repo.preload([:subject, :predicate, :object])
     render(conn, "show.html", subject_object_relation: subject_object_relation)
   end
 
