@@ -21,9 +21,10 @@ import "phoenix_html"
 // import socket from "./socket"
 
 import initializeDatepickers from "./datepicker"
-
 initializeDatepickers()
 
 import initializeDatetimepickers from "./datetimepicker"
-
 initializeDatetimepickers()
+
+import initializeSimpleSelect2 from "./simple_select2"
+initializeSimpleSelect2()

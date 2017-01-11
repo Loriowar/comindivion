@@ -7,19 +7,19 @@
 
   <div class="form-group">
     <%= label f, :subject_id, class: "control-label" %>
-    <%= select f, :subject_id, @mind_objects_for_select, class: "form-control" %>
+    <%= select f, :subject_id, @mind_objects_for_select, class: "form-control simple-select2" %>
     <%= error_tag f, :subject_id %>
   </div>
 
   <div class="form-group">
     <%= label f, :predicate_id, class: "control-label" %>
-    <%= select f, :predicate_id, @predicates_for_select, class: "form-control" %>
+    <%= select f, :predicate_id, @predicates_for_select, class: "form-control simple-select2" %>
     <%= error_tag f, :predicate_id %>
   </div>
 
   <div class="form-group">
     <%= label f, :object_id, class: "control-label" %>
-    <%= select f, :object_id, @mind_objects_for_select, class: "form-control" %>
+    <%= select f, :object_id, @mind_objects_for_select, class: "form-control simple-select2" %>
     <%= error_tag f, :object_id %>
   </div>
 
