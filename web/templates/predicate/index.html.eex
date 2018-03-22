@@ -26,3 +26,5 @@
 </table>
 
 <%= link "New predicate", to: predicate_path(@conn, :new) %>
+<br/>
+<%= link "Back", to: "/" %>

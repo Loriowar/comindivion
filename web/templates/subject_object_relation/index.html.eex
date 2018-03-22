@@ -30,3 +30,5 @@
 </table>
 
 <%= link "New subject object relation", to: subject_object_relation_path(@conn, :new) %>
+<br/>
+<%= link "Back", to: "/" %>

@@ -51,6 +51,7 @@ defmodule Comindivion.Web do
 
       import Comindivion.Router.Helpers
       import Comindivion.ErrorHelpers
+      import Comindivion.UrlHelpers
       import Comindivion.Gettext
     end
   end

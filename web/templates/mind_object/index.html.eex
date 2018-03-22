@@ -36,3 +36,5 @@
 </table>
 
 <%= link "New mind object", to: mind_object_path(@conn, :new) %>
+<br/>
+<%= link "Back", to: "/" %>
