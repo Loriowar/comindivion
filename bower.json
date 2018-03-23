@@ -4,6 +4,7 @@
     "jquery": "~> 3.1.1",
     "flatpickr-calendar": "~> 2.3.4",
     "select2": "~> 3.5.2",
-    "select2-bootstrap-css": "~> 1.4.6"
+    "select2-bootstrap-css": "~> 1.4.6",
+    "vis": "~> 4.21.0"
   }
 }
