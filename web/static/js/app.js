@@ -20,11 +20,21 @@ import "phoenix_html"
 
 // import socket from "./socket"
 
-import initializeDatepickers from "./datepicker"
-initializeDatepickers()
+import $ from "jquery";
+
+import flatpickr from "flatpickr";
+
+import initializeSimpleDatepickers from "./simple_datepicker"
+initializeSimpleDatepickers();
 
 import initializeDatetimepickers from "./datetimepicker"
-initializeDatetimepickers()
+initializeDatetimepickers();
+
+// import selectTwo from "select2";
+import select2 from 'select2';
+
+//Hook up select2 to jQuery
+select2($);
 
 import initializeSimpleSelect2 from "./simple_select2"
-initializeSimpleSelect2()
+initializeSimpleSelect2();

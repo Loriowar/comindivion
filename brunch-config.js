@@ -2,7 +2,11 @@ exports.config = {
   // See http://brunch.io/#documentation for docs.
   files: {
     javascripts: {
-      joinTo: "js/app.js"
+      joinTo: "js/app.js",
+      order: {
+        before: ["node_modules/jquery/dist/jquery.min.js", "node_modules/select2/dist/js/select2.min.js"]
+        // after: ["web/static/js/app.js"] // concat app.js last
+      },
 
       // To use a separate vendor.js bundle, specify two files path
       // http://brunch.io/docs/config#-files-
@@ -54,7 +58,21 @@ exports.config = {
     babel: {
       // Do not use ES6 compiler in vendor code
       ignore: [/web\/static\/vendor/]
-    }
+    },
+    css: {
+      cssModules: true
+    },
+    sass: {
+      options: {
+        includePaths: ["node_modules"], // tell sass-brunch where to look for files to @import
+        precision: 8 // minimum precision required by bootstrap
+      }
+    },
+    // copycat: {
+    //   images: ["node_modules/select2"],
+    //   verbose : true, //shows each file that is copied to the destination directory
+    //   onlyChanged: true //only copy a file if it's modified time has changed (only effective when using brunch watch)
+    // }
   },
 
   modules: {
@@ -64,6 +82,15 @@ exports.config = {
   },
 
   npm: {
-    enabled: true
+    enabled: true,
+    globals: {
+      $: 'jquery',
+      jQuery: 'jquery'
+    },
+    styles: {
+      flatpickr: ['dist/flatpickr.css'],
+      select2: ['dist/css/select2.css'],
+      // 'select2-bootstrap-css': ['select2-bootstrap.css']
+    }
   }
 };

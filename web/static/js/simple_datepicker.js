@@ -1,4 +1,4 @@
-export default function initializeDatepickers() {
+export default function initializeSimpleDatepickers() {
   // TODO: Display a human-readable date
   let options = {
     // Default format for Ecto.Date
@@ -6,5 +6,5 @@ export default function initializeDatepickers() {
     dateFormat: 'Y-m-d',
     allowInput: true
   }
-  flatpickr('.datepicker', options);
+  $('.datepicker').flatpickr(options);
 }

@@ -1,0 +1,5 @@
+<h2>Interactive Mind Map</h2>
+
+<div id="interactive"></div>
+
+<%= link "Back", to: "/" %>

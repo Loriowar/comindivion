@@ -22,6 +22,8 @@ defmodule Comindivion.Router do
     resources "/mind_objects", MindObjectController
     resources "/predicates", PredicateController
     resources "/subject_object_relations", SubjectObjectRelationController
+
+    get "/i", InteractiveController, :index
   end
 
   # Other scopes may use custom stacks.

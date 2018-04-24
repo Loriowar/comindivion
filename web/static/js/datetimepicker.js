@@ -9,5 +9,5 @@ export default function initializeDatetimepickers() {
     enableSeconds: true,
     time_24hr: true
   }
-  flatpickr('.datetimepicker', options);
+  $('.datetimepicker').flatpickr(options);
 }

@@ -6,15 +6,15 @@
     "watch": "brunch watch --stdin"
   },
   "dependencies": {
+    "jquery": "^3.3.1",
     "phoenix": "file:deps/phoenix",
-    "phoenix_html": "file:deps/phoenix_html"
+    "phoenix_html": "file:deps/phoenix_html",
+    "flatpickr": "^4.4.0",
+    "select2": "~4.0.0",
+    "select2-bootstrap-css": "^1.4.6"
   },
   "devDependencies": {
     "babel-brunch": "~6.0.0",
-    "babel-plugin-transform-es3-property-literals": "~6.0.0",
-    "babel-plugin-transform-es3-member-expression-literals": "~6.0.0",
-    "babel-plugin-transform-runtime": "~6.0.0",
-    "babel-runtime": "~6.0.0",
     "brunch": "2.7.4",
     "clean-css-brunch": "~2.0.0",
     "css-brunch": "~2.0.0",
