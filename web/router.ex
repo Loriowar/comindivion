@@ -27,7 +27,9 @@ defmodule Comindivion.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", Comindivion do
-  #   pipe_through :api
-  # end
+   scope "/api", Comindivion do
+     pipe_through :api
+
+     get "/i/f", InteractiveController, :fetch
+   end
 end
