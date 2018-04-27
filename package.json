@@ -11,7 +11,8 @@
     "phoenix_html": "file:deps/phoenix_html",
     "flatpickr": "^4.4.0",
     "select2": "~4.0.0",
-    "select2-bootstrap-css": "^1.4.6"
+    "select2-bootstrap-css": "^1.4.6",
+    "vis": "^4.21.0"
   },
   "devDependencies": {
     "babel-brunch": "~6.0.0",

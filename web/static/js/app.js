@@ -38,3 +38,8 @@ select2($);
 
 import initializeSimpleSelect2 from "./simple_select2"
 initializeSimpleSelect2();
+
+import vis from "vis";
+
+import initializeVisInteractive from "./vis_interactive"
+initializeVisInteractive(vis);
