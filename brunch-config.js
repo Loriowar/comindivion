@@ -4,7 +4,8 @@ exports.config = {
     javascripts: {
       joinTo: "js/app.js",
       order: {
-        before: ["node_modules/jquery/dist/jquery.min.js", "node_modules/select2/dist/js/select2.min.js"]
+        before: ["node_modules/jquery/dist/jquery.min.js",
+                 "node_modules/select2/dist/js/select2.min.js"]
         // after: ["web/static/js/app.js"] // concat app.js last
       },
 
@@ -68,11 +69,10 @@ exports.config = {
         precision: 8 // minimum precision required by bootstrap
       }
     },
-    // copycat: {
-    //   images: ["node_modules/select2"],
-    //   verbose : true, //shows each file that is copied to the destination directory
-    //   onlyChanged: true //only copy a file if it's modified time has changed (only effective when using brunch watch)
-    // }
+    afterBrunch: [
+      // Make symlinks on images from vis.js to expected location
+      'mkdir -p web/static/assets/css/img/network && cd web/static/assets/css/img/network && if [ -z "$(ls -A ./)" ]; then ln -s ../../../../../../node_modules/vis/dist/img/network/* ./; fi'
+    ]
   },
 
   modules: {

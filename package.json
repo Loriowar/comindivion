@@ -8,7 +8,6 @@
   "dependencies": {
     "jquery": "^3.3.1",
     "phoenix": "file:deps/phoenix",
-    "phoenix_html": "file:deps/phoenix_html",
     "flatpickr": "^4.4.0",
     "select2": "~4.0.0",
     "select2-bootstrap-css": "^1.4.6",
@@ -20,6 +19,7 @@
     "clean-css-brunch": "~2.0.0",
     "css-brunch": "~2.0.0",
     "javascript-brunch": "~2.0.0",
-    "uglify-js-brunch": "~2.0.1"
+    "uglify-js-brunch": "~2.0.1",
+    "after-brunch": "~0.0.5"
   }
 }
