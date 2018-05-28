@@ -31,5 +31,7 @@ defmodule Comindivion.Router do
      pipe_through :api
 
      get "/i/f", InteractiveController, :fetch
+
+     resources "/mind_objects", Api.MindObjectController, only: [:show, :create]
    end
 end

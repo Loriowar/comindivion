@@ -8,7 +8,8 @@ defmodule Comindivion.InteractiveController do
   import Ecto.Query, only: [from: 2]
 
   def index(conn, _params) do
-    render conn, "index.html"
+    mind_object_changeset = MindObject.changeset(%MindObject{})
+    render conn, "index.html", mind_object_changeset: mind_object_changeset
   end
 
   def fetch(conn, _params) do

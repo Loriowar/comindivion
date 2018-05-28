@@ -2,4 +2,10 @@
 
 <div id="interactive"></div>
 
+<div id="editable-mind-object" style="display: none;">
+  <h2>Mind Object</h2>
+  <%= render "mind_object_form.html", changeset: @mind_object_changeset,
+                                      action: "" %>
+</div>
+
 <%= link "Back", to: "/" %>

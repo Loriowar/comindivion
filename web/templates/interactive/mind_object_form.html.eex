@@ -1,0 +1,16 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <div class="form-group">
+    <%= label f, :title, class: "control-label" %>
+    <%= text_input f, :title, class: "form-control", id: "mind-object-title" %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :content, class: "control-label" %>
+    <%= textarea f, :content, class: "form-control", id: "mind-object-content" %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary", id: "mind-object-submit" %>
+    <%= button "Cancel", to: "#", type: "button", class: "btn btn-primary", id: "mind-object-cancel" %>
+  </div>
+<% end %>

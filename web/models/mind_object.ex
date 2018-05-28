@@ -7,6 +7,7 @@ defmodule Comindivion.MindObject do
   #  but can be ObjectID if later you decide to use mongo
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
+  @derive {Poison.Encoder, only: [:id, :title, :content, :uri, :number, :date, :datetime]}
   schema "mind_objects" do
     field :title, :string
     field :content, :string
