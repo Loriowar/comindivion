@@ -18,4 +18,27 @@ defmodule Comindivion.Api.MindObjectController do
         render(conn, "show.json", changeset: changeset)
     end
   end
+
+  def update(conn, %{"id" => id, "mind_object" => mind_object_params}) do
+    mind_object = Repo.get!(MindObject, id)
+    changeset = MindObject.changeset(mind_object, mind_object_params)
+
+    case Repo.update(changeset) do
+      {:ok, mind_object} ->
+        render(conn, "show.json", mind_object: mind_object)
+      {:error, changeset} ->
+        render(conn, "show.json", changeset: changeset)
+    end
+  end
+
+  def delete(conn, %{"id" => id}) do
+    mind_object = Repo.get!(MindObject, id)
+
+    case Repo.delete(mind_object) do
+      {:ok, mind_object} ->
+        render(conn, "show.json", mind_object: mind_object)
+      {:error, changeset} ->
+        render(conn, "show.json", changeset: changeset)
+    end
+  end
 end
