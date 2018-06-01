@@ -21,6 +21,7 @@ defmodule Comindivion.MindObject do
     has_many :subject_object_relations, Comindivion.SubjectObjectRelation
     has_many :subjects, through: [:subject_object_relations, :subject]
     has_many :objects, through: [:subject_object_relations, :object]
+    has_many :positions, Comindivion.Position
 
     timestamps()
   end
