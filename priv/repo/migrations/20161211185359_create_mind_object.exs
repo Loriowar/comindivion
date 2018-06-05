@@ -8,7 +8,7 @@ defmodule Comindivion.Repo.Migrations.CreateMindObject do
       add :content, :text
       add :number, :decimal
       add :date, :date
-      add :datetime, :datetime
+      add :datetime, :utc_datetime
       add :data, :binary
 
       timestamps()

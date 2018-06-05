@@ -11,7 +11,9 @@ defmodule Comindivion.InteractiveView do
   def mind_object_to_json(mind_object) do
     %{
       id: mind_object.id,
-      label: mind_object.title
+      label: mind_object.title,
+      x: mind_object.x,
+      y: mind_object.y
     }
   end
 

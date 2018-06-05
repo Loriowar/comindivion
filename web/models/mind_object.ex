@@ -1,8 +1,6 @@
 defmodule Comindivion.MindObject do
   use Comindivion.Web, :model
 
-  alias Comindivion.Repo
-
   # :binary_id is managed by drivers/adapters, it will be UUID for mysql, postgres
   #  but can be ObjectID if later you decide to use mongo
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -13,15 +11,13 @@ defmodule Comindivion.MindObject do
     field :content, :string
     field :uri, :string
     field :number, :decimal
-    field :date, Ecto.Date
-    field :datetime, Ecto.DateTime
+    field :date, :date
+    field :datetime, :utc_datetime
     field :data, :binary
 
-    has_many :predicates, Comindivion.Predicate
-    has_many :subject_object_relations, Comindivion.SubjectObjectRelation
-    has_many :subjects, through: [:subject_object_relations, :subject]
-    has_many :objects, through: [:subject_object_relations, :object]
-    has_many :positions, Comindivion.Position
+    has_one :position, Comindivion.Position, on_replace: :update
+    has_many :subject_relations, Comindivion.SubjectObjectRelation, foreign_key: :subject_id
+    has_many :object_relations, Comindivion.SubjectObjectRelation, foreign_key: :object_id
 
     timestamps()
   end
@@ -32,6 +28,7 @@ defmodule Comindivion.MindObject do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:title, :content, :uri, :number, :date, :datetime, :data])
+    |> cast_assoc(:position, required: false)
     |> validate_required([:title])
   end
 end

@@ -4,6 +4,7 @@ defmodule Comindivion.InteractiveController do
   alias Comindivion.MindObject
   alias Comindivion.SubjectObjectRelation
   alias Comindivion.Predicate
+  alias Comindivion.Position
 
   import Ecto.Query, only: [from: 2]
 
@@ -13,7 +14,10 @@ defmodule Comindivion.InteractiveController do
   end
 
   def fetch(conn, _params) do
-    mind_objects = Repo.all(from m in MindObject, select: %{id: m.id, title: m.title})
+    mind_objects_query = from m in MindObject,
+                              left_join: p in Position, on: m.id == p.mind_object_id,
+                              select: %{id: m.id, title: m.title, x: p.x, y: p.y}
+    mind_objects = Repo.all(mind_objects_query)
     relations_query = from sor in SubjectObjectRelation,
                            join: p in Predicate, on: sor.predicate_id == p.id,
                            select: %{subject_id: sor.subject_id, object_id: sor.object_id, name: p.name}

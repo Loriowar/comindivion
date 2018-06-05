@@ -24,10 +24,16 @@ export default function initializeVisInteractive(vis) {
   }
 
   // TODO: add separate callbacks for submit and cancel with passing and internal processing of 'callback'
-  function bindNodeFormEvents(node_data, callback = function(arg){}, id = '') {
+  function bindNodeFormEvents(node_data, callback = function(arg){}, id = '', network) {
     let $nodeForm = $(formContainerSelector).first('form');
     $nodeForm.submit(function(event) {
-      $.post("api/mind_objects/" + id, $(event.target).serialize())
+      let form_data = $(event.target).serializeArray();
+      if(typeof network !== 'undefined') {
+        let dom_positions = network.canvasToDOM({x: node_data['x'], y: node_data['y']});
+        form_data.push({name: 'mind_object[position][x]', value: dom_positions['x']});
+        form_data.push({name: 'mind_object[position][y]', value: dom_positions['y']});
+      }
+      $.post("api/mind_objects/" + id, form_data)
           .done(function(ajax_data) {
             node_data['id'] = ajax_data['mind_object']['id'];
             node_data['label'] = ajax_data['mind_object']['title'];
@@ -37,6 +43,7 @@ export default function initializeVisInteractive(vis) {
             clearNodeForm();
           })
           .fail(function(event) {
+            alert("Something goes wrong. Please, reload the page.");
             callback(null);
             hideNodeForm();
             clearNodeForm();
@@ -74,6 +81,8 @@ export default function initializeVisInteractive(vis) {
       let edges = new vis.DataSet(edges_data);
       let network_data = {edges: edges, nodes: nodes};
 
+      let network = new vis.Network(container, network_data);
+
       let options = {
         edges: {
           font: {
@@ -93,9 +102,6 @@ export default function initializeVisInteractive(vis) {
         physics: {
           enabled: false
         },
-        layout: {
-          randomSeed: 7
-        },
         interaction: {
           hover:true
         },
@@ -103,7 +109,7 @@ export default function initializeVisInteractive(vis) {
           enabled: true,
           addNode: function (data, callback) {
             clearNodeForm();
-            bindNodeFormEvents(data, callback);
+            bindNodeFormEvents(data, callback, '', network);
             showNodeForm();
           },
           editNode: function (data, callback) {
@@ -120,13 +126,14 @@ export default function initializeVisInteractive(vis) {
                   callback(data);
                 })
                 .fail(function(_event) {
+                  alert("Something goes wrong. Please, reload the page.");
                   callback(null);
             });
           }
         }
       };
 
-      let network = new vis.Network(container, network_data, options);
+      network.setOptions(options);
 
       network.on("selectNode", function (params) {
         let node_id = params['nodes'][0];
@@ -135,6 +142,21 @@ export default function initializeVisInteractive(vis) {
 
       network.on("deselectNode", function (params) {
         // TODO: implement separate readonly form for show node information
+      });
+      network.on("dragEnd", function (params) {
+        if(params['nodes'].length > 0) {
+          let position_data = [
+            {name: 'position[x]', value: params['pointer']['DOM']['x']},
+            {name: 'position[y]', value: params['pointer']['DOM']['y']},
+          ];
+          $.post("api/positions/" + params['nodes'][0], position_data)
+              .done(function (ajax_data) {
+                console.log(ajax_data);
+              })
+              .fail(function (_event) {
+                alert("Something goes wrong. Please, reload the page.");
+              });
+        }
       });
     });
   }

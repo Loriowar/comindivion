@@ -20,7 +20,7 @@ defmodule Comindivion.Api.MindObjectController do
   end
 
   def update(conn, %{"id" => id, "mind_object" => mind_object_params}) do
-    mind_object = Repo.get!(MindObject, id)
+    mind_object = Repo.get!(MindObject, id) |> Repo.preload([:position])
     changeset = MindObject.changeset(mind_object, mind_object_params)
 
     case Repo.update(changeset) do

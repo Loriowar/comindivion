@@ -4,9 +4,9 @@ defmodule Comindivion.Repo.Migrations.CreateSubjectObjectRelation do
   def change do
     create table(:subject_object_relations, primary_key: false) do
       add :id, :uuid, primary_key: true
-      add :subject_id, references(:mind_objects, on_delete: :nothing, type: :uuid)
-      add :object_id, references(:mind_objects, on_delete: :nothing, type: :uuid)
-      add :predicate_id, references(:predicates, on_delete: :nothing, type: :uuid)
+      add :subject_id, references(:mind_objects, on_delete: :delete_all, type: :uuid)
+      add :object_id, references(:mind_objects, on_delete: :delete_all, type: :uuid)
+      add :predicate_id, references(:predicates, on_delete: :restrict, type: :uuid)
 
       timestamps()
     end

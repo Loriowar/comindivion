@@ -30,10 +30,13 @@ defmodule Comindivion.Router do
    scope "/api", Comindivion do
      pipe_through :api
 
+     # TODO: move to a separate controller within Api module
      get "/i/f", InteractiveController, :fetch
 
      resources "/mind_objects", Api.MindObjectController, only: [:show, :create, :update, :delete]
      # Crutch for simplifyion construction of request into js
      post "/mind_objects/:id", Api.MindObjectController, :update
+
+     post "/positions/:mind_object_id", Api.PositionController, :update
    end
 end
