@@ -27,16 +27,15 @@ defmodule Comindivion.Router do
   end
 
   # Other scopes may use custom stacks.
-   scope "/api", Comindivion do
+   scope "/api", Comindivion.Api do
      pipe_through :api
 
-     # TODO: move to a separate controller within Api module
      get "/i/f", InteractiveController, :fetch
 
-     resources "/mind_objects", Api.MindObjectController, only: [:show, :create, :update, :delete]
+     resources "/mind_objects", MindObjectController, only: [:show, :create, :update, :delete]
      # Crutch for simplifyion construction of request into js
-     post "/mind_objects/:id", Api.MindObjectController, :update
+     post "/mind_objects/:id", MindObjectController, :update
 
-     post "/positions/:mind_object_id", Api.PositionController, :update
+     post "/positions/:mind_object_id", PositionController, :update
    end
 end

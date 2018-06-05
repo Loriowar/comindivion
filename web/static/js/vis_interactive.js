@@ -28,17 +28,15 @@ export default function initializeVisInteractive(vis) {
     let $nodeForm = $(formContainerSelector).first('form');
     $nodeForm.submit(function(event) {
       let form_data = $(event.target).serializeArray();
-      if(typeof network !== 'undefined') {
-        let dom_positions = network.canvasToDOM({x: node_data['x'], y: node_data['y']});
-        form_data.push({name: 'mind_object[position][x]', value: dom_positions['x']});
-        form_data.push({name: 'mind_object[position][y]', value: dom_positions['y']});
-      }
       $.post("api/mind_objects/" + id, form_data)
           .done(function(ajax_data) {
             node_data['id'] = ajax_data['mind_object']['id'];
             node_data['label'] = ajax_data['mind_object']['title'];
 
             callback(node_data);
+            if(typeof network !== 'undefined') {
+              saveNodePosition(node_data['id'], network);
+            }
             hideNodeForm();
             clearNodeForm();
           })
@@ -65,6 +63,22 @@ export default function initializeVisInteractive(vis) {
     $.get( "api/mind_objects/" + node_id, function( data ) {
       fillNodeForm(data['mind_object']);
     });
+  }
+
+  function saveNodePosition(node_id, network) {
+    let node_position = network.getPositions()[node_id];
+    let position_data = [
+      {name: 'position[x]', value: node_position['x']},
+      {name: 'position[y]', value: node_position['y']},
+    ];
+    $.post("api/positions/" + node_id, position_data)
+        .done(function (ajax_data) {
+          console.log('Position saved');
+          console.log(ajax_data);
+        })
+        .fail(function (_event) {
+          alert("Something goes wrong. Please, reload the page.");
+        });
   }
 
   let container = document.getElementById('interactive');
@@ -145,17 +159,7 @@ export default function initializeVisInteractive(vis) {
       });
       network.on("dragEnd", function (params) {
         if(params['nodes'].length > 0) {
-          let position_data = [
-            {name: 'position[x]', value: params['pointer']['DOM']['x']},
-            {name: 'position[y]', value: params['pointer']['DOM']['y']},
-          ];
-          $.post("api/positions/" + params['nodes'][0], position_data)
-              .done(function (ajax_data) {
-                console.log(ajax_data);
-              })
-              .fail(function (_event) {
-                alert("Something goes wrong. Please, reload the page.");
-              });
+          saveNodePosition(params['nodes'][0], network);
         }
       });
     });
