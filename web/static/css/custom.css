@@ -3,3 +3,15 @@
   height: 720px;
   border: dotted;
 }
+
+.flex-row {
+  display: flex;
+}
+
+.flex-row .flex-interactive-column {
+  flex: 70%
+}
+
+.flex-row .flex-input-column {
+  flex: 30%
+}
