@@ -15,7 +15,7 @@ defmodule Comindivion.Api.InteractiveController do
     mind_objects = Repo.all(mind_objects_query)
     relations_query = from sor in SubjectObjectRelation,
                            join: p in Predicate, on: sor.predicate_id == p.id,
-                           select: %{subject_id: sor.subject_id, object_id: sor.object_id, name: p.name}
+                           select: %{id: sor.id, subject_id: sor.subject_id, object_id: sor.object_id, name: p.name}
     relations = Repo.all(relations_query)
 
     render conn, "fetch.json", mind_objects: mind_objects, relations: relations

@@ -15,6 +15,7 @@ defmodule Comindivion.Api.MindObjectView do
     }
   end
 
+  # TODO: move to a separate module due to usage in a multiple api views
   def changeset_to_message(changeset) do
     Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
       Enum.reduce(opts, msg, fn {key, value}, acc ->

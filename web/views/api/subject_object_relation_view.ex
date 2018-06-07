@@ -1,15 +1,21 @@
-defmodule Comindivion.Api.PositionView do
+defmodule Comindivion.Api.SubjectObjectRelationView do
   use Comindivion.Web, :view
 
-  def render("show.json", %{position: position}) do
+  def render("show.json", %{subject_object_relation: subject_object_relation}) do
     %{
-      position: position
+      subject_object_relation: %{
+        id: subject_object_relation.id,
+        subject_id: subject_object_relation.subject_id,
+        object_id: subject_object_relation.object_id,
+        predicate_id: subject_object_relation.predicate_id,
+        name: subject_object_relation.predicate.name
+      }
     }
   end
 
   def render("show.json", %{changeset: changeset}) do
     %{
-      position: %{
+      subject_object_relation: %{
         errors: changeset_to_message(changeset)
       }
     }

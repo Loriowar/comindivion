@@ -1,0 +1,12 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <div class="form-group">
+    <%= label f, :predicate_id, class: "control-label" %>
+    <%= select f, :predicate_id, @predicates_for_select, class: "form-control simple-select2" %>
+    <%= error_tag f, :predicate_id %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary", id: "subject-object-relation-submit" %>
+    <%= button "Cancel", to: "#", type: "button", class: "btn btn-primary", id: "subject-object-relation-cancel" %>
+  </div>
+<% end %>

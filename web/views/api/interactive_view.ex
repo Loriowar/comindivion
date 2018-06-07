@@ -19,6 +19,7 @@ defmodule Comindivion.Api.InteractiveView do
 
   def relation_to_json(relation) do
     %{
+      id: relation.id,
       from: relation.subject_id,
       to: relation.object_id,
       label: relation.name

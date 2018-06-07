@@ -33,9 +33,11 @@ defmodule Comindivion.Router do
      get "/i/f", InteractiveController, :fetch
 
      resources "/mind_objects", MindObjectController, only: [:show, :create, :update, :delete]
-     # Crutch for simplifyion construction of request into js
-     post "/mind_objects/:id", MindObjectController, :update
 
+     # Crutches for simplify construction of a request into js
+     post "/mind_objects/:id", MindObjectController, :update
      post "/positions/:mind_object_id", PositionController, :update
+
+     resources "/subject_object_relations", SubjectObjectRelationController, only: [:create, :delete]
    end
 end

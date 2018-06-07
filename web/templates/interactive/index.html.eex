@@ -10,6 +10,13 @@
                                           action: "" %>
     </div>
 
+    <div id="editable-relation" style="display: none;">
+      <h2>Relation</h2>
+      <%= render "subject_object_relation_form.html", changeset: @subject_object_relation_changeset,
+                                                      action: "",
+                                                      predicates_for_select: @predicates_for_select %>
+    </div>
+
     <%= link "Back", to: "/" %>
   </div>
 

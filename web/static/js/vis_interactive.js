@@ -1,31 +1,33 @@
 export default function initializeVisInteractive(vis) {
-  let formContainerSelector = '#editable-mind-object';
+  // Node processing
+
+  let nodeFormContainerSelector = '#editable-mind-object';
 
   function fillNodeForm(data) {
-    let $nodeForm = $(formContainerSelector);
+    let $nodeForm = $(nodeFormContainerSelector);
     $nodeForm.find('#mind-object-title').val(data['title']);
     $nodeForm.find('#mind-object-content').val(data['content']);
   }
 
   function clearNodeForm() {
     fillNodeForm({title: '', content: ''});
-    let $nodeForm = $(formContainerSelector).first('#editable-mind-object');
+    let $nodeForm = $(nodeFormContainerSelector);
     $nodeForm.off('submit');
-    $nodeForm.first('#mind-object-cancel').off('click');
+    $nodeForm.find('#mind-object-cancel').first().off('click');
   }
 
   // TODO: encapsulate hide/show methods into submit/cancel callbacks
   function showNodeForm() {
-    $(formContainerSelector).show();
+    $(nodeFormContainerSelector).show();
   }
 
   function hideNodeForm() {
-    $(formContainerSelector).hide();
+    $(nodeFormContainerSelector).hide();
   }
 
   // TODO: add separate callbacks for submit and cancel with passing and internal processing of 'callback'
   function bindNodeFormEvents(node_data, callback = function(arg){}, id = '', network) {
-    let $nodeForm = $(formContainerSelector).first('form');
+    let $nodeForm = $(nodeFormContainerSelector).first('form');
     $nodeForm.submit(function(event) {
       let form_data = $(event.target).serializeArray();
       $.post("api/mind_objects/" + id, form_data)
@@ -59,7 +61,6 @@ export default function initializeVisInteractive(vis) {
   }
 
   function fetchAndFillNodeForm(node_id) {
-    let $nodeForm = $(formContainerSelector).first('#editable-mind-object');
     $.get( "api/mind_objects/" + node_id, function( data ) {
       fillNodeForm(data['mind_object']);
     });
@@ -80,6 +81,64 @@ export default function initializeVisInteractive(vis) {
           alert("Something goes wrong. Please, reload the page.");
         });
   }
+
+  // Edge processing
+
+  let edgeFormContainerSelector = '#editable-relation';
+
+  // TODO: encapsulate hide/show methods into submit/cancel callbacks
+  function showEdgeForm() {
+    $(edgeFormContainerSelector).show();
+  }
+
+  function hideEdgeForm() {
+    $(edgeFormContainerSelector).hide();
+  }
+
+  function clearEdgeForm() {
+    let $nodeForm = $(edgeFormContainerSelector);
+    $nodeForm.off('submit');
+    $nodeForm.find('#subject-object-relation-cancel').first().off('click');
+  }
+
+  // TODO: add separate callbacks for submit and cancel with passing and internal processing of 'callback'
+  function bindEdgeFormEvents(edge_data, callback = function(arg){}, id = '') {
+    let $edgeForm = $(edgeFormContainerSelector).first('form');
+    $edgeForm.submit(function(event) {
+      let form_data = $(event.target).serializeArray();
+      form_data.push({name: 'subject_object_relation[subject_id]', value: edge_data['from']});
+      form_data.push({name: 'subject_object_relation[object_id]', value: edge_data['to']});
+      $.post("api/subject_object_relations/" + id, form_data)
+          .done(function(ajax_data) {
+            edge_data['id'] = ajax_data['subject_object_relation']['id'];
+            edge_data['label'] = ajax_data['subject_object_relation']['name'];
+
+            callback(edge_data);
+
+            hideEdgeForm();
+            clearEdgeForm();
+          })
+          .fail(function(_event) {
+            alert("Something goes wrong. Please, reload the page.");
+            callback(null);
+            hideEdgeForm();
+            clearEdgeForm();
+          });
+
+      event.stopPropagation();
+      event.preventDefault();
+      return false;
+    });
+
+    // TODO: strange jQuery hack, fix this
+    $edgeForm.find('#subject-object-relation-cancel').first().click(function(data) {
+      callback(null);
+      hideEdgeForm();
+      clearEdgeForm();
+    })
+  }
+
+  // Network initialization
 
   let container = document.getElementById('interactive');
 
@@ -108,7 +167,7 @@ export default function initializeVisInteractive(vis) {
         },
         nodes: {
           shape: 'box',
-          margin: 10,
+          margin: 12,
           widthConstraint: {
             maximum: 200
           }
@@ -143,7 +202,27 @@ export default function initializeVisInteractive(vis) {
                   alert("Something goes wrong. Please, reload the page.");
                   callback(null);
             });
-          }
+          },
+          addEdge: function (data, callback) {
+            // Add direction to new edge
+            data['arrows'] = 'to';
+
+            clearEdgeForm();
+            bindEdgeFormEvents(data, callback, '');
+            showEdgeForm();
+          },
+          deleteEdge: function (data, callback) {
+            $.ajax({
+              type: "DELETE",
+              url: "api/subject_object_relations/" + data['edges'][0]})
+                .done(function(_ajax_data) {
+                  callback(data);
+                })
+                .fail(function(_event) {
+                  alert("Something goes wrong. Please, reload the page.");
+                  callback(null);
+                });
+          },
         }
       };
 
