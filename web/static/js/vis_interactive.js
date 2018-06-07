@@ -67,7 +67,7 @@ export default function initializeVisInteractive(vis) {
   }
 
   function saveNodePosition(node_id, network) {
-    let node_position = network.getPositions()[node_id];
+    let node_position = network.getPositions(node_id)[node_id];
     let position_data = [
       {name: 'position[x]', value: node_position['x']},
       {name: 'position[y]', value: node_position['y']},
@@ -154,9 +154,9 @@ export default function initializeVisInteractive(vis) {
       let edges = new vis.DataSet(edges_data);
       let network_data = {edges: edges, nodes: nodes};
 
-      let network = new vis.Network(container, network_data);
-
-      let options = {
+      // Initial options required for apply nodes shape during initialization, otherwise for rendered nodes
+      // there shape setted in setOptions will be ignored
+      let initial_options = {
         edges: {
           font: {
             size: 12
@@ -176,8 +176,14 @@ export default function initializeVisInteractive(vis) {
           enabled: false
         },
         interaction: {
-          hover:true
-        },
+          hover: true
+        }
+      };
+
+      // We must initialize network for using it within callbacks
+      let network = new vis.Network(container, network_data, initial_options);
+
+      let additional_options = {
         manipulation: {
           enabled: true,
           addNode: function (data, callback) {
@@ -226,7 +232,9 @@ export default function initializeVisInteractive(vis) {
         }
       };
 
-      network.setOptions(options);
+      // NOTE: setOptions doesn't set a nodes shape (experimental fact)
+      network.setOptions($.extend(initial_options, additional_options));
+      network.redraw();
 
       network.on("selectNode", function (params) {
         let node_id = params['nodes'][0];
