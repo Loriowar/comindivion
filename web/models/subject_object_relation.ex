@@ -21,5 +21,6 @@ defmodule Comindivion.SubjectObjectRelation do
     struct
     |> cast(params, [:subject_id, :object_id, :predicate_id])
     |> validate_required([:subject_id, :object_id, :predicate_id])
+    |> unique_constraint(:subject_id, name: :subject_object_relation_uniqueness_index)
   end
 end

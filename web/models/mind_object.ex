@@ -30,5 +30,6 @@ defmodule Comindivion.MindObject do
     |> cast(params, [:title, :content, :uri, :number, :date, :datetime, :data])
     |> cast_assoc(:position, required: false)
     |> validate_required([:title])
+    |> unique_constraint(:title)
   end
 end
