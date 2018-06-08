@@ -36,6 +36,7 @@ export default function initializeVisInteractive(vis) {
             node_data['label'] = ajax_data['mind_object']['title'];
 
             callback(node_data);
+            // NOTE: we can save a position only after successfully calling a network callback
             if(typeof network !== 'undefined') {
               saveNodePosition(node_data['id'], network);
             }

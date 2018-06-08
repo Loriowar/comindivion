@@ -15,7 +15,7 @@ defmodule Comindivion.Api.MindObjectController do
       {:ok, mind_object} ->
         render(conn, "show.json", mind_object: mind_object)
       {:error, changeset} ->
-        render(conn, "show.json", changeset: changeset)
+        conn |> put_status(422) |> render("show.json", changeset: changeset)
     end
   end
 
@@ -27,7 +27,7 @@ defmodule Comindivion.Api.MindObjectController do
       {:ok, mind_object} ->
         render(conn, "show.json", mind_object: mind_object)
       {:error, changeset} ->
-        render(conn, "show.json", changeset: changeset)
+        conn |> put_status(422) |> render("show.json", changeset: changeset)
     end
   end
 
@@ -38,7 +38,7 @@ defmodule Comindivion.Api.MindObjectController do
       {:ok, mind_object} ->
         render(conn, "show.json", mind_object: mind_object)
       {:error, changeset} ->
-        render(conn, "show.json", changeset: changeset)
+        conn |> put_status(422) |> render("show.json", changeset: changeset)
     end
   end
 end

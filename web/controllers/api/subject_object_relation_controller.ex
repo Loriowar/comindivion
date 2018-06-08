@@ -10,7 +10,7 @@ defmodule Comindivion.Api.SubjectObjectRelationController do
       {:ok, subject_object_relation} ->
         render(conn, "show.json", subject_object_relation: subject_object_relation |> Repo.preload([:predicate]))
       {:error, changeset} ->
-        render(conn, "show.json", changeset: changeset)
+        conn |> put_status(422) |> render("show.json", changeset: changeset)
     end
   end
 
@@ -21,7 +21,7 @@ defmodule Comindivion.Api.SubjectObjectRelationController do
       {:ok, subject_object_relation} ->
         render(conn, "show.json", subject_object_relation: subject_object_relation)
       {:error, changeset} ->
-        render(conn, "show.json", changeset: changeset)
+        conn |> put_status(422) |> render("show.json", changeset: changeset)
     end
   end
 end

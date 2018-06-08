@@ -23,7 +23,7 @@ defmodule Comindivion.Api.PositionController do
       {:ok, position} ->
         render(conn, "show.json", position: position)
       {:error, changeset} ->
-        render(conn, "show.json", changeset: changeset)
+        conn |> put_status(422) |> render("show.json", changeset: changeset)
     end
   end
 end
