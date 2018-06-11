@@ -1,0 +1,26 @@
+<div id="readonly-mind-object">
+  <div class="readonly-row">
+    <div class="readonly-label">Title:</div>
+    <div class="readonly-value mind-object-title-value">Test title</div>
+  </div>
+    <div class="readonly-row">
+      <div class="readonly-label">Content:</div>
+      <div class="readonly-value mind-object-content-value">Test long content. Lorem ipsum lore milo foli laro dari mao.</div>
+    </div>
+    <div class="readonly-row">
+      <div class="readonly-label">URI:</div>
+      <div class="readonly-value mind-object-uri-value">Test long content. Lorem ipsum lore milo foli laro dari mao.</div>
+    </div>
+    <div class="readonly-row">
+      <div class="readonly-label">Number:</div>
+      <div class="readonly-value mind-object-number-value">42</div>
+    </div>
+    <div class="readonly-row">
+      <div class="readonly-label">Date:</div>
+      <div class="readonly-value mind-object-date-value">2018-05-04</div>
+    </div>
+    <div class="readonly-row">
+      <div class="readonly-label">Datetime:</div>
+      <div class="readonly-value mind-object-datetime-value">2018-05-04 12:44</div>
+    </div>
+</div>

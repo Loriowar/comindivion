@@ -4,6 +4,10 @@
   border: dotted;
 }
 
+#readonly-mind-object-container, #editable-mind-object-container {
+  margin-bottom: 2em;
+}
+
 .flex-row {
   display: flex;
 }
@@ -14,4 +18,26 @@
 
 .flex-row .flex-input-column {
   flex: 30%
+}
+
+.flex-row .flex-input-column h2 {
+  margin-top: 0;
+}
+
+#readonly-mind-object {
+  display: flex;
+  flex-direction: column;
+}
+
+#readonly-mind-object .readonly-row {
+  display: flex;
+  flex-direction: row;
+}
+
+#readonly-mind-object .readonly-row .readonly-label {
+  flex: 0 0 7em;
+}
+
+#readonly-mind-object .readonly-row .readonly-value {
+  flex: 1 1 23em;
 }

@@ -4,8 +4,13 @@
   <div id="interactive" class="flex-interactive-column"></div>
 
   <div class="flex-input-column">
-    <div id="editable-mind-object" style="display: none;">
-      <h2>Mind Object</h2>
+    <div id="readonly-mind-object-container" style="display: none;">
+      <h2>Mind Object info</h2>
+      <%= render "readonly_mind_object_stub.html"%>
+    </div>
+
+    <div id="editable-mind-object-container" style="display: none;">
+      <h2>Mind Object editor</h2>
       <%= render "mind_object_form.html", changeset: @mind_object_changeset,
                                           action: "" %>
     </div>

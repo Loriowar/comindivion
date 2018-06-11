@@ -1,7 +1,8 @@
 export default function initializeVisInteractive(vis) {
   // Node processing
 
-  let nodeFormContainerSelector = '#editable-mind-object';
+  let nodeFormContainerSelector = '#editable-mind-object-container';
+  let nodeInfoContainerSelector = '#readonly-mind-object-container';
 
   function fillNodeForm(data) {
     let $nodeForm = $(nodeFormContainerSelector);
@@ -14,6 +15,15 @@ export default function initializeVisInteractive(vis) {
     let $nodeForm = $(nodeFormContainerSelector);
     $nodeForm.off('submit');
     $nodeForm.find('#mind-object-cancel').first().off('click');
+  }
+
+  // TODO: encapsulate hide/show methods into submit/cancel callbacks
+  function showNodeInfo() {
+    $(nodeInfoContainerSelector).show();
+  }
+
+  function hideNodeInfo() {
+    $(nodeInfoContainerSelector).hide();
   }
 
   // TODO: encapsulate hide/show methods into submit/cancel callbacks
@@ -239,11 +249,28 @@ export default function initializeVisInteractive(vis) {
 
       network.on("selectNode", function (params) {
         let node_id = params['nodes'][0];
+        $.get("api/mind_objects/" + node_id)
+            .done(function(ajax_data) {
+              let mind_object_data = ajax_data['mind_object'];
+              let $nodeInfoContainer = $(nodeInfoContainerSelector);
+              $nodeInfoContainer.find('.mind-object-title-value').text(mind_object_data['title']);
+              $nodeInfoContainer.find('.mind-object-content-value').text(mind_object_data['content']);
+              $nodeInfoContainer.find('.mind-object-uri-value').text(mind_object_data['uri']);
+              $nodeInfoContainer.find('.mind-object-number-value').text(mind_object_data['number']);
+              $nodeInfoContainer.find('.mind-object-date-value').text(mind_object_data['date']);
+              $nodeInfoContainer.find('.mind-object-datetime-value').text(mind_object_data['datetime']);
+              showNodeInfo();
+            })
+            .fail(function(_event) {
+              alert("Something goes wrong. Please, reload the page.");
+            });
+
         // TODO: implement separate readonly form for show node information
       });
 
       network.on("deselectNode", function (params) {
         // TODO: implement separate readonly form for show node information
+        hideNodeInfo();
       });
       network.on("dragEnd", function (params) {
         if(params['nodes'].length > 0) {
