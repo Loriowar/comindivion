@@ -54,7 +54,7 @@ export default function initializeVisInteractive(vis) {
             clearNodeForm();
           })
           .fail(function(event) {
-            alert("Something goes wrong. Please, reload the page.");
+            notifyUser(errorsToMessage(event['responseJSON']['mind_object']['errors']));
             callback(null);
             hideNodeForm();
             clearNodeForm();
@@ -88,8 +88,8 @@ export default function initializeVisInteractive(vis) {
           console.log('Position saved');
           console.log(ajax_data);
         })
-        .fail(function (_event) {
-          alert("Something goes wrong. Please, reload the page.");
+        .fail(function (event) {
+          notifyUser(errorsToMessage(event['responseJSON']['position']['errors']));
         });
   }
 
@@ -129,8 +129,8 @@ export default function initializeVisInteractive(vis) {
             hideEdgeForm();
             clearEdgeForm();
           })
-          .fail(function(_event) {
-            alert("Something goes wrong. Please, reload the page.");
+          .fail(function(ajax_data) {
+            notifyUser(errorsToMessage(ajax_data['subject_object_relation']['errors']));
             callback(null);
             hideEdgeForm();
             clearEdgeForm();
@@ -147,6 +147,26 @@ export default function initializeVisInteractive(vis) {
       hideEdgeForm();
       clearEdgeForm();
     })
+  }
+
+  // Global functions
+
+  function notifyUser(message = '') {
+    let prepared_message = "Something goes wrong.";
+    if(!message) {
+      prepared_message += " Please, reload the page.";
+    } else {
+      prepared_message += " Reason: '" + message + "'";
+    }
+    alert(prepared_message);
+  }
+
+  function errorsToMessage(errors) {
+    let message = '';
+    $.each( errors, function(k, v){
+      message += k + ' ' + v;
+    });
+    return message;
   }
 
   // Network initialization
@@ -215,8 +235,8 @@ export default function initializeVisInteractive(vis) {
                 .done(function(_ajax_data) {
                   callback(data);
                 })
-                .fail(function(_event) {
-                  alert("Something goes wrong. Please, reload the page.");
+                .fail(function(event) {
+                  notifyUser(errorsToMessage(event['responseJSON']['mind_object']['errors']));
                   callback(null);
             });
           },
@@ -235,8 +255,8 @@ export default function initializeVisInteractive(vis) {
                 .done(function(_ajax_data) {
                   callback(data);
                 })
-                .fail(function(_event) {
-                  alert("Something goes wrong. Please, reload the page.");
+                .fail(function(event) {
+                  notifyUser(errorsToMessage(event['responseJSON']['subject_object_relation']['errors']));
                   callback(null);
                 });
           },
