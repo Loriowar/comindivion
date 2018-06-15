@@ -11,6 +11,17 @@
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
+  <header class="header">
+    <nav role="navigation">
+      <ul class="nav nav-pills pull-right">
+        <li>
+          <%= link "Register", to: user_path(@conn, :new) %>
+        </li>
+      </ul>
+    </nav>
+    <span class="logo"></span>
+  </header>
+
   <body>
     <div class="container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>

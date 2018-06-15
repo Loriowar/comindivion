@@ -1,0 +1,22 @@
+<h2>Show user</h2>
+
+<ul>
+
+  <li>
+    <strong>Id:</strong>
+    <%= @user.id %>
+  </li>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @user.name %>
+  </li>
+
+  <li>
+    <strong>Email:</strong>
+    <%= @user.email %>
+  </li>
+
+</ul>
+
+<%= link "Root", to: page_path(@conn, :index) %>
