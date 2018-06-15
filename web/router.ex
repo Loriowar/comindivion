@@ -22,6 +22,7 @@ defmodule Comindivion.Router do
     resources "/mind_objects", MindObjectController
     resources "/predicates", PredicateController
     resources "/subject_object_relations", SubjectObjectRelationController
+    resources "/users", UserController, only: [:show, :new, :create]
 
     get "/i", InteractiveController, :index
   end
