@@ -23,6 +23,7 @@ defmodule Comindivion.User do
     struct
     |> cast(params, [:email, :name, :password])
     |> validate_required([:email, :name, :password])
+    |> validate_length(:name, min: 2, max: 32)
     |> validate_length(:password, min: 6, max: 100)
     |> unique_constraint(:email)
     |> hash_password
