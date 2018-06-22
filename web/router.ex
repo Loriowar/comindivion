@@ -1,6 +1,12 @@
 defmodule Comindivion.Router do
   use Comindivion.Web, :router
 
+  pipeline :auth do
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.LoadResource
+    plug Comindivion.Auth.CurrentUser
+  end
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -15,7 +21,7 @@ defmodule Comindivion.Router do
   end
 
   scope "/", Comindivion do
-    pipe_through :browser # Use the default browser stack
+    pipe_through [:browser, :auth]
 
     get "/", PageController, :index
 
@@ -23,11 +29,11 @@ defmodule Comindivion.Router do
     resources "/predicates", PredicateController
     resources "/subject_object_relations", SubjectObjectRelationController
     resources "/users", UserController, only: [:show, :new, :create]
+    resources "/sessions", SessionController, only: [:new, :create, :delete]
 
     get "/i", InteractiveController, :index
   end
 
-  # Other scopes may use custom stacks.
    scope "/api", Comindivion.Api do
      pipe_through :api
 
