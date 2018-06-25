@@ -14,7 +14,7 @@ defmodule Comindivion.PredicateController do
   end
 
   def create(conn, %{"predicate" => predicate_params}) do
-    changeset = Predicate.changeset(%Predicate{}, predicate_params)
+    changeset = Predicate.changeset(%Predicate{user_id: current_user_id(conn)}, predicate_params)
 
     case Repo.insert(changeset) do
       {:ok, _predicate} ->

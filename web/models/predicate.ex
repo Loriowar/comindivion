@@ -11,6 +11,7 @@ defmodule Comindivion.Predicate do
     has_many :subject_object_relations, Comindivion.SubjectObjectRelation
     has_many :subjects, through: [:subject_object_relations, :subject]
     has_many :objects, through: [:subject_object_relations, :object]
+    belongs_to :user, Comindivion.User
 
     timestamps()
   end
@@ -21,7 +22,7 @@ defmodule Comindivion.Predicate do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:name])
-    |> validate_required([:name])
+    |> validate_required([:name, :user_id])
     |> unique_constraint(:name)
   end
 end
