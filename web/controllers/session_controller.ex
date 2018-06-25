@@ -1,6 +1,5 @@
 defmodule Comindivion.SessionController do
   use Comindivion.Web, :controller
-  require IEx
 
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
 
@@ -45,7 +44,6 @@ defmodule Comindivion.SessionController do
   end
 
   defp login(conn, user) do
-#    IEx.pry
     conn |> Guardian.Plug.sign_in(user)
   end
 

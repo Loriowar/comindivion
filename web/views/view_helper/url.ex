@@ -1,4 +1,4 @@
-defmodule Comindivion.UrlHelpers do
+defmodule Comindivion.ViewHelper.Url do
   @moduledoc """
   Conveniences for building url.
   """
