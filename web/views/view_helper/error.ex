@@ -1,4 +1,4 @@
-defmodule Comindivion.ErrorHelpers do
+defmodule Comindivion.ViewHelper.Error do
   @moduledoc """
   Conveniences for translating and building error messages.
   """

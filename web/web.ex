@@ -35,6 +35,7 @@ defmodule Comindivion.Web do
       import Ecto.Query
 
       import Comindivion.Router.Helpers
+      import Comindivion.ViewHelper.CurrentUser
       import Comindivion.Gettext
     end
   end
@@ -50,8 +51,8 @@ defmodule Comindivion.Web do
       use Phoenix.HTML
 
       import Comindivion.Router.Helpers
-      import Comindivion.ErrorHelpers
-      import Comindivion.UrlHelpers
+      import Comindivion.ViewHelper.Error
+      import Comindivion.ViewHelper.Url
       import Comindivion.Gettext
     end
   end

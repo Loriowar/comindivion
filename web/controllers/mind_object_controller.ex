@@ -14,7 +14,7 @@ defmodule Comindivion.MindObjectController do
   end
 
   def create(conn, %{"mind_object" => mind_object_params}) do
-    changeset = MindObject.changeset(%MindObject{}, mind_object_params)
+    changeset = MindObject.changeset(%MindObject{user_id: current_user_id(conn)}, mind_object_params)
 
     case Repo.insert(changeset) do
       {:ok, _mind_object} ->

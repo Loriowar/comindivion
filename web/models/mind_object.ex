@@ -18,6 +18,7 @@ defmodule Comindivion.MindObject do
     has_one :position, Comindivion.Position, on_replace: :update
     has_many :subject_relations, Comindivion.SubjectObjectRelation, foreign_key: :subject_id
     has_many :object_relations, Comindivion.SubjectObjectRelation, foreign_key: :object_id
+    belongs_to :user, Comindivion.User
 
     timestamps()
   end
@@ -29,7 +30,7 @@ defmodule Comindivion.MindObject do
     struct
     |> cast(params, [:title, :content, :uri, :number, :date, :datetime, :data])
     |> cast_assoc(:position, required: false)
-    |> validate_required([:title])
+    |> validate_required([:title, :user_id])
     |> unique_constraint(:title)
   end
 end

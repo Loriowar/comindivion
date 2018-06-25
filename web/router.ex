@@ -18,6 +18,7 @@ defmodule Comindivion.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
   end
 
   scope "/", Comindivion do
@@ -35,7 +36,7 @@ defmodule Comindivion.Router do
   end
 
    scope "/api", Comindivion.Api do
-     pipe_through :api
+     pipe_through [:api, :auth]
 
      get "/i/f", InteractiveController, :fetch
 
