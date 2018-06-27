@@ -8,7 +8,7 @@ defmodule Comindivion.InteractiveController do
   def index(conn, _params) do
     mind_object_changeset = MindObject.changeset(%MindObject{})
     subject_object_relation_changeset = SubjectObjectRelation.changeset(%SubjectObjectRelation{})
-    predicates_for_select = Repo.all(Predicate) |> Enum.map(&{&1.name, &1.id})
+    predicates_for_select = conn |> current_user_query(Predicate) |> Repo.all |> Enum.map(&{&1.name, &1.id})
     render conn, "index.html", mind_object_changeset: mind_object_changeset,
                                subject_object_relation_changeset: subject_object_relation_changeset,
                                predicates_for_select: predicates_for_select

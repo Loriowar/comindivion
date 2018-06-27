@@ -4,7 +4,7 @@ defmodule Comindivion.Api.MindObjectController do
   alias Comindivion.MindObject
 
   def show(conn, %{"id" => id}) do
-    mind_object = Repo.get!(MindObject, id)
+    mind_object = conn |> current_user_query(MindObject) |> Repo.get!(id)
     render(conn, "show.json", mind_object: mind_object)
   end
 
@@ -20,7 +20,7 @@ defmodule Comindivion.Api.MindObjectController do
   end
 
   def update(conn, %{"id" => id, "mind_object" => mind_object_params}) do
-    mind_object = Repo.get!(MindObject, id)
+    mind_object = conn |> current_user_query(MindObject) |> Repo.get!(id)
     changeset = MindObject.changeset(mind_object, mind_object_params)
 
     case Repo.update(changeset) do
@@ -32,7 +32,7 @@ defmodule Comindivion.Api.MindObjectController do
   end
 
   def delete(conn, %{"id" => id}) do
-    mind_object = Repo.get!(MindObject, id)
+    mind_object = conn |> current_user_query(MindObject) |> Repo.get!(id)
 
     case Repo.delete(mind_object) do
       {:ok, mind_object} ->

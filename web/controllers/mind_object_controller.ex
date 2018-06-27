@@ -4,7 +4,7 @@ defmodule Comindivion.MindObjectController do
   alias Comindivion.MindObject
 
   def index(conn, _params) do
-    mind_objects = Repo.all(MindObject)
+    mind_objects = conn |> current_user_query(MindObject) |> Repo.all
     render(conn, "index.html", mind_objects: mind_objects)
   end
 
@@ -27,18 +27,18 @@ defmodule Comindivion.MindObjectController do
   end
 
   def show(conn, %{"id" => id}) do
-    mind_object = Repo.get!(MindObject, id)
+    mind_object = conn |> current_user_query(MindObject) |> Repo.get!(id)
     render(conn, "show.html", mind_object: mind_object)
   end
 
   def edit(conn, %{"id" => id}) do
-    mind_object = Repo.get!(MindObject, id)
+    mind_object = conn |> current_user_query(MindObject) |> Repo.get!(id)
     changeset = MindObject.changeset(mind_object)
     render(conn, "edit.html", mind_object: mind_object, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "mind_object" => mind_object_params}) do
-    mind_object = Repo.get!(MindObject, id)
+    mind_object = conn |> current_user_query(MindObject) |> Repo.get!(id)
     changeset = MindObject.changeset(mind_object, mind_object_params)
 
     case Repo.update(changeset) do
@@ -52,7 +52,7 @@ defmodule Comindivion.MindObjectController do
   end
 
   def delete(conn, %{"id" => id}) do
-    mind_object = Repo.get!(MindObject, id)
+    mind_object = conn |> current_user_query(MindObject) |> Repo.get!(id)
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).

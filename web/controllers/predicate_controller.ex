@@ -4,7 +4,7 @@ defmodule Comindivion.PredicateController do
   alias Comindivion.Predicate
 
   def index(conn, _params) do
-    predicates = Repo.all(Predicate)
+    predicates = conn |> current_user_query(Predicate) |> Repo.all
     render(conn, "index.html", predicates: predicates)
   end
 
@@ -27,18 +27,18 @@ defmodule Comindivion.PredicateController do
   end
 
   def show(conn, %{"id" => id}) do
-    predicate = Repo.get!(Predicate, id)
+    predicate = conn |> current_user_query(Predicate) |> Repo.get!(id)
     render(conn, "show.html", predicate: predicate)
   end
 
   def edit(conn, %{"id" => id}) do
-    predicate = Repo.get!(Predicate, id)
+    predicate = conn |> current_user_query(Predicate) |> Repo.get!(id)
     changeset = Predicate.changeset(predicate)
     render(conn, "edit.html", predicate: predicate, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "predicate" => predicate_params}) do
-    predicate = Repo.get!(Predicate, id)
+    predicate = conn |> current_user_query(Predicate) |> Repo.get!(id)
     changeset = Predicate.changeset(predicate, predicate_params)
 
     case Repo.update(changeset) do
@@ -52,7 +52,7 @@ defmodule Comindivion.PredicateController do
   end
 
   def delete(conn, %{"id" => id}) do
-    predicate = Repo.get!(Predicate, id)
+    predicate = conn |> current_user_query(Predicate) |> Repo.get!(id)
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
