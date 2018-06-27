@@ -54,7 +54,7 @@ export default function initializeVisInteractive(vis) {
             clearNodeForm();
           })
           .fail(function(event) {
-            notifyUser(errorsToMessage(event['responseJSON']['mind_object']['errors']));
+            notifyUserByEvent(event, 'mind_object');
             callback(null);
             hideNodeForm();
             clearNodeForm();
@@ -63,11 +63,12 @@ export default function initializeVisInteractive(vis) {
       event.preventDefault();
       return false;
     });
-    // TODO: strange jQuery hack, fix this
+    // TODO: strange jQuery hack with `first` method, fix this
     $nodeForm.find('#mind-object-cancel').first().click(function(data) {
       callback(null);
       hideNodeForm();
       clearNodeForm();
+      return false;
     })
   }
 
@@ -89,7 +90,7 @@ export default function initializeVisInteractive(vis) {
           console.log(ajax_data);
         })
         .fail(function (event) {
-          notifyUser(errorsToMessage(event['responseJSON']['position']['errors']));
+          notifyUserByEvent(event, 'position');
         });
   }
 
@@ -129,8 +130,8 @@ export default function initializeVisInteractive(vis) {
             hideEdgeForm();
             clearEdgeForm();
           })
-          .fail(function(ajax_data) {
-            notifyUser(errorsToMessage(ajax_data['subject_object_relation']['errors']));
+          .fail(function(event) {
+            notifyUserByEvent(event, 'subject_object_relation');
             callback(null);
             hideEdgeForm();
             clearEdgeForm();
@@ -141,11 +142,12 @@ export default function initializeVisInteractive(vis) {
       return false;
     });
 
-    // TODO: strange jQuery hack, fix this
+    // TODO: strange jQuery hack with `first` method, fix this
     $edgeForm.find('#subject-object-relation-cancel').first().click(function(data) {
       callback(null);
       hideEdgeForm();
       clearEdgeForm();
+      return false;
     })
   }
 
@@ -167,6 +169,21 @@ export default function initializeVisInteractive(vis) {
       message += k + ' ' + v;
     });
     return message;
+  }
+
+  function eventToErrors(event, object_name) {
+    let errors = {};
+    // NOTE: Dirty analog of Ruby `dig` method
+    try {
+      errors = event['responseJSON'][object_name]['errors'];
+    } catch (err) {
+      // Do nothing
+    }
+    return errors;
+  }
+
+  function notifyUserByEvent(event, object_name) {
+    notifyUser(errorsToMessage(eventToErrors(event, object_name)));
   }
 
   // Network initialization
@@ -236,7 +253,7 @@ export default function initializeVisInteractive(vis) {
                   callback(data);
                 })
                 .fail(function(event) {
-                  notifyUser(errorsToMessage(event['responseJSON']['mind_object']['errors']));
+                  notifyUserByEvent(event, 'mind_object');
                   callback(null);
             });
           },
@@ -256,7 +273,7 @@ export default function initializeVisInteractive(vis) {
                   callback(data);
                 })
                 .fail(function(event) {
-                  notifyUser(errorsToMessage(event['responseJSON']['subject_object_relation']['errors']));
+                  notifyUserByEvent(event, 'subject_object_relation');
                   callback(null);
                 });
           },
