@@ -3,8 +3,10 @@ defmodule Comindivion.Api.SubjectObjectRelationController do
 
   alias Comindivion.SubjectObjectRelation
 
+  import Ecto.Query, only: [preload: 2]
+
   def create(conn, %{"subject_object_relation" => subject_object_relation_params}) do
-    changeset = SubjectObjectRelation.changeset(%SubjectObjectRelation{}, subject_object_relation_params)
+    changeset = SubjectObjectRelation.changeset(%SubjectObjectRelation{user_id: current_user_id(conn)}, subject_object_relation_params)
 
     case Repo.insert(changeset) do
       {:ok, subject_object_relation} ->
@@ -15,7 +17,7 @@ defmodule Comindivion.Api.SubjectObjectRelationController do
   end
 
   def delete(conn, %{"id" => id}) do
-    subject_object_relation = Repo.get!(SubjectObjectRelation, id) |> Repo.preload([:predicate])
+    subject_object_relation = conn |> current_user_query(SubjectObjectRelation) |> preload([:predicate]) |> Repo.get!(id)
 
     case Repo.delete(subject_object_relation) do
       {:ok, subject_object_relation} ->

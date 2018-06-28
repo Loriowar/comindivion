@@ -10,6 +10,7 @@ defmodule Comindivion.SubjectObjectRelation do
     belongs_to :subject, Comindivion.MindObject
     belongs_to :object, Comindivion.MindObject
     belongs_to :predicate, Comindivion.Predicate
+    belongs_to :user, Comindivion.User
 
     timestamps()
   end
@@ -20,7 +21,7 @@ defmodule Comindivion.SubjectObjectRelation do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:subject_id, :object_id, :predicate_id])
-    |> validate_required([:subject_id, :object_id, :predicate_id])
+    |> validate_required([:subject_id, :object_id, :predicate_id, :user_id])
     |> unique_constraint(:subject_id, name: :subject_object_relation_uniqueness_index)
   end
 end
