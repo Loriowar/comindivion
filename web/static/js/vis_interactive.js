@@ -124,6 +124,11 @@ export default function initializeVisInteractive(vis) {
           .done(function(ajax_data) {
             edge_data['id'] = ajax_data['subject_object_relation']['id'];
             edge_data['label'] = ajax_data['subject_object_relation']['name'];
+            // NOTE: hack from vis.js manipulationEditEdgeNoDrag example
+            if (typeof edge_data.to === 'object')
+              edge_data.to = edge_data.to.id;
+            if (typeof edge_data.from === 'object')
+              edge_data.from = edge_data.from.id;
 
             callback(edge_data);
 
@@ -149,6 +154,12 @@ export default function initializeVisInteractive(vis) {
       clearEdgeForm();
       return false;
     })
+  }
+
+  function fillEdgeForm(label) {
+    let $edgeForm = $(edgeFormContainerSelector);
+    let predicate_id = $edgeForm.find('option:contains("' + label + '")').first().val();
+    $edgeForm.find('#subject_object_relation_predicate_id').first().val(predicate_id).trigger('change.select2');
   }
 
   // Global functions
@@ -264,6 +275,14 @@ export default function initializeVisInteractive(vis) {
             clearEdgeForm();
             bindEdgeFormEvents(data, callback, '');
             showEdgeForm();
+          },
+          editEdge: {
+            editWithoutDrag: function (data, callback) {
+              clearEdgeForm();
+              fillEdgeForm(data['label']);
+              bindEdgeFormEvents(data, callback, data['id']);
+              showEdgeForm();
+            }
           },
           deleteEdge: function (data, callback) {
             $.ajax({

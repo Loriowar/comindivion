@@ -46,6 +46,9 @@ defmodule Comindivion.Router do
      post "/mind_objects/:id", MindObjectController, :update
      post "/positions/:mind_object_id", PositionController, :update
 
-     resources "/subject_object_relations", SubjectObjectRelationController, only: [:create, :delete]
+     resources "/subject_object_relations", SubjectObjectRelationController, only: [:create, :update, :delete]
+
+     # Crutches for simplify construction of a request into js
+     post "/subject_object_relations/:id", SubjectObjectRelationController, :update
    end
 end
