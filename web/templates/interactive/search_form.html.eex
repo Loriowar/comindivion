@@ -1,0 +1,4 @@
+ <form id="search-form" onsubmit="return false">
+  Search by node: <input id="search-string" type="text" name="q">
+  <button id="search-submit-button" type="submit">Search</button>
+</form>

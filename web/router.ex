@@ -50,5 +50,7 @@ defmodule Comindivion.Router do
 
      # Crutches for simplify construction of a request into js
      post "/subject_object_relations/:id", SubjectObjectRelationController, :update
+
+     resources "/search", SearchController, only: [:index]
    end
 end

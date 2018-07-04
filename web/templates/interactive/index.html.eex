@@ -1,5 +1,9 @@
 <h2>Interactive Mind Map</h2>
 
+<div id="search-container" class="">
+  <%= render "search_form.html"%>
+</div>
+
 <div class="flex-row">
   <div id="interactive" class="flex-interactive-column"></div>
 

@@ -124,11 +124,13 @@ export default function initializeVisInteractive(vis) {
           .done(function(ajax_data) {
             edge_data['id'] = ajax_data['subject_object_relation']['id'];
             edge_data['label'] = ajax_data['subject_object_relation']['name'];
+            edge_data['from'] = ajax_data['subject_object_relation']['subject_id'];
+            edge_data['to'] = ajax_data['subject_object_relation']['object_id'];
             // NOTE: hack from vis.js manipulationEditEdgeNoDrag example
-            if (typeof edge_data.to === 'object')
-              edge_data.to = edge_data.to.id;
-            if (typeof edge_data.from === 'object')
-              edge_data.from = edge_data.from.id;
+            // if (typeof edge_data.to === 'object')
+            //   edge_data.to = edge_data.to.id;
+            // if (typeof edge_data.from === 'object')
+            //   edge_data.from = edge_data.from.id;
 
             callback(edge_data);
 
@@ -160,6 +162,24 @@ export default function initializeVisInteractive(vis) {
     let $edgeForm = $(edgeFormContainerSelector);
     let predicate_id = $edgeForm.find('option:contains("' + label + '")').first().val();
     $edgeForm.find('#subject_object_relation_predicate_id').first().val(predicate_id).trigger('change.select2');
+  }
+
+  // Search functions
+
+  function searchByNodeName(network, name) {
+    $.get("api/search", {q: name})
+        .done(function(ajax_data) {
+          let nodes = ajax_data['nodes'];
+          if(nodes.length > 0) {
+            network.focus(nodes[0].id);
+          } else {
+            // TODO: remove after implement a displaying of a search result
+            alert('Found nothing. Try to find something else.');
+          }
+        })
+        .fail(function(_event) {
+          alert("Something goes wrong. Please, try again or reload the page.");
+        });
   }
 
   // Global functions
@@ -320,12 +340,9 @@ export default function initializeVisInteractive(vis) {
             .fail(function(_event) {
               alert("Something goes wrong. Please, reload the page.");
             });
-
-        // TODO: implement separate readonly form for show node information
       });
 
       network.on("deselectNode", function (params) {
-        // TODO: implement separate readonly form for show node information
         hideNodeInfo();
       });
       network.on("dragEnd", function (params) {
@@ -333,6 +350,18 @@ export default function initializeVisInteractive(vis) {
           saveNodePosition(params['nodes'][0], network);
         }
       });
+
+      let $searchForm = $('#search-form');
+      $searchForm.submit(function(event) {
+        let form_data_hash = {};
+        let form_data_array = $(event.target).serializeArray();
+        $(form_data_array).each(function(i, field){
+          form_data_hash[field.name] = field.value;
+        });
+
+        searchByNodeName(network, form_data_hash['q']);
+        return false;
+      })
     });
   }
 }
