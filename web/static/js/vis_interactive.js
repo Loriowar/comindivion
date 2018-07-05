@@ -172,6 +172,7 @@ export default function initializeVisInteractive(vis) {
           let nodes = ajax_data['nodes'];
           if(nodes.length > 0) {
             network.focus(nodes[0].id);
+            network.selectNodes([nodes[0].id]);
           } else {
             // TODO: remove after implement a displaying of a search result
             alert('Found nothing. Try to find something else.');
