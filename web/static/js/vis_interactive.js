@@ -94,6 +94,18 @@ export default function initializeVisInteractive(vis) {
         });
   }
 
+  function centringAndSelectNode(network, node_id) {
+    network.focus(node_id);
+    network.selectNodes([node_id]);
+  }
+
+  function centringAndSelectNodeByAnchor(network) {
+    let anchor = window.location.hash;
+    if(anchor.length > 0) {
+      centringAndSelectNode(network, anchor.substring(1));
+    }
+  }
+
   // Edge processing
 
   let edgeFormContainerSelector = '#editable-relation';
@@ -171,8 +183,7 @@ export default function initializeVisInteractive(vis) {
         .done(function(ajax_data) {
           let nodes = ajax_data['nodes'];
           if(nodes.length > 0) {
-            network.focus(nodes[0].id);
-            network.selectNodes([nodes[0].id]);
+            centringAndSelectNode(network, nodes[0].id);
           } else {
             // TODO: remove after implement a displaying of a search result
             alert('Found nothing. Try to find something else.');
@@ -351,6 +362,17 @@ export default function initializeVisInteractive(vis) {
           saveNodePosition(params['nodes'][0], network);
         }
       });
+
+      // Select node with id from anchor
+      centringAndSelectNodeByAnchor(network);
+      // Add event on anchor change
+      if ("onhashchange" in window) { // old browsers doesn't support this event
+        window.onhashchange = function () {
+          centringAndSelectNodeByAnchor(network);
+        }
+      }
+
+      // Initialize search form
 
       let $searchForm = $('#search-form');
       $searchForm.submit(function(event) {
