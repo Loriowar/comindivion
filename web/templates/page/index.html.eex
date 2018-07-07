@@ -1,15 +1,21 @@
 <h4>Comindivion</h4>
 <ul>
-  <li>
-    <%= link "Mind Objects", to: mind_object_path(@conn, :index) %>
-  </li>
-  <li>
-    <%= link "Predicates", to: predicate_path(@conn, :index) %>
-  </li>
-  <li>
-    <%= link "Relations", to: subject_object_relation_path(@conn, :index) %>
-  </li>
-  <li>
-    <%= link "Interactive", to: interactive_path(@conn, :index) %>
-  </li>
+  <%= if @current_user do %>
+    <li>
+      <%= link "Mind Objects", to: mind_object_path(@conn, :index) %>
+    </li>
+    <li>
+      <%= link "Predicates", to: predicate_path(@conn, :index) %>
+    </li>
+    <li>
+      <%= link "Relations", to: subject_object_relation_path(@conn, :index) %>
+    </li>
+    <li>
+      <%= link "Interactive", to: interactive_path(@conn, :index) %>
+    </li>
+  <% else %>
+    <li>
+       Please, login to gain access the mind map.
+    </li>
+  <% end %>
 </ul>
