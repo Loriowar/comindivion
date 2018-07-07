@@ -18,16 +18,23 @@ defmodule Comindivion.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Comindivion, []},
+     # NOTE: here must be all production dependencies
      applications: [
        :phoenix,
        :phoenix_pubsub,
        :phoenix_html,
-       :comeonin,
        :cowboy,
        :logger,
        :gettext,
        :phoenix_ecto,
-       :postgrex]]
+       :postgrex,
+       :navigation_history,
+       :poison,
+       :guardian,
+       :comeonin,
+       :bcrypt_elixir
+     ]
+    ]
   end
 
   # Specifies which paths to compile per environment.
@@ -53,7 +60,9 @@ defmodule Comindivion.Mixfile do
       {:guardian, "~> 0.14"},
       {:comeonin, "~> 4.0"},
       {:bcrypt_elixir, "~> 0.12"},
-      {:distillery, "~> 1.5", runtime: false}
+      # NOTE: looks like this is not a production dependencies
+      {:distillery, "~> 1.5", runtime: false},
+      {:elixir_make, "~> 0.4", runtime: false}
     ]
   end
 
