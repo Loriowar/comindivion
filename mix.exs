@@ -52,7 +52,8 @@ defmodule Comindivion.Mixfile do
       # Can't configure Guardian 1.0 for a long time. Use elder, but stable version.
       {:guardian, "~> 0.14"},
       {:comeonin, "~> 4.0"},
-      {:bcrypt_elixir, "~> 0.12"}
+      {:bcrypt_elixir, "~> 0.12"},
+      {:distillery, "~> 1.5", runtime: false}
     ]
   end
 
