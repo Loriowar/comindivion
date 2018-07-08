@@ -35,7 +35,7 @@ environment :dev do
 end
 
 environment :prod do
-  set include_erts: true
+  set include_erts: false
   set include_src: false
   # TODO: replace it with Env variable for production
   set cookie: :"6@pbtnM:Lxcoc{7kdsbfQb`]~rQ1VJyd=*%wMzN)T9z^&O[KSKs(b!`7[$Q%izk."
