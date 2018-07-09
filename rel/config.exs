@@ -30,15 +30,13 @@ environment :dev do
   # dev mode.
   set dev_mode: true
   set include_erts: false
-  # TODO: replace it with Env variable for production
   set cookie: :"CuU)GefLRVnfbZl&t|bl}C}&RF&h<zc}d_t0PeiFxwX)IUKmTuD|7!7([SLA7NUs"
 end
 
 environment :prod do
   set include_erts: false
   set include_src: false
-  # TODO: replace it with Env variable for production
-  set cookie: :"6@pbtnM:Lxcoc{7kdsbfQb`]~rQ1VJyd=*%wMzN)T9z^&O[KSKs(b!`7[$Q%izk."
+  set cookie: :"${ERLANG_COOKIE}"
 end
 
 # You may define one or more releases in this file.

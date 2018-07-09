@@ -22,6 +22,24 @@ config :comindivion, Comindivion.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
+# Fetch Google Analytics identifier from system environment
+config :comindivion, ga_identifier: "${GA_IDENTIFIER}"
+
+config :comindivion, Comindivion.Endpoint,
+       secret_key_base: "${ENDPOINT_SECRET_KEY_BASE}"
+
+config :guardian, Guardian,
+       secret_key: "${GUADRIAN_SECRET_KEY_BASE}"
+
+# Configure your database
+config :comindivion, Comindivion.Repo,
+       adapter: Ecto.Adapters.Postgres,
+       username: "${DB_USERNAME}",
+       password: "${DB_PASSWORD}",
+       database: "${DB_NAME}",
+       hostname: "${DB_HOST}",
+       size: 20 # The amount of database connections in the pool
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
@@ -61,4 +79,4 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
-import_config "prod.secret.exs"
+#import_config "prod.secret.exs"

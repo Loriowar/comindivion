@@ -1,0 +1,10 @@
+PORT=4001
+REPLACE_OS_VARS=true
+ERLANG_COOKIE='SomeRandomSecureString'
+GA_IDENTIFIER='UA-XXXXX-Y'
+ENDPOINT_SECRET_KEY_BASE='RandomStringFrom_mix_phx.gen.secret'
+GUADRIAN_SECRET_KEY_BASE='AnotherRandomStringFrom_mix_phx.gen.secret'
+DB_USERNAME='comindivion'
+DB_PASSWORD='password'
+DB_NAME='comindivion_prod'
+DB_HOST='localhost'

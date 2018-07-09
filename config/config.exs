@@ -12,7 +12,6 @@ config :comindivion,
 # Configures the endpoint
 config :comindivion, Comindivion.Endpoint,
   url: [host: "localhost"],
-  # TODO: replace it with Env variable for production
   secret_key_base: "z7ZkNkm62e5CB8NIX0Ty47Iz6ioBIow11eW+5EPQxKyDuoAHmYUPpC72e+0O7oNt",
   render_errors: [view: Comindivion.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Comindivion.PubSub,
@@ -29,7 +28,6 @@ config :guardian, Guardian,
        ttl: {30, :days},
        verify_issuer: true,
        serializer: Comindivion.Auth.GuardianSerializer,
-       # TODO: replace it with Env variable for production
        secret_key: "RTZ61PHYjLm4/ff5zijeC5FlCinHEnlfCNNsKjtIBS3Z2lYitu/Ut09cETWz7SO+"
 
 # Configures Google Analytics tracking
