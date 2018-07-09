@@ -32,6 +32,9 @@ config :guardian, Guardian,
        # TODO: replace it with Env variable for production
        secret_key: "RTZ61PHYjLm4/ff5zijeC5FlCinHEnlfCNNsKjtIBS3Z2lYitu/Ut09cETWz7SO+"
 
+# Configures Google Analytics tracking
+config :comindivion, ga_identifier: ""
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

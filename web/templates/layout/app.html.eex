@@ -42,4 +42,17 @@
     </div> <!-- /container -->
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
+
+  <footer>
+    <%= if Application.fetch_env!(:comindivion, :ga_identifier) |> String.length > 0 do %>
+      <!-- Google Analytics -->
+      <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', '<%= Application.fetch_env!(:comindivion, :ga_identifier) %>', 'auto');
+      ga('send', 'pageview');
+      </script>
+      <script async src='https://www.google-analytics.com/analytics.js'></script>
+      <!-- End Google Analytics -->
+    <% end %>
+  </footer>
 </html>
