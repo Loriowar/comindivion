@@ -6,6 +6,7 @@
       <th>Id</th>
       <th>Title</th>
       <th>Content</th>
+      <th>URI</th>
       <th>Number</th>
       <th>Date</th>
       <th>Datetime</th>
@@ -20,6 +21,7 @@
       <td><%= mind_object.id %></td>
       <td><%= mind_object.title %></td>
       <td><%= mind_object.content %></td>
+      <td><%= mind_object.uri %></td>
       <td><%= mind_object.number %></td>
       <td><%= mind_object.date %></td>
       <td><%= mind_object.datetime %></td>

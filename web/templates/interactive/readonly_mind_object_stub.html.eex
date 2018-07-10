@@ -9,7 +9,10 @@
     </div>
     <div class="readonly-row">
       <div class="readonly-label">URI:</div>
-      <div class="readonly-value mind-object-uri-value">Test long content. Lorem ipsum lore milo foli laro dari mao.</div>
+      <div class="readonly-value mind-object-uri-value">
+        <span class="text-part">Goo</span>
+        <span class="href-part"><a class="visit-link" href="https://goo.gl">visit</a></span>
+      </div>
     </div>
     <div class="readonly-row">
       <div class="readonly-label">Number:</div>

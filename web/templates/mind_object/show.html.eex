@@ -18,6 +18,11 @@
   </li>
 
   <li>
+    <strong>URI:</strong>
+    <%= @mind_object.uri %>
+  </li>
+
+  <li>
     <strong>Number:</strong>
     <%= @mind_object.number %>
   </li>

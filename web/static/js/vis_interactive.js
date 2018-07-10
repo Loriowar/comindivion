@@ -8,6 +8,7 @@ export default function initializeVisInteractive(vis) {
     let $nodeForm = $(nodeFormContainerSelector);
     $nodeForm.find('#mind-object-title').val(data['title']);
     $nodeForm.find('#mind-object-content').val(data['content']);
+    $nodeForm.find('#mind-object-uri').val(data['uri']);
   }
 
   function clearNodeForm() {
@@ -343,7 +344,13 @@ export default function initializeVisInteractive(vis) {
               let $nodeInfoContainer = $(nodeInfoContainerSelector);
               $nodeInfoContainer.find('.mind-object-title-value').text(mind_object_data['title']);
               $nodeInfoContainer.find('.mind-object-content-value').text(mind_object_data['content']);
-              $nodeInfoContainer.find('.mind-object-uri-value').text(mind_object_data['uri']);
+              $nodeInfoContainer.find('.mind-object-uri-value > .text-part').text(mind_object_data['uri']);
+              $nodeInfoContainer.find('.mind-object-uri-value > .href-part > a').attr("href", mind_object_data['uri']);
+              if(!mind_object_data['uri']) {
+                $nodeInfoContainer.find('.mind-object-uri-value > .href-part').hide();
+              } else {
+                $nodeInfoContainer.find('.mind-object-uri-value > .href-part').show();
+              }
               $nodeInfoContainer.find('.mind-object-number-value').text(mind_object_data['number']);
               $nodeInfoContainer.find('.mind-object-date-value').text(mind_object_data['date']);
               $nodeInfoContainer.find('.mind-object-datetime-value').text(mind_object_data['datetime']);

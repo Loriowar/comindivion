@@ -41,3 +41,11 @@
 #readonly-mind-object .readonly-row .readonly-value {
   flex: 1 1 23em;
 }
+
+#readonly-mind-object .readonly-row .mind-object-uri-value .href-part a::before {
+  content: "⛶";
+}
+
+#readonly-mind-object .readonly-row .mind-object-uri-value .text-part a::after {
+  content: "\00a0";
+}

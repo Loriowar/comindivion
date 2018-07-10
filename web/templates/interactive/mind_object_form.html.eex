@@ -9,6 +9,11 @@
     <%= textarea f, :content, class: "form-control", id: "mind-object-content" %>
   </div>
 
+    <div class="form-group">
+      <%= label f, :uri, class: "control-label" %>
+      <%= text_input f, :uri, class: "form-control", id: "mind-object-uri" %>
+    </div>
+
   <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary", id: "mind-object-submit" %>
     <%= button "Cancel", to: "#", type: "button", class: "btn btn-primary", id: "mind-object-cancel" %>
