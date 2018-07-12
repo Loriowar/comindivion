@@ -43,9 +43,30 @@
 }
 
 #readonly-mind-object .readonly-row .mind-object-uri-value .href-part a::before {
-  content: "⛶";
+  content: "\1F517";
 }
 
 #readonly-mind-object .readonly-row .mind-object-uri-value .text-part a::after {
   content: "\00a0";
+}
+
+.interactive-mind-object-form-content {
+  display: flex;
+  flex-direction: column;
+}
+.interactive-mind-object-form-content .mind-object-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.interactive-mind-object-form-content .mind-object-row .mind-object-label {
+  flex: 0 0 7em;
+}
+
+.interactive-mind-object-form-content .mind-object-row .mind-object-value {
+  flex: 1 1 23em;
+}
+
+.interactive-mind-object-form-content .mind-object-controllers-container {
+  margin-top: 1em;
 }
