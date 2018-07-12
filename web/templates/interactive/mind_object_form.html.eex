@@ -1,21 +1,21 @@
 <%= form_for @changeset, @action, fn f -> %>
-  <div class="interactive-mind-object-form-content">
-    <div class="form-group mind-object-row">
-      <%= label f, :title, class: "control-label mind-object-label" %>
-      <%= text_input f, :title, class: "form-control mind-object-value", id: "mind-object-title" %>
+  <div class="interactive-flex-content">
+    <div class="form-group flex-row">
+      <%= label f, :title, class: "control-label flex-label" %>
+      <%= text_input f, :title, class: "form-control flex-value", id: "mind-object-title" %>
     </div>
 
-    <div class="form-group mind-object-row">
-      <%= label f, :content, class: "control-label mind-object-label" %>
-      <%= textarea f, :content, class: "form-control mind-object-value", id: "mind-object-content", rows: 7 %>
+    <div class="form-group flex-row">
+      <%= label f, :content, class: "control-label flex-label" %>
+      <%= textarea f, :content, class: "form-control flex-value", id: "mind-object-content", rows: 7 %>
     </div>
 
-      <div class="form-group mind-object-row">
-        <%= label f, :uri, class: "control-label mind-object-label" %>
-        <%= text_input f, :uri, class: "form-control mind-object-value", id: "mind-object-uri" %>
+      <div class="form-group flex-row">
+        <%= label f, :uri, class: "control-label flex-label" %>
+        <%= text_input f, :uri, class: "form-control flex-value", id: "mind-object-uri" %>
       </div>
 
-    <div class="form-group mind-object-controllers-container">
+    <div class="form-group flex-controllers-container">
       <%= submit "Submit", class: "btn btn-primary", id: "mind-object-submit" %>
       <%= button "Cancel", to: "#", type: "button", class: "btn btn-primary", id: "mind-object-cancel" %>
     </div>

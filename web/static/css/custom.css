@@ -50,23 +50,23 @@
   content: "\00a0";
 }
 
-.interactive-mind-object-form-content {
+.interactive-flex-content {
   display: flex;
   flex-direction: column;
 }
-.interactive-mind-object-form-content .mind-object-row {
+.interactive-flex-content .flex-row {
   display: flex;
   flex-direction: row;
 }
 
-.interactive-mind-object-form-content .mind-object-row .mind-object-label {
+.interactive-flex-content .flex-row .flex-label {
   flex: 0 0 7em;
 }
 
-.interactive-mind-object-form-content .mind-object-row .mind-object-value {
+.interactive-flex-content .flex-row .flex-value {
   flex: 1 1 23em;
 }
 
-.interactive-mind-object-form-content .mind-object-controllers-container {
+.interactive-flex-content .flex-controllers-container {
   margin-top: 1em;
 }
