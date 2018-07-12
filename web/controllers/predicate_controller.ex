@@ -1,6 +1,8 @@
 defmodule Comindivion.PredicateController do
   use Comindivion.Web, :controller
 
+  plug Comindivion.Plug.CheckAuth
+
   alias Comindivion.Predicate
 
   def index(conn, _params) do

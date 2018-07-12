@@ -1,6 +1,8 @@
 defmodule Comindivion.SessionController do
   use Comindivion.Web, :controller
 
+  plug Comindivion.Plug.CheckAuth, only: [:delete]
+
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
 
   alias Comindivion.User

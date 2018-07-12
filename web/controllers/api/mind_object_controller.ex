@@ -1,6 +1,8 @@
 defmodule Comindivion.Api.MindObjectController do
   use Comindivion.Web, :controller
 
+  plug Comindivion.Plug.CheckAuth
+
   alias Comindivion.MindObject
 
   def show(conn, %{"id" => id}) do

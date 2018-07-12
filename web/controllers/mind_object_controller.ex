@@ -1,6 +1,8 @@
 defmodule Comindivion.MindObjectController do
   use Comindivion.Web, :controller
 
+  plug Comindivion.Plug.CheckAuth
+
   alias Comindivion.MindObject
 
   def index(conn, _params) do

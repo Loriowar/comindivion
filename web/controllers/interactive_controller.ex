@@ -1,6 +1,8 @@
 defmodule Comindivion.InteractiveController do
   use Comindivion.Web, :controller
 
+  plug Comindivion.Plug.CheckAuth
+
   alias Comindivion.MindObject
   alias Comindivion.SubjectObjectRelation
   alias Comindivion.Predicate

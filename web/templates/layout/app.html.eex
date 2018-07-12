@@ -15,7 +15,7 @@
     <nav role="navigation">
       <ul class="nav nav-pills pull-right">
         <%= if @current_user do %>
-          <li><%= @current_user.email %></li>
+          <li><%= link @current_user.email, to: user_path(@conn, :show, @current_user) %></li>
           <li>
             <%= link "Sign out", to: session_path(@conn, :delete,
                                                   @current_user),
