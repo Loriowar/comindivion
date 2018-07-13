@@ -98,6 +98,7 @@ export default function initializeVisInteractive(vis) {
   function centringAndSelectNode(network, node_id) {
     network.focus(node_id);
     network.selectNodes([node_id]);
+    fetchAndFillNodeForm(node_id);
   }
 
   function centringAndSelectNodeByAnchor(network) {
@@ -105,6 +106,30 @@ export default function initializeVisInteractive(vis) {
     if(anchor.length > 0) {
       centringAndSelectNode(network, anchor.substring(1));
     }
+  }
+
+  function fetchAndShowNodeInfo(node_id) {
+    $.get("api/mind_objects/" + node_id)
+        .done(function(ajax_data) {
+          let mind_object_data = ajax_data['mind_object'];
+          let $nodeInfoContainer = $(nodeInfoContainerSelector);
+          $nodeInfoContainer.find('.mind-object-title-value').text(mind_object_data['title']);
+          $nodeInfoContainer.find('.mind-object-content-value').text(mind_object_data['content']);
+          $nodeInfoContainer.find('.mind-object-uri-value > .text-part').text(mind_object_data['uri']);
+          $nodeInfoContainer.find('.mind-object-uri-value > .href-part > a').attr("href", mind_object_data['uri']);
+          if(!mind_object_data['uri']) {
+            $nodeInfoContainer.find('.mind-object-uri-value > .href-part').hide();
+          } else {
+            $nodeInfoContainer.find('.mind-object-uri-value > .href-part').show();
+          }
+          $nodeInfoContainer.find('.mind-object-number-value').text(mind_object_data['number']);
+          $nodeInfoContainer.find('.mind-object-date-value').text(mind_object_data['date']);
+          $nodeInfoContainer.find('.mind-object-datetime-value').text(mind_object_data['datetime']);
+          showNodeInfo();
+        })
+        .fail(function(_event) {
+          alert("Something goes wrong. Please, reload the page.");
+        });
   }
 
   // Edge processing
@@ -185,6 +210,7 @@ export default function initializeVisInteractive(vis) {
           let nodes = ajax_data['nodes'];
           if(nodes.length > 0) {
             centringAndSelectNode(network, nodes[0].id);
+            drawSearchResult(nodes);
           } else {
             // TODO: remove after implement a displaying of a search result
             alert('Found nothing. Try to find something else.');
@@ -193,6 +219,23 @@ export default function initializeVisInteractive(vis) {
         .fail(function(_event) {
           alert("Something goes wrong. Please, try again or reload the page.");
         });
+  }
+
+  function clearSearchResult() {
+    let $searchResultContainer = $('#search-container').find('.search-result-container').first();
+    $searchResultContainer.children('.search-result-row').remove();
+  }
+
+  function drawSearchResult(nodes) {
+    let $searchContainer = $('#search-container');
+    let $searchResultContainer = $searchContainer.find('.search-result-container').first();
+    let $searchResultRowTemplate = $searchContainer.find('#search-result-row-template').first();
+    $.each(nodes, function( index, node) {
+      let new_result_row = document.importNode($searchResultRowTemplate[0].content, true);
+      new_result_row.querySelectorAll('.search-result-title')[0].textContent = node['title'];
+      new_result_row.querySelectorAll('.link-to-locate-node-on-network')[0].setAttribute('data-node-id', node['id']);
+      $searchResultContainer[0].appendChild(new_result_row);
+    });
   }
 
   // Global functions
@@ -338,27 +381,7 @@ export default function initializeVisInteractive(vis) {
 
       network.on("selectNode", function (params) {
         let node_id = params['nodes'][0];
-        $.get("api/mind_objects/" + node_id)
-            .done(function(ajax_data) {
-              let mind_object_data = ajax_data['mind_object'];
-              let $nodeInfoContainer = $(nodeInfoContainerSelector);
-              $nodeInfoContainer.find('.mind-object-title-value').text(mind_object_data['title']);
-              $nodeInfoContainer.find('.mind-object-content-value').text(mind_object_data['content']);
-              $nodeInfoContainer.find('.mind-object-uri-value > .text-part').text(mind_object_data['uri']);
-              $nodeInfoContainer.find('.mind-object-uri-value > .href-part > a').attr("href", mind_object_data['uri']);
-              if(!mind_object_data['uri']) {
-                $nodeInfoContainer.find('.mind-object-uri-value > .href-part').hide();
-              } else {
-                $nodeInfoContainer.find('.mind-object-uri-value > .href-part').show();
-              }
-              $nodeInfoContainer.find('.mind-object-number-value').text(mind_object_data['number']);
-              $nodeInfoContainer.find('.mind-object-date-value').text(mind_object_data['date']);
-              $nodeInfoContainer.find('.mind-object-datetime-value').text(mind_object_data['datetime']);
-              showNodeInfo();
-            })
-            .fail(function(_event) {
-              alert("Something goes wrong. Please, reload the page.");
-            });
+        fetchAndShowNodeInfo(node_id);
       });
 
       network.on("deselectNode", function (params) {
@@ -389,9 +412,16 @@ export default function initializeVisInteractive(vis) {
           form_data_hash[field.name] = field.value;
         });
 
+        clearSearchResult();
         searchByNodeName(network, form_data_hash['q']);
         return false;
-      })
+      });
+
+      $('.search-result-container').on('click', '.link-to-locate-node-on-network', function(event) {
+        let node_id = event.target.dataset.nodeId;
+        centringAndSelectNode(network, node_id);
+        fetchAndShowNodeInfo(node_id);
+      });
     });
   }
 }

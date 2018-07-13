@@ -70,3 +70,26 @@
 .interactive-flex-content .flex-controllers-container {
   margin-top: 1em;
 }
+
+#search-container .search-result-container {
+  display: flex;
+  flex-direction: column;
+  width: 45em;
+}
+
+.search-result-container .search-result-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.search-result-container .search-result-row:hover {
+  background-color: #b3d9ff;
+}
+
+.search-result-container .search-result-row .search-result-title {
+  flex: 1 1 10em;
+}
+
+.search-result-container .search-result-row .search-result-link {
+  flex: 0 0 2em;
+}

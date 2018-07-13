@@ -1,4 +1,15 @@
- <form id="search-form" onsubmit="return false">
+<form id="search-form" onsubmit="return false">
   Search by node: <input id="search-string" type="text" name="q">
   <button id="search-submit-button" type="submit">Search</button>
 </form>
+
+<div class="search-result-container">
+  <template id="search-result-row-template">
+    <div class="search-result-row">
+      <div class="search-result-title">Dummy text</div>
+      <div class="search-result-link">
+        <a href="#" class="link-to-locate-node-on-network" data-node-id="42">locate</a>
+      </div>
+    </div>
+  </template>
+</div>
