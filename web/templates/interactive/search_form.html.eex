@@ -8,7 +8,7 @@
     <div class="search-result-row">
       <div class="search-result-title">Dummy text</div>
       <div class="search-result-link">
-        <a href="#" class="link-to-locate-node-on-network" data-node-id="42">locate</a>
+        <a href="javascript:void(0);" class="link-to-locate-node-on-network" data-node-id="42">locate</a>
       </div>
     </div>
   </template>
