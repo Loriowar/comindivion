@@ -2,9 +2,7 @@ defmodule Comindivion.Plug.CheckAuth do
   import Phoenix.Controller, only: [redirect: 2, text: 2]
   import Plug.Conn, only: [put_status: 2, halt: 1]
 
-  def init(options) do
-    options
-  end
+  def init(opts), do: opts
 
   # TODO: this method may be simplified
   def call(conn, options) do

@@ -47,12 +47,19 @@ export default function initializeVisInteractive(vis) {
             node_data['label'] = ajax_data['mind_object']['title'];
 
             callback(node_data);
-            // NOTE: we can save a position only after successfully calling a network callback
-            if(typeof network !== 'undefined') {
+            // NOTE: we can save a position only after successfully calling a network callback;
+            //       if we update a record no needs to update a position, so, we make a different between create and
+            //       update by looking on an existence or absence of `id` argument
+            if(typeof network !== 'undefined' && id.length === 0) {
               saveNodePosition(node_data['id'], network);
             }
             hideNodeForm();
             clearNodeForm();
+
+            let selected_nodes = network.getSelectedNodes();
+            if (selected_nodes.length === 1 && selected_nodes[0] === id) {
+              fetchAndShowNodeInfo(selected_nodes[0]);
+            }
           })
           .fail(function(event) {
             notifyUserByEvent(event, 'mind_object');
@@ -329,7 +336,7 @@ export default function initializeVisInteractive(vis) {
           editNode: function (data, callback) {
             clearNodeForm();
             fetchAndFillNodeForm(data['id']);
-            bindNodeFormEvents(data, callback, data['id']);
+            bindNodeFormEvents(data, callback, data['id'], network);
             showNodeForm();
           },
           deleteNode: function (data, callback) {
@@ -375,7 +382,7 @@ export default function initializeVisInteractive(vis) {
         }
       };
 
-      // NOTE: setOptions doesn't set a nodes shape (experimental fact)
+      // NOTE: setOptions doesn't set a shape of nodes (experimental fact)
       network.setOptions($.extend(initial_options, additional_options));
       network.redraw();
 
@@ -384,9 +391,10 @@ export default function initializeVisInteractive(vis) {
         fetchAndShowNodeInfo(node_id);
       });
 
-      network.on("deselectNode", function (params) {
+      network.on("deselectNode", function (_params) {
         hideNodeInfo();
       });
+
       network.on("dragEnd", function (params) {
         if(params['nodes'].length > 0) {
           saveNodePosition(params['nodes'][0], network);
