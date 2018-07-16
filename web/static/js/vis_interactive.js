@@ -105,7 +105,7 @@ export default function initializeVisInteractive(vis) {
   function centringAndSelectNode(network, node_id) {
     network.focus(node_id);
     network.selectNodes([node_id]);
-    fetchAndFillNodeForm(node_id);
+    fetchAndShowNodeInfo(node_id);
   }
 
   function centringAndSelectNodeByAnchor(network) {
