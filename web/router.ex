@@ -32,6 +32,7 @@ defmodule Comindivion.Router do
     resources "/similarity", SimilarityController, only: [:index]
     resources "/users", UserController, only: [:show, :new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
+    resources "/about", AboutController, only: [:index]
 
     get "/i", InteractiveController, :index
   end

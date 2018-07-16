@@ -1,6 +1,6 @@
 # Comindivion
 
-In old times people kept in mind whole books, tales and stories. Nowaday most of us keep in mind tons of references to the multiple objects (events, places, books etc). So, main aim of this application - to extend our reference memory and provide a simple interface for filling, vizualization and searching.
+In old times people kept in mind whole books, tales and stories. Nowaday most of us keep in mind tons of references to the multiple objects (events, places, books etc). So, main aim of this application - to extend our reference memory and provide a simple interface for filling, visualization and searching.
 
 * [Inspiration](#inspiration)
 * [Variants of data organization](#variants-of-data-organization)

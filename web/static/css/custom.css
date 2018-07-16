@@ -1,3 +1,11 @@
+.about-project {
+  max-width: 80em;
+}
+
+.example-network {
+  max-width: 80em;
+}
+
 #interactive {
   width: 1080px;
   height: 720px;

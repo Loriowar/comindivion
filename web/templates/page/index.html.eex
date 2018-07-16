@@ -31,9 +31,17 @@
         </li>
       </ul>
     </li>
+    <li>
+      Information
+      <ul>
+        <li>
+          <%= link "About project and how to start usage", to: about_path(@conn, :index) %>
+        </li>
+      </ul>
+    </li>
   <% else %>
     <li>
-       Please, login to gain access the mind map.
+       Please, login to gain access the mind map. And, take a look on our <%= link "About page", to: about_path(@conn, :index) %>.
     </li>
   <% end %>
 </ul>

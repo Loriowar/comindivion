@@ -1,0 +1,37 @@
+<h4>About Comindivion</h4>
+<div class="about-project">
+<p>
+In old times people kept in mind whole books, tales and stories. Nowaday most of us keep in mind tons of references
+to the multiple objects (events, places, books etc). So, main aim of this application - to extend our reference memory
+and provide a simple interface for filling, visualization and searching.
+</p>
+<p>
+That is why here you have only one endless field and can build there your own mind map. And that is why you can link
+any objects with each over. Because you do exactly the same within your mind. And, finally, you can search over all
+objects from your "mind" and look on their relations.
+</p>
+<h4>
+How to start usage?
+</h4>
+<p>
+This is very simple. Go to <%= link "Predicates", to: predicate_path(@conn, :index) %> page and create there the types
+of relations from your usually thinking process. For example: "Is author of", "Mentioned in", "Provided by", "Quote from"
+and so on.
+</p>
+<p>
+After creation of <%= link "Predicates", to: predicate_path(@conn, :index) %> go to the
+<%= link "Interactive view", to: interactive_path(@conn, :index) %> and to place there all objects, which you want to
+be remembered somewhere in the future.
+</p>
+<p>
+That's all. Good luck!
+</p>
+
+<h4>Example of network</h4>
+<p>
+Here is small example of the network with objects and relations:
+</p>
+<img src="<%= static_path(@conn, "/images/example_network.png") %>" class="example-network">
+</div>
+
+<%= link "Back", to: "/" %>
