@@ -2,16 +2,34 @@
 <ul>
   <%= if @current_user do %>
     <li>
-      <%= link "Mind Objects", to: mind_object_path(@conn, :index) %>
+      Interface
+      <ul>
+        <li>
+          <%= link "Interactive", to: interactive_path(@conn, :index) %>
+        </li>
+      </ul>
     </li>
     <li>
-      <%= link "Predicates", to: predicate_path(@conn, :index) %>
+      Objects
+      <ul>
+          <li>
+            <%= link "Mind Objects", to: mind_object_path(@conn, :index) %>
+          </li>
+          <li>
+            <%= link "Predicates", to: predicate_path(@conn, :index) %>
+          </li>
+          <li>
+            <%= link "Relations", to: subject_object_relation_path(@conn, :index) %>
+          </li>
+      </ul>
     </li>
     <li>
-      <%= link "Relations", to: subject_object_relation_path(@conn, :index) %>
-    </li>
-    <li>
-      <%= link "Interactive", to: interactive_path(@conn, :index) %>
+      Statistic
+      <ul>
+        <li>
+          <%= link "Similar Mind Objects", to: similarity_path(@conn, :index) %>
+        </li>
+      </ul>
     </li>
   <% else %>
     <li>

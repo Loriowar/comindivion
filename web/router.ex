@@ -29,6 +29,7 @@ defmodule Comindivion.Router do
     resources "/mind_objects", MindObjectController
     resources "/predicates", PredicateController
     resources "/subject_object_relations", SubjectObjectRelationController
+    resources "/similarity", SimilarityController, only: [:index]
     resources "/users", UserController, only: [:show, :new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
 
