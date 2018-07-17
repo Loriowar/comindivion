@@ -1,8 +1,6 @@
 defmodule Comindivion.Api.PositionController do
   use Comindivion.Web, :controller
 
-  plug Comindivion.Plug.CheckAuth
-
   alias Comindivion.MindObject
   alias Comindivion.Position
 

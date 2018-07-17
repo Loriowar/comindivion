@@ -1,8 +1,6 @@
 defmodule Comindivion.Api.SubjectObjectRelationController do
   use Comindivion.Web, :controller
 
-  plug Comindivion.Plug.CheckAuth
-
   alias Comindivion.SubjectObjectRelation
 
   import Ecto.Query, only: [preload: 2]

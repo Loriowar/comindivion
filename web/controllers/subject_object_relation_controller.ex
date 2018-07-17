@@ -1,8 +1,6 @@
 defmodule Comindivion.SubjectObjectRelationController do
   use Comindivion.Web, :controller
 
-  plug Comindivion.Plug.CheckAuth
-
   alias Comindivion.SubjectObjectRelation
   alias Comindivion.MindObject
   alias Comindivion.Predicate

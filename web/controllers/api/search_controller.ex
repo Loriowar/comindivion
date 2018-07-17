@@ -1,8 +1,6 @@
 defmodule Comindivion.Api.SearchController do
   use Comindivion.Web, :controller
 
-  plug Comindivion.Plug.CheckAuth
-
   alias Comindivion.MindObject
 
   import Ecto.Query, only: [where: 3, order_by: 3, limit: 2]

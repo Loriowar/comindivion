@@ -1,8 +1,6 @@
 defmodule Comindivion.SimilarityController do
   use Comindivion.Web, :controller
 
-  plug Comindivion.Plug.CheckAuth
-
   alias Comindivion.MindObject
 
   import Ecto.Query, only: [from: 2]
