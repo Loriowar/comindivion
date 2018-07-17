@@ -11,17 +11,9 @@ defmodule Comindivion.Api.PositionController do
   def update(conn, %{"mind_object_id" => mind_object_id, "position" => position_params}) do
     mind_object_user_id = Repo.get!(MindObject, mind_object_id).user_id
     if mind_object_user_id == current_user_id(conn) do
-      position_relations_query = from p in Position,
-                                      join: mo in MindObject, on: mo.id == p.mind_object_id,
-                                      where: mo.id == ^mind_object_id,
-                                      limit: 1
-      position =
-        case Repo.one(position_relations_query) do
-          nil -> %Position{mind_object_id: mind_object_id}
-          position -> position
-        end
+      position = %Position{mind_object_id: mind_object_id} |> Position.changeset(position_params)
 
-      case Position.changeset(position, position_params) |> Repo.insert_or_update do
+      case Repo.insert(position, on_conflict: :replace_all, conflict_target: :mind_object_id) do
         {:ok, position} ->
           render(conn, "show.json", position: position)
         {:error, changeset} ->
