@@ -14,10 +14,10 @@
     <tbody>
       <%= for mind_object <- @mind_objects_similarity_by_title do %>
         <tr>
-          <td><%= link mind_object.id, to: mind_object_path(@conn, :show, mind_object.id), class: "btn btn-default btn-xs" %></td>
+          <td><%= link mind_object.id, to: "#{interactive_path(@conn, :index)}##{mind_object.id}", class: "btn btn-default btn-xs" %></td>
           <td><%= mind_object.title %></td>
           <td><%= mind_object.similar_title %></td>
-          <td><%= link mind_object.similar_id, to: mind_object_path(@conn, :edit, mind_object.similar_id), class: "btn btn-default btn-xs" %></td>
+          <td><%= link mind_object.similar_id, to: "#{interactive_path(@conn, :index)}##{mind_object.id}", class: "btn btn-default btn-xs" %></td>
         </tr>
       <% end %>
     </tbody>
@@ -40,10 +40,10 @@
     <tbody>
       <%= for mind_object <- @mind_objects_similarity_by_content do %>
         <tr>
-          <td><%= link mind_object.id, to: mind_object_path(@conn, :show, mind_object.id), class: "btn btn-default btn-xs" %></td>
+          <td><%= link mind_object.id, to: "#{interactive_path(@conn, :index)}##{mind_object.id}", class: "btn btn-default btn-xs" %></td>
           <td><%= mind_object.content %></td>
           <td><%= mind_object.similar_content %></td>
-          <td><%= link mind_object.similar_id, to: mind_object_path(@conn, :edit, mind_object.similar_id), class: "btn btn-default btn-xs" %></td>
+          <td><%= link mind_object.similar_id, to: "#{interactive_path(@conn, :index)}##{mind_object.id}", class: "btn btn-default btn-xs" %></td>
         </tr>
       <% end %>
     </tbody>

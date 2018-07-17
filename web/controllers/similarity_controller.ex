@@ -11,6 +11,7 @@ defmodule Comindivion.SimilarityController do
       from m in current_user_query(conn, MindObject),
            join: mm in ^current_user_query(conn, MindObject),
            on: m.id != mm.id and fragment("(? <-> ?) < ?", m.title, mm.title, 0.45),
+           where: m.title >= mm.title,
            order_by: m.id,
            select: %{id: m.id, title: m.title, similar_id: mm.id, similar_title: mm.title}
     mind_objects_similarity_by_title = Repo.all(mind_objects_similarity_by_title_query)
@@ -19,8 +20,9 @@ defmodule Comindivion.SimilarityController do
       from m in current_user_query(conn, MindObject),
            join: mm in ^current_user_query(conn, MindObject),
            on: m.id != mm.id and fragment("(? <-> ?) < ?", m.content, mm.content, 0.25),
+           where: m.content >= mm.content,
            order_by: m.id,
-           select: %{id: m.id, title: m.title, similar_id: mm.id, similar_title: mm.title}
+           select: %{id: m.id, content: m.content, similar_id: mm.id, similar_content: mm.content}
     mind_objects_similarity_by_content = Repo.all(mind_objects_similarity_by_content_query)
     render conn, "index.html", mind_objects_similarity_by_title: mind_objects_similarity_by_title,
                                mind_objects_similarity_by_content: mind_objects_similarity_by_content
