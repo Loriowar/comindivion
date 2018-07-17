@@ -51,7 +51,7 @@ defmodule Comindivion.Router do
   scope "/api", Comindivion.Api do
     pipe_through [:api, :revive_auth, :check_auth]
 
-    get "/i/f", InteractiveController, :fetch
+    resources "/i", InteractiveController, only: [:index]
 
     resources "/mind_objects", MindObjectController, only: [:show, :create, :update, :delete]
 

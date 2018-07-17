@@ -285,7 +285,7 @@ export default function initializeVisInteractive(vis) {
   let container = document.getElementById('interactive');
 
   if(container !== null) {
-    $.get( "api/i/f", function( data ) {
+    $.get( "api/i", function( data ) {
       let nodes = new vis.DataSet(data['nodes']);
       // Add direction to edges
       let edges_data = data['edges'].map(
