@@ -6,6 +6,10 @@
   max-width: 80em;
 }
 
+.no-predicates-warning {
+  color: red;
+}
+
 #interactive {
   width: 1080px;
   height: 720px;

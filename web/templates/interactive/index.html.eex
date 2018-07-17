@@ -1,5 +1,12 @@
 <h2>Interactive Mind Map</h2>
 
+<%= if @is_predicates_blank do %>
+  <h3 class="no-predicates-warning">
+    You has no any Predicate. This means that you can't create edges on the network.
+    Please, create some predicates <%= link "here", to: predicate_path(@conn, :new) %>.
+  </h3>
+<% end %>
+
 <div id="search-container" class="">
   <%= render "search_form.html"%>
 </div>
