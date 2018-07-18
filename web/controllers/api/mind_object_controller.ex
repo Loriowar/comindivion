@@ -50,14 +50,13 @@ defmodule Comindivion.Api.MindObjectController do
         where: mo.id in ^ids)
     expected_count = Repo.aggregate(mind_objects_query, :count, :id)
 
-    result = Repo.delete_all(mind_objects_query, returning: true)
+    {result_count, mind_objects} = Repo.delete_all(mind_objects_query, returning: true)
 
-    case result do
-      {expected_count, mind_objects} ->
-        render(conn, "show.json", mind_objects: mind_objects)
-      {_, _} ->
-        # TODO: try to sent some usable error message
-        conn |> put_status(422) |> text("Unprocessable entity")
+    if result_count == expected_count do
+      render(conn, "show.json", mind_objects: mind_objects)
+    else
+      # TODO: try to sent some usable error message
+      conn |> put_status(422) |> text("Unprocessable entity")
     end
   end
 end
