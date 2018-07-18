@@ -7,6 +7,16 @@ defmodule Comindivion.Api.MindObjectView do
     }
   end
 
+  def render("show.json", %{mind_objects: mind_objects}) do
+    Enum.map(mind_objects,
+      fn(mind_object) ->
+        %{
+          mind_object: mind_object
+        }
+      end
+    )
+  end
+
   def render("show.json", %{changeset: changeset}) do
     %{
       mind_object: %{

@@ -30,9 +30,8 @@ defmodule Comindivion.Api.PositionController do
       from(p in Position,
              join: mo in ^current_user_query(conn, MindObject), on: p.mind_object_id == mo.id,
              where: mo.id in ^mind_object_ids,
-             select: [mo.id])
+             select: mo.id)
       |> Repo.all
-      |> List.flatten
     position_changesets =
       Enum.map(allowed_mind_object_ids,
         fn(mind_object_id) ->

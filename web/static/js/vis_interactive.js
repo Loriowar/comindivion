@@ -159,6 +159,34 @@ export default function initializeVisInteractive(vis) {
         });
   }
 
+  function deleteNode(node_id,  data = {}, callback = function(arg){}) {
+    $.ajax({
+      type: "DELETE",
+      url: "api/mind_objects/" + node_id})
+        .done(function(_ajax_data) {
+          callback(data);
+        })
+        .fail(function(event) {
+          notifyUserByEvent(event, 'mind_object');
+          callback(null);
+        });
+  }
+
+  function deleteNodes(node_ids,  data = {}, callback = function(arg){}) {
+    $.ajax({
+      type: "DELETE",
+      url: "api/mind_objects/",
+      data: {mind_object_ids: node_ids}})
+        .done(function(_ajax_data) {
+          callback(data);
+        })
+        .fail(function(event) {
+          // TODO: implement displaying of errors after the mind object controller improvement
+          notifyUser();
+          callback(null);
+        });
+  }
+
   // Edge processing
 
   let edgeFormContainerSelector = '#editable-relation';
@@ -361,16 +389,7 @@ export default function initializeVisInteractive(vis) {
             showNodeForm();
           },
           deleteNode: function (data, callback) {
-            $.ajax({
-              type: "DELETE",
-              url: "api/mind_objects/" + data['nodes'][0]})
-                .done(function(_ajax_data) {
-                  callback(data);
-                })
-                .fail(function(event) {
-                  notifyUserByEvent(event, 'mind_object');
-                  callback(null);
-            });
+            deleteNodes(data['nodes'], data, callback);
           },
           addEdge: function (data, callback) {
             // Add direction to new edge

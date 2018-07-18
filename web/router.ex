@@ -54,6 +54,7 @@ defmodule Comindivion.Router do
     resources "/i", InteractiveController, only: [:index]
 
     resources "/mind_objects", MindObjectController, only: [:show, :create, :update, :delete]
+    delete "/mind_objects", MindObjectController, :bulk_delete
 
     # Crutches for simplify construction of a request into js
     post "/mind_objects/:id", MindObjectController, :update
