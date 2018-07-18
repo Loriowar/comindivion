@@ -23,4 +23,42 @@ defmodule Comindivion.Api.PositionController do
       conn |> put_status(422) |> text("Unprocessable entity")
     end
   end
+
+  def bulk_update(conn, %{"mind_objects" => mind_objects}) do
+    mind_object_ids = Map.keys(mind_objects)
+    allowed_mind_object_ids =
+      from(p in Position,
+             join: mo in ^current_user_query(conn, MindObject), on: p.mind_object_id == mo.id,
+             where: mo.id in ^mind_object_ids,
+             select: [mo.id])
+      |> Repo.all
+      |> List.flatten
+    position_changesets =
+      Enum.map(allowed_mind_object_ids,
+        fn(mind_object_id) ->
+          Position.changeset(
+            %Position{mind_object_id: mind_object_id},
+            mind_objects[mind_object_id]
+          )
+        end
+      )
+
+    result =
+      position_changesets
+      |> Enum.reduce(Ecto.Multi.new, fn(changeset, multi) ->
+                                       Ecto.Multi.insert(multi,
+                                                         changeset.data.mind_object_id,
+                                                         changeset,
+                                                         on_conflict: :replace_all,
+                                                         conflict_target: :mind_object_id)
+                                     end)
+      |> Repo.transaction
+
+    case result do
+      {:ok, multi_position_result }  ->
+        render(conn, "show.json", positions: Map.values(multi_position_result))
+      {:error, _, changeset, _ } ->
+        render(conn, "show.json", changeset: changeset)
+    end
+  end
 end

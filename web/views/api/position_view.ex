@@ -7,6 +7,16 @@ defmodule Comindivion.Api.PositionView do
     }
   end
 
+  def render("show.json", %{positions: positions}) do
+    Enum.map(positions,
+      fn(position) ->
+        %{
+          position: position
+        }
+      end
+    )
+  end
+
   def render("show.json", %{changeset: changeset}) do
     %{
       position: %{
@@ -15,7 +25,7 @@ defmodule Comindivion.Api.PositionView do
     }
   end
 
-  # TODO: move to a separate module due to usage in a multiple api views
+  # TODO: move to a separate module due to usage in multiple api views
   def changeset_to_message(changeset) do
     Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
       Enum.reduce(opts, msg, fn {key, value}, acc ->

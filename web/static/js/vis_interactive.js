@@ -95,12 +95,32 @@ export default function initializeVisInteractive(vis) {
     $.post("api/positions/" + node_id, position_data)
         .done(function (ajax_data) {
           console.log('Position saved');
-          console.log(ajax_data);
         })
         .fail(function (event) {
           notifyUserByEvent(event, 'position');
         });
   }
+
+    function saveNodePositions(node_ids, network) {
+      let node_positions = network.getPositions(node_ids);
+      let request_data = node_ids.map(node_id => {
+        return [
+          {name: 'mind_objects[' + node_id + '][x]', value: node_positions[node_id]['x']},
+          {name: 'mind_objects[' + node_id + '][y]', value: node_positions[node_id]['y']},
+        ]
+      });
+      request_data = [].concat.apply([], request_data);
+      $.ajax({
+        type: "PATCH",
+        url: "api/positions/",
+        data: request_data})
+          .done(function(ajax_data) {
+            console.log('Positions saved');
+          })
+          .fail(function(event) {
+            notifyUserByEvent(event, 'position');
+          });
+    };
 
   function centringAndSelectNode(network, node_id) {
     network.focus(node_id);
@@ -318,7 +338,8 @@ export default function initializeVisInteractive(vis) {
           enabled: false
         },
         interaction: {
-          hover: true
+          hover: true,
+          multiselect: true
         }
       };
 
@@ -397,7 +418,7 @@ export default function initializeVisInteractive(vis) {
 
       network.on("dragEnd", function (params) {
         if(params['nodes'].length > 0) {
-          saveNodePosition(params['nodes'][0], network);
+          saveNodePositions(params['nodes'], network);
         }
       });
 
