@@ -3,7 +3,7 @@ defmodule Comindivion.Mixfile do
 
   def project do
     [app: :comindivion,
-     version: "0.0.6",
+     version: "0.0.7",
      elixir: "~> 1.2",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
