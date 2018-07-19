@@ -328,6 +328,102 @@ export default function initializeVisInteractive(vis) {
     notifyUser(errorsToMessage(eventToErrors(event, object_name)));
   }
 
+  // Additional events for Network
+
+  // Prototype from https://github.com/almende/vis/issues/977
+  const initMultiSelectByRectangleArea = (container, network, nodes) => {
+    const NO_CLICK = 0;
+    const RIGHT_CLICK = 3;
+
+    // Disable default right-click dropdown menu
+    container[0].oncontextmenu = () => false;
+
+    // State
+
+    let drag = false, DOMRect = {};
+
+    // Selector
+
+    const canvasify = (DOMx, DOMy) => {
+      const { x, y } = network.DOMtoCanvas({ x: DOMx, y: DOMy });
+      return [x, y];
+    };
+
+    const correctRange = (start, end) =>
+        start < end ? [start, end] : [end, start];
+
+    const selectFromDOMRect = () => {
+      const [sX, sY] = canvasify(DOMRect.startX, DOMRect.startY);
+      const [eX, eY] = canvasify(DOMRect.endX, DOMRect.endY);
+      const [startX, endX] = correctRange(sX, eX);
+      const [startY, endY] = correctRange(sY, eY);
+
+      network.selectNodes(nodes.get().reduce(
+          (selected, { id }) => {
+            const { x, y } = network.getPositions(id)[id];
+            return (startX <= x && x <= endX && startY <= y && y <= endY) ?
+                selected.concat(id) : selected;
+          }, []
+      ));
+    };
+
+    // Listeners
+
+    container.on("mousedown", function({ which, pageX, pageY }) {
+      // When mousedown, save the initial rectangle state
+      if(which === RIGHT_CLICK) {
+        Object.assign(DOMRect, {
+          startX: pageX - this.offsetLeft,
+          startY: pageY - this.offsetTop,
+          endX: pageX - this.offsetLeft,
+          endY: pageY - this.offsetTop
+        });
+        drag = true;
+      }
+    });
+
+    container.on("mousemove", function({ which, pageX, pageY }) {
+      // Make selection rectangle disappear when accidently mouseupped outside 'container'
+      if(which === NO_CLICK && drag) {
+        drag = false;
+        network.redraw();
+      }
+      // When mousemove, update the rectangle state
+      else if(drag) {
+        Object.assign(DOMRect, {
+          endX: pageX - this.offsetLeft,
+          endY: pageY - this.offsetTop
+        });
+        network.redraw();
+      }
+    });
+
+    container.on("mouseup", function({ which }) {
+      // When mouseup, select the nodes in the rectangle
+      if(which === RIGHT_CLICK) {
+        drag = false;
+        network.redraw();
+        selectFromDOMRect();
+      }
+    });
+
+    // Drawer
+
+    network.on('afterDrawing', ctx => {
+      if(drag) {
+        const [startX, startY] = canvasify(DOMRect.startX, DOMRect.startY);
+        const [endX, endY] = canvasify(DOMRect.endX, DOMRect.endY);
+
+        ctx.setLineDash([5]);
+        ctx.strokeStyle = 'rgba(78, 146, 237, 0.75)';
+        ctx.strokeRect(startX, startY, endX - startX, endY - startY);
+        ctx.setLineDash([]);
+        ctx.fillStyle = 'rgba(151, 194, 252, 0.45)';
+        ctx.fillRect(startX, startY, endX - startX, endY - startY);
+      }
+    });
+  };
+
   // Network initialization
 
   let container = document.getElementById('interactive');
@@ -425,6 +521,8 @@ export default function initializeVisInteractive(vis) {
       // NOTE: setOptions doesn't set a shape of nodes (experimental fact)
       network.setOptions($.extend(initial_options, additional_options));
       network.redraw();
+
+      initMultiSelectByRectangleArea($(container), network, network_data['nodes']);
 
       network.on("selectNode", function (params) {
         let node_id = params['nodes'][0];
