@@ -105,3 +105,65 @@
 .search-result-container .search-result-row .search-result-link {
   flex: 0 0 2em;
 }
+
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip .tooltip-content {
+  visibility: hidden;
+  position: absolute;
+  width: 25em;
+  background-color: #555;
+  color: #fff;
+  text-align: left;
+  padding: 5px 0;
+  border-radius: 6px;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltip-content .tooltip-text {
+  font-size: 12pt;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltip-content::after {
+  content: "";
+  position: absolute;
+  top: 0.5em;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent #555 transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltip-content {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltip-right {
+  top: -5px;
+  left: 125%;
+}
+
+.circle-for-symbol {
+  display: block;
+  height: 1em;
+  width: 1em;
+  line-height: 1em;
+
+  border-radius: 50%;
+
+  background-color: black;
+  color: white;
+  text-align: center;
+  font-size: 0.75em;
+}
