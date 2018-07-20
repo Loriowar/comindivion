@@ -22,7 +22,7 @@
             select multiple nodes?
             <ul>
               <li>Hold Ctrl and tap LMB on the required nodes.</li>
-              <li>Hold RMB and a draw rectangle area over multiple nodes.</li>
+              <li>Hold RMB and draw a rectangle area over multiple nodes.</li>
             </ul>
           </li>
           <li>
