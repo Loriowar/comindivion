@@ -528,8 +528,10 @@ export default function initializeVisInteractive(vis) {
       initMultiSelectByRectangleArea($(container), network, network_data['nodes']);
 
       network.on("selectNode", function (params) {
-        let node_id = params['nodes'][0];
-        fetchAndShowNodeInfo(node_id);
+        if(params['nodes'].length === 1) {
+          let node_id = params['nodes'][0];
+          fetchAndShowNodeInfo(node_id);
+        }
       });
 
       network.on("deselectNode", function (_params) {
