@@ -109,6 +109,7 @@ export default function initializeVisInteractive(vis) {
           {name: 'mind_objects[' + node_id + '][y]', value: node_positions[node_id]['y']},
         ]
       });
+      // This is `flatten` method
       request_data = [].concat.apply([], request_data);
       $.ajax({
         type: "PATCH",
@@ -255,6 +256,51 @@ export default function initializeVisInteractive(vis) {
     let $edgeForm = $(edgeFormContainerSelector);
     let predicate_id = $edgeForm.find('option:contains("' + label + '")').first().val();
     $edgeForm.find('#subject_object_relation_predicate_id').first().val(predicate_id).trigger('change.select2');
+  }
+
+  // Node group functions
+
+  let nodeFormGroupContainerSelector = '#editable-mind-object-group-container';
+
+  // TODO: encapsulate hide/show methods into submit/cancel callbacks
+  function showNodeGroupForm() {
+    $(nodeFormGroupContainerSelector).show();
+  }
+
+  function hideNodeGroupForm() {
+    $(nodeFormGroupContainerSelector).hide();
+  }
+
+  function bindNodeGroupFormEvent(network, network_data) {
+    let $nodeGroupForm = $(nodeFormGroupContainerSelector).first('form');
+    $nodeGroupForm.submit(function(event) {
+      let group_value = $('#mind-object-group-name').val();
+      let node_ids = network.getSelectedNodes();
+      $.ajax({
+        type: "PATCH",
+        url: "api/groups/",
+        data: {
+          group: group_value,
+          mind_object_ids: node_ids
+        }
+      })
+          .done(function(ajax_data) {
+            hideNodeGroupForm();
+            $.each(network_data, function(index, node) {
+              if(node_ids.includes(node.id)) {
+                node['group'] = group_value;
+              }
+            })
+          })
+          .fail(function(_event) {
+            hideNodeGroupForm();
+            notifyUser();
+          });
+
+      event.stopPropagation();
+      event.preventDefault();
+      return false;
+    });
   }
 
   // Search functions
@@ -532,6 +578,7 @@ export default function initializeVisInteractive(vis) {
           let node_id = params['nodes'][0];
           fetchAndShowNodeInfo(node_id);
         }
+        $('<div class="vis-button vis-edit" style="touch-action: pan-y; -moz-user-select: none;"><div class="vis-label">Edit Group</div></div><div class="vis-separator-line"></div>').insertBefore($('.vis-manipulation').find('.vis-button.vis-delete'));
       });
 
       network.on("deselectNode", function (_params) {
@@ -573,6 +620,29 @@ export default function initializeVisInteractive(vis) {
         centringAndSelectNode(network, node_id);
         fetchAndShowNodeInfo(node_id);
       });
+
+      // Additional network manipulation actions
+
+      let MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
+      let list = document.querySelector('.vis-manipulation');
+
+      let observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if(mutation.type === 'childList' && mutation.addedNodes.length === 1 && network.getSelectedNodes().length > 0) {
+            if(mutation.addedNodes[0].classList.contains('vis-delete')) {
+              $('<div class="vis-button vis-edit vis-edit-group" style="touch-action: pan-y; -moz-user-select: none;"><div class="vis-label">Edit Group</div></div><div class="vis-separator-line"></div>').insertBefore($('.vis-manipulation').find('.vis-button.vis-delete'));
+            }
+          }
+        });
+      });
+
+      observer.observe(list, {childList: true});
+
+      $('.vis-manipulation').on('click', '.vis-edit-group', function(event) {
+        showNodeGroupForm();
+      });
+
+      bindNodeGroupFormEvent(network);
     });
   }
 }

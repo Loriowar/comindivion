@@ -9,6 +9,7 @@ defmodule Comindivion.Position do
   schema "positions" do
     field :x, :float
     field :y, :float
+    field :group, :string
 
     belongs_to :mind_object, Comindivion.MindObject
 
