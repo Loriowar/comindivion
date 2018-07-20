@@ -449,7 +449,10 @@ export default function initializeVisInteractive(vis) {
           },
           widthConstraint: {
             maximum: 90
-          }
+          },
+          smooth: {
+            enabled: false
+          },
         },
         nodes: {
           shape: 'box',
