@@ -40,6 +40,7 @@ import initializeSimpleSelect2 from "./simple_select2"
 initializeSimpleSelect2();
 
 import vis from "vis";
+import awesomplete from "awesomplete";
 
 import initializeVisInteractive from "./vis_interactive"
-initializeVisInteractive(vis);
+initializeVisInteractive(vis, awesomplete);

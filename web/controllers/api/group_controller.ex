@@ -6,6 +6,17 @@ defmodule Comindivion.Api.GroupController do
 
   import Ecto.Query, only: [from: 2]
 
+  def index(conn, _params) do
+    groups =
+      from(p in Position,
+           join: mo in ^current_user_query(conn, MindObject), on: p.mind_object_id == mo.id,
+           order_by: p.group,
+           distinct: true,
+           select: p.group)
+      |> Repo.all
+    render(conn, "show.json", groups: groups)
+  end
+
   def bulk_update(conn, %{"mind_object_ids" => mind_object_ids, "group" => group}) do
     positions_query =
       from p in Position,

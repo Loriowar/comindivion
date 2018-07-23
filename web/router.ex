@@ -62,6 +62,7 @@ defmodule Comindivion.Router do
 
     patch "/positions", PositionController, :bulk_update
 
+    resources "/groups", GroupController, only: [:index]
     patch "/groups", GroupController, :bulk_update
 
     resources "/subject_object_relations", SubjectObjectRelationController, only: [:create, :update, :delete]

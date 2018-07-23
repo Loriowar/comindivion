@@ -1,4 +1,4 @@
-export default function initializeVisInteractive(vis) {
+export default function initializeVisInteractive(vis, awesomplete) {
   // Node processing
 
   let nodeFormContainerSelector = '#editable-mind-object-container';
@@ -327,6 +327,26 @@ export default function initializeVisInteractive(vis) {
 
   function clearNodeGroupForm() {
     $(nodeFormGroupContainerSelector).find('#mind-object-group-name').val('');
+  }
+
+  function initNodeGroupAwesompleteInput() {
+    let group_input = $(nodeFormGroupContainerSelector).find('#mind-object-group-name')[0];
+    let awesomplete_node_group_input = new awesomplete(group_input, {minChars: 0});
+    awesomplete_node_group_input.list = ["Dummy"];
+    return awesomplete_node_group_input;
+  }
+
+  function fetchAndFillNodeGroupInput(awesomplete_input) {
+    $.get("api/groups")
+        .done(function(ajax_data) {
+          let groups = ajax_data['groups'];
+          if(Array.isArray(groups)) {
+            awesomplete_input.list = groups;
+          }
+        })
+        .fail(function(_event) {
+          notifyUser('Unagle to load list of nodes groups.');
+        });
   }
 
   // Search functions
@@ -663,8 +683,11 @@ export default function initializeVisInteractive(vis) {
 
       observer.observe(list, {childList: true});
 
+      let awesomplete_node_group_input = initNodeGroupAwesompleteInput();
+
       $('.vis-manipulation').on('click', '.vis-edit-group', function(event) {
         fetchAndFillNodeGroupForm(network, network_data);
+        fetchAndFillNodeGroupInput(awesomplete_node_group_input);
         showNodeGroupForm();
       });
 

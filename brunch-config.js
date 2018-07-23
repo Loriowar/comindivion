@@ -92,6 +92,7 @@ exports.config = {
     styles: {
       flatpickr: ['dist/flatpickr.css'],
       select2: ['dist/css/select2.css'],
+      awesomplete: ['awesomplete.css'],
       // 'select2-bootstrap-css': ['select2-bootstrap.css'],
       vis: ['dist/vis.css']
     }

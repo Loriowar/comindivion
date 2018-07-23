@@ -10,4 +10,10 @@ defmodule Comindivion.Api.GroupView do
       end
     )
   end
+
+  def render("show.json", %{groups: groups}) do
+    %{
+      groups: groups
+    }
+  end
 end
