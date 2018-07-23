@@ -1,40 +1,6 @@
 <h2>
   Interactive Mind Map
-   <div class="tooltip"><i class="circle-for-symbol">?</i>
-    <span class="tooltip-content tooltip-right">
-      <div class="tooltip-text">
-        How to...
-        <ul>
-          <li>
-            navigate over network?
-            <ul>
-              <li>Push LMB on any free network space and drag.</li>
-              <li>Use search string and, optionally, click on 'locate' in front of the result.</li>
-            </ul>
-          </li>
-          <li>
-            zoom?
-            <ul>
-              <li>Use a mouse wheel within the network area.</li>
-            </ul>
-          </li>
-          <li>
-            select multiple nodes?
-            <ul>
-              <li>Hold Ctrl and tap LMB on the required nodes.</li>
-              <li>Hold RMB and draw a rectangle area over multiple nodes.</li>
-            </ul>
-          </li>
-          <li>
-            move multiple nodes?
-            <ul>
-              <li>Select nodes first, then drag-and-drop it to a desired location.</li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </span>
-  </div>
+  <%= render "howto_tooltip.html" %>
 </h2>
 
 <%= if @is_predicates_blank do %>
@@ -61,6 +27,12 @@
       <h2>Mind Object editor</h2>
       <%= render "mind_object_form.html", changeset: @mind_object_changeset,
                                           action: "" %>
+    </div>
+
+    <div id="editable-mind-object-group-container" style="display: none;">
+      <h2>Mind Object(s) Group editor</h2>
+      <%= render "mind_object_group_form.html", changeset: @position_changeset,
+                                                action: "" %>
     </div>
 
     <div id="editable-relation" style="display: none;">

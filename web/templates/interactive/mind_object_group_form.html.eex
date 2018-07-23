@@ -1,0 +1,13 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <div class="interactive-flex-content">
+    <div class="form-group flex-row">
+      <%= label f, :group, class: "control-label flex-label" %>
+      <%= text_input f, :group, class: "form-control flex-value", id: "mind-object-group-name" %>
+    </div>
+
+    <div class="form-group flex-controllers-container">
+      <%= submit "Submit", class: "btn btn-primary", id: "mind-object-group-submit" %>
+      <%= button "Cancel", to: "#", type: "button", class: "btn btn-primary", id: "mind-object-group-cancel" %>
+    </div>
+  </div>
+<% end %>

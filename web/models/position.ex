@@ -5,10 +5,11 @@ defmodule Comindivion.Position do
   #  but can be ObjectID if later you decide to use mongo
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
-  @derive {Poison.Encoder, only: [:x, :y, :mind_object_id]}
+  @derive {Poison.Encoder, only: [:x, :y, :group, :mind_object_id]}
   schema "positions" do
     field :x, :float
     field :y, :float
+    field :group, :string
 
     belongs_to :mind_object, Comindivion.MindObject
 

@@ -13,7 +13,8 @@ defmodule Comindivion.Api.InteractiveView do
       id: mind_object.id,
       label: mind_object.title,
       x: mind_object.x,
-      y: mind_object.y
+      y: mind_object.y,
+      group: mind_object.group
     }
   end
 

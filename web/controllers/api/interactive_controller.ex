@@ -11,7 +11,7 @@ defmodule Comindivion.Api.InteractiveController do
   def index(conn, _params) do
     mind_objects_query = from m in current_user_query(conn, MindObject),
                               left_join: p in Position, on: m.id == p.mind_object_id,
-                              select: %{id: m.id, title: m.title, x: p.x, y: p.y}
+                              select: %{id: m.id, title: m.title, x: p.x, y: p.y, group: p.group}
     mind_objects = Repo.all(mind_objects_query)
     relations_query = from sor in current_user_query(conn, SubjectObjectRelation),
                            join: p in ^current_user_query(conn, Predicate), on: sor.predicate_id == p.id,
