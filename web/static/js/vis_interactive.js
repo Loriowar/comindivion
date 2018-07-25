@@ -462,7 +462,7 @@ export default function initializeVisInteractive(vis, awesomplete) {
       // Dirty hack. In an ideal world, needs to fire the `selectNode` event from `selectNodes(...)`, but  there is no
       // any triggering of events. So, we manually process required actions through calling of private methods of
       // the network.
-      if($('.vis-manipulation').find('.vis-delete') === 0) {
+      if($('.vis-manipulation').find('.vis-delete').length === 0 && network.getSelectedNodes().length > 0) {
         network.manipulation._createSeperator();
         // TODO: remember about hardcode of a locale
         network.manipulation._createDeleteButton('en');
