@@ -1,6 +1,9 @@
 defmodule Comindivion.Plug.CheckAuth do
-  import Phoenix.Controller, only: [redirect: 2, text: 2]
+  import Phoenix.Controller, only: [redirect: 2, put_flash: 3, text: 2]
   import Plug.Conn, only: [put_status: 2, halt: 1]
+
+  # NOTE: include of Comindivion.Router.Helpers is a wrong way
+  alias Comindivion.Router.Helpers, as: Routes
 
   def init(opts), do: opts
 
@@ -32,7 +35,8 @@ defmodule Comindivion.Plug.CheckAuth do
     case conn.private.phoenix_format do
       "html" ->
         conn
-        |> redirect(to: "/sessions/new")
+        |> put_flash(:error, "You must be signed in to access that page.")
+        |> redirect(to: Routes.session_path(conn, :new))
         |> halt
       "json" ->
         conn
