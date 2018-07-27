@@ -41,7 +41,7 @@
     </li>
   <% else %>
     <li>
-       Please, login to gain access the mind map. And, take a look on our <%= link "About page", to: about_path(@conn, :index) %>.
+       Please, login to gain access the mind map. And take a look at our <%= link "About page", to: about_path(@conn, :index) %>.
     </li>
   <% end %>
 </ul>

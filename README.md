@@ -5,6 +5,7 @@ In old times people kept in mind whole books, tales and stories. Nowaday most of
 * [Inspiration](#inspiration)
 * [Variants of data organization](#variants-of-data-organization)
 * [Usage](#usage)
+* [Current functions](#current-functions)
 * [Future functions](#future-functions)
 * [Install development environment](#install-development-environment)
 * [Deploy](#deploy)
@@ -13,6 +14,7 @@ In old times people kept in mind whole books, tales and stories. Nowaday most of
   * [Deploy assembled package](#deploy-assembled-package)
   * [Systemd unit](#systemd-unit)
 * [Integration with Let's Encrypt](#integration-with-lets-encrypt)
+* [Integration with Google Analytics](#integration-with-google-analytics)
 
 ## Inspiration
 Project inspired by [RDF (Resource Description Framework)](https://en.wikipedia.org/wiki/Resource_Description_Framework). Minimal amount of data in RDF is a [triple](https://en.wikipedia.org/wiki/Semantic_triple). Triple is a set of three entities that codifies a statement about semantic data in the form of subject–predicate–object expressions. For example, expression "Boris Chertok is author of "Rockets and People". Here "Boris Chertok" is a subject, "is author of" is a predicate and "Rockets and People" is an object.
@@ -27,13 +29,19 @@ Usage of application is very simple. Needs to keep in mind a base structure of a
 - start a creation of nodes with custom positions and different relations;
 - use a search over nodes title and content for recall any previously created object and for taking a look on its relations.
 
+## Current functions
+- One endless interactive mind map.
+- Multiple selection and moving of nodes.
+- Search over nodes.
+- Grouping of nodes.
+- Listing of similar nodes.
+- Small tutorial in format of "How to...".
+
 ## Future functions
 - Import data from a file to the application.
 - Export all users data to the file.
-- Multiple selection and moving of nodes.
-- Async updating of the interactive view and an ability if parallel edition of the graph network.
+- Async updating of the interactive view and an ability of a parallel edition of the graph network.
 - API for an access to all user data.
-- Creation of node groups.
 - Sharing nodes and node groups between users.
 
 And of course, feel free to offer any functions which can help yo achieve your personal aims.
@@ -122,3 +130,6 @@ After this you obtain fullchain and privkey for ssl.
 
 Finally, you can configure you elixir application for using https. Or you can make a reverse-proxy with support of https and run your elixir app locally using simple http protocol. Anyway, here you better know your available resources and aims.
 
+## Integration with Google Analytics
+This is extremely simple. Set the env variable `GA_IDENTIFIER` for a production server. In case of the previously described
+systemd unit, you can set this variable in `env.vars`.
