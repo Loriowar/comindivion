@@ -10,6 +10,7 @@ defmodule Comindivion.Api.GroupController do
     groups =
       from(p in Position,
            join: mo in ^current_user_query(conn, MindObject), on: p.mind_object_id == mo.id,
+           where: not is_nil(p.group),
            order_by: p.group,
            distinct: true,
            select: p.group)
