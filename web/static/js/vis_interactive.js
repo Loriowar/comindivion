@@ -81,9 +81,13 @@ export default function initializeVisInteractive(vis, awesomplete) {
   }
 
   function fetchAndFillNodeForm(node_id) {
-    $.get( "api/mind_objects/" + node_id, function( data ) {
-      fillNodeForm(data['mind_object']);
-    });
+    $.get( "api/mind_objects/" + node_id)
+        .done(function( data ) {
+          fillNodeForm(data['mind_object']);
+        })
+        .fail(function(event){
+          notifyUser();
+        });
   }
 
   function saveNodePosition(node_id, network) {
