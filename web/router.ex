@@ -8,7 +8,8 @@ defmodule Comindivion.Router do
   end
 
   pipeline :check_auth do
-    plug Comindivion.Plug.CheckAuth
+    plug Guardian.Plug.EnsureAuthenticated,
+       handler: Comindivion.Auth.GuardianErrorHandler
   end
 
   pipeline :browser do

@@ -1,7 +1,8 @@
 defmodule Comindivion.UserController do
   use Comindivion.Web, :controller
 
-  plug Comindivion.Plug.CheckAuth, only: [:show]
+  plug Guardian.Plug.EnsureAuthenticated,
+       [handler: Comindivion.Auth.GuardianErrorHandler] when action in [:show]
 
   alias Comindivion.User
 

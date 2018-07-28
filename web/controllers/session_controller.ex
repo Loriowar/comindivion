@@ -1,7 +1,8 @@
 defmodule Comindivion.SessionController do
   use Comindivion.Web, :controller
 
-  plug Comindivion.Plug.CheckAuth, only: [:delete]
+  plug Guardian.Plug.EnsureAuthenticated,
+       [handler: Comindivion.Auth.GuardianErrorHandler] when action in [:delete]
 
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
 
