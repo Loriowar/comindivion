@@ -154,6 +154,7 @@ export default function initializeVisInteractive(vis, awesomplete) {
           $nodeInfoContainer.find('.mind-object-number-value').text(mind_object_data['number']);
           $nodeInfoContainer.find('.mind-object-date-value').text(mind_object_data['date']);
           $nodeInfoContainer.find('.mind-object-datetime-value').text(mind_object_data['datetime']);
+          $nodeInfoContainer.find('.mind-object-group-value').text(mind_object_data['group']);
           showNodeInfo();
         })
         .fail(function(_event) {

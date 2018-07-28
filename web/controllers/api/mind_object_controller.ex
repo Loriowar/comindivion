@@ -6,7 +6,12 @@ defmodule Comindivion.Api.MindObjectController do
   import Ecto.Query, only: [from: 2]
 
   def show(conn, %{"id" => id}) do
-    mind_object = conn |> current_user_query(MindObject) |> Repo.get!(id)
+    mind_objects_query = from m in current_user_query(conn, MindObject),
+                              left_join: p in assoc(m, :position),
+                              where: m.id == ^id,
+                              select: %{id: m.id, title: m.title, content: m.content, uri: m.uri, number: m.number, date: m.date, datetime: m.datetime, group: p.group}
+
+    mind_object = Repo.one(mind_objects_query)
     render(conn, "show.json", mind_object: mind_object)
   end
 

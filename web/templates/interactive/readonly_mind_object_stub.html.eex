@@ -26,4 +26,8 @@
       <div class="readonly-label">Datetime:</div>
       <div class="readonly-value mind-object-datetime-value">2018-05-04 12:44</div>
     </div>
+    <div class="readonly-row">
+      <div class="readonly-label">Group:</div>
+      <div class="readonly-value mind-object-group-value">None</div>
+    </div>
 </div>
