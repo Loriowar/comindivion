@@ -8,6 +8,20 @@ defmodule Comindivion.ViewHelper.CurrentUser do
   import Ecto.Query, only: [from: 2]
 
   @doc """
+  Return a boolean: is a user logged in or not
+  """
+  def current_user_exist?(conn) do
+    conn.assigns.current_user != nil
+  end
+
+  @doc """
+  Returns a current user object
+  """
+  def current_user(conn) do
+    conn.assigns.current_user
+  end
+
+  @doc """
   Returns an id of current user object
   """
   def current_user_id(conn) do
