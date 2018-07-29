@@ -325,7 +325,8 @@ export default function initializeVisInteractive(vis, awesomplete) {
     $.each(network.getSelectedNodes(), function( index, node_id) {
       groups.push(network_data['nodes'].get(node_id)['group']);
     });
-    let uniq_groups = groups.filter(function(value, index, self) {return self.indexOf(value) === index});
+    // First filter is an analog of Ruby `compact`
+    let uniq_groups = groups.filter(n => n).filter(function(value, index, self) {return self.indexOf(value) === index && value !== ''});
     if(uniq_groups.length === 1) {
       fillNodeGroupForm(uniq_groups[0]);
     }
@@ -347,7 +348,7 @@ export default function initializeVisInteractive(vis, awesomplete) {
         .done(function(ajax_data) {
           let groups = ajax_data['groups'];
           if(Array.isArray(groups)) {
-            awesomplete_input.list = groups;
+            awesomplete_input.list = groups.filter(function(value, index, self) {return value !== ''});
           }
         })
         .fail(function(_event) {
