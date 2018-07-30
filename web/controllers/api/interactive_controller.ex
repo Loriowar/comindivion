@@ -18,6 +18,6 @@ defmodule Comindivion.Api.InteractiveController do
                            select: %{id: sor.id, subject_id: sor.subject_id, object_id: sor.object_id, name: p.name}
     relations = Repo.all(relations_query)
 
-    render conn, "fetch.json", mind_objects: mind_objects, relations: relations
+    render conn, "index.json", mind_objects: mind_objects, relations: relations
   end
 end

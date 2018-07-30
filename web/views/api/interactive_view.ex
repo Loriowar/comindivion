@@ -1,7 +1,7 @@
 defmodule Comindivion.Api.InteractiveView do
   use Comindivion.Web, :view
 
-  def render("fetch.json", %{mind_objects: mind_objects, relations: relations}) do
+  def render("index.json", %{mind_objects: mind_objects, relations: relations}) do
     %{
       nodes: Enum.map(mind_objects, &mind_object_to_json/1),
       edges: Enum.map(relations, &relation_to_json/1)
