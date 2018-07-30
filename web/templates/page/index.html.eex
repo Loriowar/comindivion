@@ -32,6 +32,17 @@
       </ul>
     </li>
     <li>
+      Data manipulation
+      <ul>
+        <li>
+          <%= link "Export all to json", to: export_path(@conn, :index) %>
+        </li>
+        <li>
+          Import is in development...
+        </li>
+      </ul>
+    </li>
+    <li>
       Information
       <ul>
         <li>

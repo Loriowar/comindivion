@@ -46,6 +46,7 @@ defmodule Comindivion.Router do
     resources "/about", AboutController, only: [:index]
     resources "/users", UserController, only: [:show, :new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
+    resources "/export", ExportController, only: [:index]
   end
 
    # All API actions required a logged in user
