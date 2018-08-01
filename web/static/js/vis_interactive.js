@@ -130,7 +130,7 @@ export default function initializeVisInteractive(vis, awesomplete) {
   function centringAndSelectNode(network, node_id) {
     network.focus(node_id);
     network.selectNodes([node_id]);
-    network.fit();
+    network.focus(node_id, {scale: 1});
     fetchAndShowNodeInfo(node_id);
   }
 
