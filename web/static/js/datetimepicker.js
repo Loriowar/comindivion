@@ -1,4 +1,4 @@
-export default function initializeDatetimepickers() {
+export default function initializeDatetimepickers(flatpickr) {
   // TODO: Display a human-readable date
   let options = {
     // Default format for Ecto.DateTime.
@@ -8,6 +8,6 @@ export default function initializeDatetimepickers() {
     enableTime: true,
     enableSeconds: true,
     time_24hr: true
-  }
-  $('.datetimepicker').flatpickr(options);
+  };
+  flatpickr('.datetimepicker', options);
 }

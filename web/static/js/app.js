@@ -22,13 +22,14 @@ import "phoenix_html"
 
 import $ from "jquery";
 
+// This add flatpickr() to $ too
 import flatpickr from "flatpickr";
 
 import initializeSimpleDatepickers from "./simple_datepicker"
-initializeSimpleDatepickers();
+initializeSimpleDatepickers(flatpickr);
 
 import initializeDatetimepickers from "./datetimepicker"
-initializeDatetimepickers();
+initializeDatetimepickers(flatpickr);
 
 // import selectTwo from "select2";
 import select2 from 'select2';
