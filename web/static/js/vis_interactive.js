@@ -534,178 +534,176 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
 
   // Network initialization
 
-  if(container !== null) {
-    $.get( "api/i", function( data ) {
-      let nodes = new vis.DataSet(data['nodes']);
-      // Add direction to edges
-      let edges_data = data['edges'].map(
-          function(el) {
-            el['arrows'] = 'to';
-            return el;
-          });
-      let edges = new vis.DataSet(edges_data);
-      let network_data = {edges: edges, nodes: nodes};
+  $.get( "api/i", function( data ) {
+    let nodes = new vis.DataSet(data['nodes']);
+    // Add direction to edges
+    let edges_data = data['edges'].map(
+        function(el) {
+          el['arrows'] = 'to';
+          return el;
+        });
+    let edges = new vis.DataSet(edges_data);
+    let network_data = {edges: edges, nodes: nodes};
 
-      // Initial options required for apply nodes shape during initialization, otherwise for rendered nodes
-      // there shape setted in setOptions will be ignored
-      let initial_options = {
-        edges: {
-          font: {
-            size: 12
-          },
-          widthConstraint: {
-            maximum: 90
-          },
-          smooth: {
-            enabled: false
-          },
+    // Initial options required for apply nodes shape during initialization, otherwise for rendered nodes
+    // there shape setted in setOptions will be ignored
+    let initial_options = {
+      edges: {
+        font: {
+          size: 12
         },
-        nodes: {
-          shape: 'box',
-          margin: 12,
-          widthConstraint: {
-            maximum: 200
-          }
+        widthConstraint: {
+          maximum: 90
         },
-        physics: {
+        smooth: {
           enabled: false
         },
-        interaction: {
-          hover: true,
-          multiselect: true
+      },
+      nodes: {
+        shape: 'box',
+        margin: 12,
+        widthConstraint: {
+          maximum: 200
         }
-      };
-
-      // We must initialize network for using it within callbacks
-      let network = new vis.Network(container, network_data, initial_options);
-
-      let additional_options = {
-        manipulation: {
-          enabled: true,
-          addNode: function (data, callback) {
-            clearNodeForm();
-            bindNodeFormEvents(data, callback, '', network);
-            showNodeForm();
-          },
-          editNode: function (data, callback) {
-            clearNodeForm();
-            fetchAndFillNodeForm(data['id']);
-            bindNodeFormEvents(data, callback, data['id'], network);
-            showNodeForm();
-          },
-          deleteNode: function (data, callback) {
-            deleteNodes(data['nodes'], data, callback);
-          },
-          addEdge: function (data, callback) {
-            // Add direction to new edge
-            data['arrows'] = 'to';
-
-            clearEdgeForm();
-            bindEdgeFormEvents(data, callback, '');
-            showEdgeForm();
-          },
-          editEdge: {
-            editWithoutDrag: function (data, callback) {
-              clearEdgeForm();
-              fillEdgeForm(data['label']);
-              bindEdgeFormEvents(data, callback, data['id']);
-              showEdgeForm();
-            }
-          },
-          deleteEdge: function (data, callback) {
-            $.ajax({
-              type: "DELETE",
-              url: "api/subject_object_relations/" + data['edges'][0]})
-                .done(function(_ajax_data) {
-                  callback(data);
-                })
-                .fail(function(event) {
-                  notifyUserByEvent(event, 'subject_object_relation');
-                  callback(null);
-                });
-          },
-        }
-      };
-
-      // NOTE: setOptions doesn't set a shape of nodes (experimental fact)
-      network.setOptions($.extend(initial_options, additional_options));
-      network.redraw();
-
-      initMultiSelectByRectangleArea($(container), network, network_data['nodes']);
-
-      network.on("selectNode", function (params) {
-        if(params['nodes'].length === 1) {
-          let node_id = params['nodes'][0];
-          fetchAndShowNodeInfo(node_id);
-        }
-      });
-
-      network.on("deselectNode", function (_params) {
-        hideNodeInfo();
-      });
-
-      network.on("dragEnd", function (params) {
-        if(params['nodes'].length > 0) {
-          saveNodePositions(params['nodes'], network);
-        }
-      });
-
-      // Select node with id from anchor
-      centringAndSelectNodeByAnchor(network);
-      // Add event on anchor change
-      if ("onhashchange" in window) { // old browsers doesn't support this event
-        window.onhashchange = function () {
-          centringAndSelectNodeByAnchor(network);
-        }
+      },
+      physics: {
+        enabled: false
+      },
+      interaction: {
+        hover: true,
+        multiselect: true
       }
+    };
 
-      // Initialize search form
+    // We must initialize network for using it within callbacks
+    let network = new vis.Network(container, network_data, initial_options);
 
-      let $searchForm = $('#search-form');
-      $searchForm.submit(function(event) {
-        let form_data_hash = {};
-        let form_data_array = $(event.target).serializeArray();
-        $(form_data_array).each(function(i, field){
-          form_data_hash[field.name] = field.value;
-        });
+    let additional_options = {
+      manipulation: {
+        enabled: true,
+        addNode: function (data, callback) {
+          clearNodeForm();
+          bindNodeFormEvents(data, callback, '', network);
+          showNodeForm();
+        },
+        editNode: function (data, callback) {
+          clearNodeForm();
+          fetchAndFillNodeForm(data['id']);
+          bindNodeFormEvents(data, callback, data['id'], network);
+          showNodeForm();
+        },
+        deleteNode: function (data, callback) {
+          deleteNodes(data['nodes'], data, callback);
+        },
+        addEdge: function (data, callback) {
+          // Add direction to new edge
+          data['arrows'] = 'to';
 
-        clearSearchResult();
-        searchByNodeName(network, form_data_hash['q']);
-        return false;
-      });
-
-      $('.search-result-container').on('click', '.link-to-locate-node-on-network', function(event) {
-        let node_id = event.target.dataset.nodeId;
-        centringAndSelectNode(network, node_id);
-        fetchAndShowNodeInfo(node_id);
-      });
-
-      // Additional network manipulation actions
-
-      let MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
-      let list = document.querySelector('.vis-manipulation');
-
-      let observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-          if(mutation.type === 'childList' && mutation.addedNodes.length === 1 && network.getSelectedNodes().length > 0) {
-            if(mutation.addedNodes[0].classList.contains('vis-delete')) {
-              $('<div class="vis-button vis-edit vis-edit-group" style="touch-action: pan-y; -moz-user-select: none;"><div class="vis-label">Edit Group</div></div><div class="vis-separator-line"></div>').insertBefore($('.vis-manipulation').find('.vis-button.vis-delete'));
-            }
+          clearEdgeForm();
+          bindEdgeFormEvents(data, callback, '');
+          showEdgeForm();
+        },
+        editEdge: {
+          editWithoutDrag: function (data, callback) {
+            clearEdgeForm();
+            fillEdgeForm(data['label']);
+            bindEdgeFormEvents(data, callback, data['id']);
+            showEdgeForm();
           }
-        });
-      });
+        },
+        deleteEdge: function (data, callback) {
+          $.ajax({
+            type: "DELETE",
+            url: "api/subject_object_relations/" + data['edges'][0]})
+              .done(function(_ajax_data) {
+                callback(data);
+              })
+              .fail(function(event) {
+                notifyUserByEvent(event, 'subject_object_relation');
+                callback(null);
+              });
+        },
+      }
+    };
 
-      observer.observe(list, {childList: true});
+    // NOTE: setOptions doesn't set a shape of nodes (experimental fact)
+    network.setOptions($.extend(initial_options, additional_options));
+    network.redraw();
 
-      let awesomplete_node_group_input = initNodeGroupAwesompleteInput();
+    initMultiSelectByRectangleArea($(container), network, network_data['nodes']);
 
-      $('.vis-manipulation').on('click', '.vis-edit-group', function(event) {
-        fetchAndFillNodeGroupForm(network, network_data);
-        fetchAndFillNodeGroupInput(awesomplete_node_group_input);
-        showNodeGroupForm();
-      });
-
-      bindNodeGroupFormEvent(network, network_data);
+    network.on("selectNode", function (params) {
+      if(params['nodes'].length === 1) {
+        let node_id = params['nodes'][0];
+        fetchAndShowNodeInfo(node_id);
+      }
     });
-  }
+
+    network.on("deselectNode", function (_params) {
+      hideNodeInfo();
+    });
+
+    network.on("dragEnd", function (params) {
+      if(params['nodes'].length > 0) {
+        saveNodePositions(params['nodes'], network);
+      }
+    });
+
+    // Select node with id from anchor
+    centringAndSelectNodeByAnchor(network);
+    // Add event on anchor change
+    if ("onhashchange" in window) { // old browsers doesn't support this event
+      window.onhashchange = function () {
+        centringAndSelectNodeByAnchor(network);
+      }
+    }
+
+    // Initialize search form
+
+    let $searchForm = $('#search-form');
+    $searchForm.submit(function(event) {
+      let form_data_hash = {};
+      let form_data_array = $(event.target).serializeArray();
+      $(form_data_array).each(function(i, field){
+        form_data_hash[field.name] = field.value;
+      });
+
+      clearSearchResult();
+      searchByNodeName(network, form_data_hash['q']);
+      return false;
+    });
+
+    $('.search-result-container').on('click', '.link-to-locate-node-on-network', function(event) {
+      let node_id = event.target.dataset.nodeId;
+      centringAndSelectNode(network, node_id);
+      fetchAndShowNodeInfo(node_id);
+    });
+
+    // Additional network manipulation actions
+
+    let MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
+    let list = document.querySelector('.vis-manipulation');
+
+    let observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if(mutation.type === 'childList' && mutation.addedNodes.length === 1 && network.getSelectedNodes().length > 0) {
+          if(mutation.addedNodes[0].classList.contains('vis-delete')) {
+            $('<div class="vis-button vis-edit vis-edit-group" style="touch-action: pan-y; -moz-user-select: none;"><div class="vis-label">Edit Group</div></div><div class="vis-separator-line"></div>').insertBefore($('.vis-manipulation').find('.vis-button.vis-delete'));
+          }
+        }
+      });
+    });
+
+    observer.observe(list, {childList: true});
+
+    let awesomplete_node_group_input = initNodeGroupAwesompleteInput();
+
+    $('.vis-manipulation').on('click', '.vis-edit-group', function(event) {
+      fetchAndFillNodeGroupForm(network, network_data);
+      fetchAndFillNodeGroupInput(awesomplete_node_group_input);
+      showNodeGroupForm();
+    });
+
+    bindNodeGroupFormEvent(network, network_data);
+  });
 }
