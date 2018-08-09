@@ -5,6 +5,7 @@ defmodule Comindivion.Router do
     plug Guardian.Plug.VerifySession
     plug Guardian.Plug.LoadResource
     plug Comindivion.Auth.CurrentUser
+    plug Comindivion.Auth.CurrentUserToken
   end
 
   pipeline :check_auth do
