@@ -18,8 +18,6 @@ import "phoenix_html"
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-// import socket from "./socket"
-
 import $ from "jquery";
 
 // This add flatpickr() to $ too
@@ -43,5 +41,12 @@ initializeSimpleSelect2();
 import vis from "vis";
 import awesomplete from "awesomplete";
 
+import socket from "./socket"
 import initializeVisInteractive from "./vis_interactive"
-initializeVisInteractive(vis, awesomplete);
+import initializeInteractiveChannel from "./interactive_channel"
+let container = document.getElementById('interactive');
+if(container !== null) {
+  // Dummy for a while
+  let ichannel = initializeInteractiveChannel(socket);
+  initializeVisInteractive(vis, awesomplete, container);
+}

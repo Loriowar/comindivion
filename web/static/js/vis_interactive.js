@@ -1,4 +1,4 @@
-export default function initializeVisInteractive(vis, awesomplete) {
+export default function initializeVisInteractive(vis, awesomplete, container) {
   // Node processing
 
   let nodeFormContainerSelector = '#editable-mind-object-container';
@@ -533,8 +533,6 @@ export default function initializeVisInteractive(vis, awesomplete) {
   };
 
   // Network initialization
-
-  let container = document.getElementById('interactive');
 
   if(container !== null) {
     $.get( "api/i", function( data ) {
