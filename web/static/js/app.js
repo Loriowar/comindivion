@@ -44,9 +44,9 @@ import awesomplete from "awesomplete";
 import socket from "./socket"
 import initializeVisInteractive from "./vis_interactive"
 import initializeInteractiveChannel from "./interactive_channel"
-let container = document.getElementById('interactive');
-if(container !== null) {
+let interactive_container = document.getElementById('interactive');
+if(interactive_container !== null) {
   // Dummy for a while
   let ichannel = initializeInteractiveChannel(socket);
-  initializeVisInteractive(vis, awesomplete, container);
+  let interactive_data = initializeVisInteractive(vis, awesomplete, interactive_container);
 }
