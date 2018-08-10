@@ -46,7 +46,6 @@ import initializeVisInteractive from "./vis_interactive"
 import initializeInteractiveChannel from "./interactive_channel"
 let interactive_container = document.getElementById('interactive');
 if(interactive_container !== null) {
-  // Dummy for a while
   let interactive_data = initializeVisInteractive(vis, awesomplete, interactive_container);
-  // let ichannel = initializeInteractiveChannel(socket, interactive_data['network'], interactive_data['network_data']['nodes'], interactive_data['network_data']['edges']);
+  let ichannel = initializeInteractiveChannel(socket, interactive_data['network'], interactive_data['network_data']['nodes'], interactive_data['network_data']['edges']);
 }

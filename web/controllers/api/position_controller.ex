@@ -15,7 +15,14 @@ defmodule Comindivion.Api.PositionController do
 
       case Repo.insert(position, on_conflict: :replace_all, conflict_target: :mind_object_id) do
         {:ok, position} ->
-          render(conn, "show.json", position: position)
+          result_data = %{position: position}
+
+          Comindivion.Endpoint.broadcast(
+            "interactive:#{current_user_id(conn)}",
+            "interactive:network:node_position:update",
+            Comindivion.Serializer.Interactive.Position.json(result_data))
+
+          render(conn, "show.json", result_data)
         {:error, changeset} ->
           conn |> put_status(422) |> render("show.json", changeset: changeset)
       end
