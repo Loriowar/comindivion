@@ -10,16 +10,24 @@
       </ul>
     </li>
     <li>
+      Information
+      <ul>
+        <li>
+          <%= link "About project and how to start usage", to: about_path(@conn, :index) %>
+        </li>
+      </ul>
+    </li>
+    <li>
       Objects
       <ul>
           <li>
-            <%= link "Mind Objects", to: mind_object_path(@conn, :index) %>
+            Mind Objects - this is a main brick of this app. It looks like a rectangle block on the interactive view.
           </li>
           <li>
-            <%= link "Predicates", to: predicate_path(@conn, :index) %>
+            <%= link "Predicates", to: predicate_path(@conn, :index) %> - this is a name of the relations on the interactive view.
           </li>
           <li>
-            <%= link "Relations", to: subject_object_relation_path(@conn, :index) %>
+            Relations - this is a binding between Mind Objects.
           </li>
       </ul>
     </li>
@@ -27,7 +35,7 @@
       Statistic
       <ul>
         <li>
-          <%= link "Similar Mind Objects", to: similarity_path(@conn, :index) %>
+          <%= link "Similar Mind Objects", to: similarity_path(@conn, :index) %> - list of similar objects based on title and content fields.
         </li>
       </ul>
     </li>
@@ -39,14 +47,6 @@
         </li>
         <li>
           Import is in development...
-        </li>
-      </ul>
-    </li>
-    <li>
-      Information
-      <ul>
-        <li>
-          <%= link "About project and how to start usage", to: about_path(@conn, :index) %>
         </li>
       </ul>
     </li>
