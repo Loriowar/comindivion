@@ -580,6 +580,7 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
           return el;
         });
     edges.add(edges_data);
+    network.fit();
   });
 
   let additional_options = {
