@@ -24,9 +24,15 @@ export default function initializeInteractiveChannel(socket, network, nodes, edg
   }
 
   function updateNodePosition(data, nodes) {
-    if(nodes.get(data["position"]["mind_object_id"])) {
+    if(!!nodes.get(data["position"]["mind_object_id"])) {
       let node_data = positionDataToNetworkFormat(data);
       nodes.update(node_data);
+    }
+  }
+
+  function deleteNode(node_id, nodes) {
+    if(!!nodes.get(node_id)) {
+      nodes.remove(node_id);
     }
   }
 
@@ -78,18 +84,22 @@ export default function initializeInteractiveChannel(socket, network, nodes, edg
       nodes.update(node_data);
     }
   });
-  //
-  // ichannel.on("interactive:network:node:delete", (data) =>{
-  //   nodes.remove(data);
-  // });
-  //
-  // ichannel.on("interactive:network:nodes:delete", (data) =>{
-  //   nodes.remove(data);
-  // });
-  //
-  // ichannel.on("interactive:network:edge:create", (data) =>{
-  //   nodes.remove(data);
-  // });
+
+  ichannel.on("interactive:network:node:delete", (data) =>{
+    console.log('Node delete message');
+    deleteNode(data["mind_object"]["id"], nodes);
+  });
+
+  ichannel.on("interactive:network:nodes:delete", (data) =>{
+    console.log('Nodes delete message');
+    $.each(data["mind_objects"], function( index, value ) {
+      deleteNode(value["mind_object"]["id"], nodes);
+    });
+  });
+
+  ichannel.on("interactive:network:edge:create", (data) =>{
+    nodes.remove(data);
+  });
   //
   // ichannel.on("interactive:network:edge:update", (data) =>{
   //   nodes.remove(data);
@@ -98,6 +108,7 @@ export default function initializeInteractiveChannel(socket, network, nodes, edg
   // ichannel.on("interactive:network:edge:delete", (data) =>{
   //   nodes.remove(data);
   // });
+
   ichannel.join()
       .receive("ok", resp => {
         console.log("Joined successfully", resp)
