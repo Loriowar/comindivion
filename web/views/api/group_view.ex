@@ -2,13 +2,7 @@ defmodule Comindivion.Api.GroupView do
   use Comindivion.Web, :view
 
   def render("show.json", %{positions: positions}) do
-    Enum.map(positions,
-      fn(position) ->
-        %{
-          position: position
-        }
-      end
-    )
+    Comindivion.Serializer.Interactive.Position.json(%{positions: positions})
   end
 
   def render("show.json", %{groups: groups}) do

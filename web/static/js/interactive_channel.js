@@ -75,18 +75,6 @@ export default function initializeInteractiveChannel(socket, network, nodes, edg
     }
   });
 
-  ichannel.on("interactive:network:node_position:update", (data) =>{
-    console.log('Node position update message');
-    updateNodePosition(data, nodes);
-  });
-
-  ichannel.on("interactive:network:node_positions:update", (data) =>{
-    console.log('Node positions update message');
-    $.each(data["positions"], function( index, value ) {
-      updateNodePosition(value, nodes);
-    });
-  });
-
   ichannel.on("interactive:network:node:update", (data) =>{
     console.log('Node update message');
     if(!!nodes.get(data["mind_object"]["id"])) {
@@ -104,6 +92,18 @@ export default function initializeInteractiveChannel(socket, network, nodes, edg
     console.log('Nodes delete message');
     $.each(data["mind_objects"], function( index, value ) {
       deleteNode(value["mind_object"]["id"], nodes);
+    });
+  });
+
+  ichannel.on("interactive:network:node_position:update", (data) =>{
+    console.log('Node position update message');
+    updateNodePosition(data, nodes);
+  });
+
+  ichannel.on("interactive:network:node_positions:update", (data) =>{
+    console.log('Node positions update message');
+    $.each(data["positions"], function( index, value ) {
+      updateNodePosition(value, nodes);
     });
   });
 
@@ -129,6 +129,13 @@ export default function initializeInteractiveChannel(socket, network, nodes, edg
     if(!!edges.get(edge_id)) {
       edges.remove(edge_id);
     }
+  });
+
+  ichannel.on("interactive:network:node_groups:update", (data) =>{
+    console.log('Node groups update message');
+    $.each(data["positions"], function( index, value ) {
+      updateNodePosition(value, nodes);
+    });
   });
 
   ichannel.join()
