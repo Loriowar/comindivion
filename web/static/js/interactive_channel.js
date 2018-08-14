@@ -1,6 +1,21 @@
 export default function initializeInteractiveChannel(socket, network, nodes, edges) {
   let current_user_id = $('#current-user-id').val();
 
+  function positionDataToNetworkFormat(data) {
+    return {
+      id: data["position"]["mind_object_id"],
+      x: data["position"]["x"],
+      y: data["position"]["y"]
+    }
+  }
+
+  function updateNodePosition(data, nodes) {
+    if(nodes.get(data["position"]["mind_object_id"])) {
+      let node_data = positionDataToNetworkFormat(data);
+      nodes.update(node_data);
+    }
+  }
+
   // Now that you are connected, you can join channels with a topic:
   let ichannel = socket.channel("interactive:" + current_user_id, {});
 
@@ -36,23 +51,15 @@ export default function initializeInteractiveChannel(socket, network, nodes, edg
 
   ichannel.on("interactive:network:node_position:update", (data) =>{
     console.log('Node position update message');
-    if(nodes.get(data["position"]["mind_object_id"])) {
-      console.log(data);
-      let node_data =
-          {
-            id: data["position"]["mind_object_id"],
-            x: data["position"]["x"],
-            y: data["position"]["y"],
-            group: data["position"]["group"]
-          };
-      console.log(node_data);
-      nodes.update(node_data);
-    }
+    updateNodePosition(data, nodes);
   });
 
-  // ichannel.on("interactive:network:node_positions:update", (data) =>{
-  //   nodes.update(data);
-  // });
+  ichannel.on("interactive:network:node_positions:update", (data) =>{
+    console.log('Node positions update message');
+    $.each(data["positions"], function( index, value ) {
+      updateNodePosition(value, nodes);
+    });
+  });
   //
   // ichannel.on("interactive:network:nodes:update", (data) =>{
   //   nodes.update(data);

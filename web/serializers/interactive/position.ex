@@ -6,13 +6,15 @@ defmodule Comindivion.Serializer.Interactive.Position do
   end
 
   def json(%{positions: positions}) do
-    Enum.map(positions,
-      fn(position) ->
-        %{
-          position: position
-        }
-      end
-    )
+    %{positions:
+      Enum.map(positions,
+        fn(position) ->
+          %{
+            position: position
+          }
+        end
+      )
+    }
   end
 
   def json(%{changeset: changeset}) do

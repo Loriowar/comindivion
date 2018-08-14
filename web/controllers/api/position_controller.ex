@@ -62,7 +62,14 @@ defmodule Comindivion.Api.PositionController do
 
     case result do
       {:ok, multi_position_result }  ->
-        render(conn, "show.json", positions: Map.values(multi_position_result))
+        result_data = %{positions: Map.values(multi_position_result)}
+
+        Comindivion.Endpoint.broadcast(
+          "interactive:#{current_user_id(conn)}",
+          "interactive:network:node_positions:update",
+          Comindivion.Serializer.Interactive.Position.json(result_data))
+
+        render(conn, "show.json", result_data)
       {:error, _, changeset, _ } ->
         render(conn, "show.json", changeset: changeset)
     end
