@@ -28,7 +28,14 @@ defmodule Comindivion.Api.GroupController do
     {result_count, positions} = Repo.update_all(positions_query, [set: [group: group]], [returning: true])
 
     if result_count == expected_count do
-      render(conn, "show.json", positions: positions)
+      result_data = %{positions: positions}
+
+      Comindivion.Endpoint.broadcast(
+        "interactive:#{current_user_id(conn)}",
+        "interactive:network:node_groups:update",
+        Comindivion.Serializer.Interactive.Position.json(result_data))
+
+      render(conn, "show.json", result_data)
     else
       # TODO: try to sent some usable error message
       conn |> put_status(422) |> text("Unprocessable entity")
