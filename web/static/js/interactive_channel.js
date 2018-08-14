@@ -2,10 +2,24 @@ export default function initializeInteractiveChannel(socket, network, nodes, edg
   let current_user_id = $('#current-user-id').val();
 
   function positionDataToNetworkFormat(data) {
-    return {
+    let node_data = {
       id: data["position"]["mind_object_id"],
       x: data["position"]["x"],
       y: data["position"]["y"]
+    };
+
+    // Network badly handle a group with `null` value
+    if(!!data["position"]["group"]) {
+      node_data["group"] = data["position"]["group"];
+    }
+
+    return node_data;
+  }
+
+  function mindObjectDataToNetworkFormat(data) {
+    return {
+      id: data["mind_object"]["id"],
+      label: data["mind_object"]["title"]
     }
   }
 
@@ -40,11 +54,7 @@ export default function initializeInteractiveChannel(socket, network, nodes, edg
   ichannel.on("interactive:network:node:create", (data) =>{
     console.log('Node create message');
     if(!nodes.get(data["mind_object"]["id"])) {
-      let node_data =
-          {
-            id: data["mind_object"]["id"],
-            label: data["mind_object"]["title"]
-          };
+      let node_data = mindObjectDataToNetworkFormat(data);
       nodes.add(node_data);
     }
   });
@@ -60,15 +70,34 @@ export default function initializeInteractiveChannel(socket, network, nodes, edg
       updateNodePosition(value, nodes);
     });
   });
+
+  ichannel.on("interactive:network:node:update", (data) =>{
+    console.log('Node update message');
+    if(!!nodes.get(data["mind_object"]["id"])) {
+      let node_data = mindObjectDataToNetworkFormat(data);
+      nodes.update(node_data);
+    }
+  });
   //
-  // ichannel.on("interactive:network:nodes:update", (data) =>{
-  //   nodes.update(data);
+  // ichannel.on("interactive:network:node:delete", (data) =>{
+  //   nodes.remove(data);
   // });
   //
   // ichannel.on("interactive:network:nodes:delete", (data) =>{
   //   nodes.remove(data);
   // });
-
+  //
+  // ichannel.on("interactive:network:edge:create", (data) =>{
+  //   nodes.remove(data);
+  // });
+  //
+  // ichannel.on("interactive:network:edge:update", (data) =>{
+  //   nodes.remove(data);
+  // });
+  //
+  // ichannel.on("interactive:network:edge:delete", (data) =>{
+  //   nodes.remove(data);
+  // });
   ichannel.join()
       .receive("ok", resp => {
         console.log("Joined successfully", resp)
