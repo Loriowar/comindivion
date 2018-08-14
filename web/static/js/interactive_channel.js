@@ -36,6 +36,16 @@ export default function initializeInteractiveChannel(socket, network, nodes, edg
     }
   }
 
+  function edgeDataToNetworkFormat(data) {
+    return {
+      id: data["subject_object_relation"]["id"],
+      label: data["subject_object_relation"]["name"],
+      from: data["subject_object_relation"]["subject_id"],
+      to: data["subject_object_relation"]["object_id"],
+      arrows: "to"
+    };
+  }
+
   // Now that you are connected, you can join channels with a topic:
   let ichannel = socket.channel("interactive:" + current_user_id, {});
 
@@ -98,16 +108,28 @@ export default function initializeInteractiveChannel(socket, network, nodes, edg
   });
 
   ichannel.on("interactive:network:edge:create", (data) =>{
-    nodes.remove(data);
+    console.log('Edge create message');
+    if(!edges.get(data["subject_object_relation"]["id"])) {
+      let edge_data = edgeDataToNetworkFormat(data);
+      edges.add(edge_data);
+    }
   });
-  //
-  // ichannel.on("interactive:network:edge:update", (data) =>{
-  //   nodes.remove(data);
-  // });
-  //
-  // ichannel.on("interactive:network:edge:delete", (data) =>{
-  //   nodes.remove(data);
-  // });
+
+  ichannel.on("interactive:network:edge:update", (data) =>{
+    console.log('Edge update message');
+    if(!!edges.get(data["subject_object_relation"]["id"])) {
+      let edge_data = edgeDataToNetworkFormat(data);
+      edges.update(edge_data);
+    }
+  });
+
+  ichannel.on("interactive:network:edge:delete", (data) =>{
+    console.log('Edge delete message');
+    let edge_id = data["subject_object_relation"]["id"];
+    if(!!edges.get(edge_id)) {
+      edges.remove(edge_id);
+    }
+  });
 
   ichannel.join()
       .receive("ok", resp => {
