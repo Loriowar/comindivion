@@ -6,13 +6,15 @@ defmodule Comindivion.Serializer.Interactive.MindObject do
   end
 
   def json(%{mind_objects: mind_objects}) do
-    Enum.map(mind_objects,
-      fn(mind_object) ->
-        %{
-          mind_object: mind_object
-        }
-      end
-    )
+    %{mind_objects:
+      Enum.map(mind_objects,
+        fn(mind_object) ->
+          %{
+            mind_object: mind_object
+          }
+        end
+      )
+    }
   end
 
   def json(%{changeset: changeset}) do

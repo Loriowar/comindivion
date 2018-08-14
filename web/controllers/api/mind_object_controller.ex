@@ -57,7 +57,14 @@ defmodule Comindivion.Api.MindObjectController do
 
     case Repo.delete(mind_object) do
       {:ok, mind_object} ->
-        render(conn, "show.json", mind_object: mind_object)
+        result_data = %{mind_object: mind_object}
+
+        Comindivion.Endpoint.broadcast(
+          "interactive:#{current_user_id(conn)}",
+          "interactive:network:node:delete",
+          Comindivion.Serializer.Interactive.MindObject.json(result_data))
+
+        render(conn, "show.json", result_data)
       {:error, changeset} ->
         conn |> put_status(422) |> render("show.json", changeset: changeset)
     end
@@ -72,6 +79,13 @@ defmodule Comindivion.Api.MindObjectController do
     {result_count, mind_objects} = Repo.delete_all(mind_objects_query, returning: true)
 
     if result_count == expected_count do
+      result_data = %{mind_objects: mind_objects}
+
+      Comindivion.Endpoint.broadcast(
+        "interactive:#{current_user_id(conn)}",
+        "interactive:network:nodes:delete",
+        Comindivion.Serializer.Interactive.MindObject.json(result_data))
+
       render(conn, "show.json", mind_objects: mind_objects)
     else
       # TODO: try to sent some usable error message
