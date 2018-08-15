@@ -1,4 +1,4 @@
-defmodule Comindivion.Service.Interactive.NetworkInitializer do
+defmodule Comindivion.Service.Interactive.NetworkInitializeData do
   alias Comindivion.MindObject
   alias Comindivion.SubjectObjectRelation
   alias Comindivion.Predicate
@@ -19,6 +19,6 @@ defmodule Comindivion.Service.Interactive.NetworkInitializer do
                            select: %{id: sor.id, subject_id: sor.subject_id, object_id: sor.object_id, name: p.name}
     relations = Repo.all(relations_query)
 
-    Comindivion.Serializer.Interactive.Network.json(%{mind_objects: mind_objects, relations: relations})
+    %{mind_objects: mind_objects, relations: relations}
   end
 end

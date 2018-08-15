@@ -13,7 +13,9 @@ defmodule Comindivion.InteractiveChannel do
 
   # Works together with message processing from 'web/static/js/interactive_channel.js'
   def handle_info(:after_join, socket) do
-    network_data = Comindivion.Service.Interactive.NetworkInitializer.call(%{current_user: socket.assigns.current_user})
+    network_data =
+      Comindivion.Service.Interactive.NetworkInitializeData.call(%{current_user: socket.assigns.current_user})
+      |> Comindivion.Serializer.Interactive.Network.json
     push(socket, "interactive:network:initialize", network_data)
     {:noreply, socket} # :noreply
   end
