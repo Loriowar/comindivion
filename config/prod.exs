@@ -14,6 +14,8 @@ use Mix.Config
 config :comindivion, Comindivion.Endpoint,
   http: [ip: {127,0,0,1}, port: {:system, "PORT"}],
   url: [host: "localhost", port: {:system, "PORT"}],
+  # TODO: make this option configurable, preferable in runtime
+  check_origin: false,
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
   root: ".",
