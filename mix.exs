@@ -61,8 +61,7 @@ defmodule Comindivion.Mixfile do
       {:comeonin, "~> 4.0"},
       {:bcrypt_elixir, "~> 0.12"},
       # NOTE: looks like this is not a production dependencies
-      {:distillery, "~> 2.0", runtime: false},
-      {:elixir_make, "~> 0.4", runtime: false}
+      {:distillery, "~> 2.0", runtime: false}
     ]
   end
 
