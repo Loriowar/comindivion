@@ -1,4 +1,4 @@
-defmodule Comindivion.Repo.Migrations.AddUserIdToSubjectObjectRelation do
+defmodule Comindivion.Repo.Migrations.AddGroupToPosition do
   use Ecto.Migration
 
   def change do
