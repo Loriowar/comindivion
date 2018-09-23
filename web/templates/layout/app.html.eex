@@ -56,5 +56,8 @@
       <script async src='https://www.google-analytics.com/analytics.js'></script>
       <!-- End Google Analytics -->
     <% end %>
+    <div class="application-version">
+    Comindivion (version <%= Application.spec(:comindivion, :vsn) %>)
+    </div>
   </footer>
 </html>
