@@ -41,23 +41,25 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
     let $nodeForm = $(nodeFormContainerSelector).first('form');
     $nodeForm.submit(function(event) {
       let form_data = $(event.target).serializeArray();
+
+      // NOTE: if we update a record no needs to update a position, so, we make a different between create and
+      //       update by looking on an existence or absence of `id` argument
+      if(typeof network !== 'undefined' && id.length === 0) {
+        form_data.push({name: 'mind_object[position][x]', value: node_data['x']});
+        form_data.push({name: 'mind_object[position][y]', value: node_data['y']});
+      }
+
       $.post("api/mind_objects/" + id, form_data)
           .done(function(ajax_data) {
-            let node_position = {x: node_data['x'], y: node_data['y']};
-
             node_data['id'] = ajax_data['mind_object']['id'];
             node_data['label'] = ajax_data['mind_object']['title'];
 
             callback(node_data);
-            // NOTE: we can save a position only after successfully calling a network callback;
-            //       if we update a record no needs to update a position, so, we make a different between create and
-            //       update by looking on an existence or absence of `id` argument
-            if(typeof network !== 'undefined' && id.length === 0) {
-              saveNodePosition(node_data['id'], network, node_position);
-            }
+
             hideNodeForm();
             clearNodeForm();
 
+            // Update a node info if it was opened during an edit session
             let selected_nodes = network.getSelectedNodes();
             if (selected_nodes.length === 1 && selected_nodes[0] === id) {
               fetchAndShowNodeInfo(selected_nodes[0]);
@@ -89,22 +91,6 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
         })
         .fail(function(event){
           notifyUser();
-        });
-  }
-
-  // `node_position` needs to make a workaround for a bug with wrong position from `getPositions` in case of a new node
-  function saveNodePosition(node_id, network, raw_node_position = {}) {
-    let node_position = $.isEmptyObject(raw_node_position) ? network.getPositions(node_id)[node_id] : raw_node_position;
-    let position_data = [
-      {name: 'position[x]', value: node_position['x']},
-      {name: 'position[y]', value: node_position['y']},
-    ];
-    $.post("api/positions/" + node_id, position_data)
-        .done(function (ajax_data) {
-          console.log('Position saved');
-        })
-        .fail(function (event) {
-          notifyUserByEvent(event, 'position');
         });
   }
 

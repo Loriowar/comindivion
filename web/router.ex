@@ -61,7 +61,6 @@ defmodule Comindivion.Router do
 
     # Crutches for simplify construction of a request into js
     post "/mind_objects/:id", MindObjectController, :update
-    post "/positions/:mind_object_id", PositionController, :update
 
     patch "/positions", PositionController, :bulk_update
 

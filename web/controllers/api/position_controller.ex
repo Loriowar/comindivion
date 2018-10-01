@@ -8,29 +8,6 @@ defmodule Comindivion.Api.PositionController do
 
   # NOTE: if node created on interactive view it already has position,
   #       otherwise there is no position for node and we must create it
-  def update(conn, %{"mind_object_id" => mind_object_id, "position" => position_params}) do
-    mind_object_user_id = Repo.get!(MindObject, mind_object_id).user_id
-    if mind_object_user_id == current_user_id(conn) do
-      position = %Position{mind_object_id: mind_object_id} |> Position.changeset(position_params)
-
-      case Repo.insert(position, on_conflict: :replace_all, conflict_target: :mind_object_id) do
-        {:ok, position} ->
-          result_data = %{position: position}
-
-          Comindivion.Endpoint.broadcast(
-            "interactive:#{current_user_id(conn)}",
-            "interactive:network:node_position:update",
-            Comindivion.Serializer.Interactive.Position.json(result_data))
-
-          render(conn, "show.json", result_data)
-        {:error, changeset} ->
-          conn |> put_status(422) |> render("show.json", changeset: changeset)
-      end
-    else
-      conn |> put_status(422) |> text("Unprocessable entity")
-    end
-  end
-
   def bulk_update(conn, %{"mind_objects" => mind_objects}) do
     mind_object_ids = Map.keys(mind_objects)
     allowed_mind_object_ids =
