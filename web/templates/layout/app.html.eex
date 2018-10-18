@@ -13,21 +13,28 @@
 
   <header class="header">
     <nav role="navigation">
-      <ul class="nav nav-pills pull-right">
+      <div>
         <%= if @current_user do %>
           <input type="hidden" name="user_id" value="<%= @current_user.id %>" id="current-user-id">
           <input type="hidden" name="user_token" value="<%= @current_user_token %>" id="current-user-token">
-          <li><%= link @current_user.email, to: user_path(@conn, :show, @current_user) %></li>
-          <li>
-            <%= link "Sign out", to: session_path(@conn, :delete,
+          <span>
+            <%= link "Comindivion", to: page_path(@conn, :index) %>
+            |
+            <%= link @current_user.email, to: user_path(@conn, :show, @current_user) %>
+            (<%= link "Sign out", to: session_path(@conn, :delete,
                                                   @current_user),
-                                 method: "delete" %>
-          </li>
+                                 method: "delete" %>)
+          </span>
         <% else %>
-          <li><%= link "Register", to: user_path(@conn, :new) %></li>
-          <li><%= link "Sign in", to: session_path(@conn, :new) %></li>
+          <span>
+            <%= link "Comindivion", to: page_path(@conn, :index) %>
+            |
+            <%= link "Register", to: user_path(@conn, :new) %>
+            or
+            <%= link "Sign in", to: session_path(@conn, :new) %>
+          </span>
         <% end %>
-      </ul>
+      </div>
     </nav>
     <span class="logo"></span>
   </header>

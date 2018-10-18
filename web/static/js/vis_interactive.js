@@ -3,6 +3,9 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
 
   let nodeFormContainerSelector = '#editable-mind-object-container';
   let nodeInfoContainerSelector = '#readonly-mind-object-container';
+  let nodeActionsContainerSelector = '.flex-input-column';
+
+  let amountVisibleActions = 0;
 
   function fillNodeForm(data) {
     let $nodeForm = $(nodeFormContainerSelector);
@@ -18,22 +21,42 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
     $nodeForm.find('#mind-object-cancel').first().off('click');
   }
 
+  function showActionContainerContentCall() {
+    amountVisibleActions += 1;
+    if(amountVisibleActions === 1) {
+      $(nodeActionsContainerSelector).show();
+    }
+  }
+
+  function hideActionContainerContentCall() {
+    if(amountVisibleActions > 0) {
+      amountVisibleActions -= 1;
+    }
+    if(amountVisibleActions === 0) {
+      $(nodeActionsContainerSelector).hide();
+    }
+  }
+
   // TODO: encapsulate hide/show methods into submit/cancel callbacks
   function showNodeInfo() {
+    showActionContainerContentCall();
     $(nodeInfoContainerSelector).show();
   }
 
   function hideNodeInfo() {
     $(nodeInfoContainerSelector).hide();
+    hideActionContainerContentCall();
   }
 
   // TODO: encapsulate hide/show methods into submit/cancel callbacks
   function showNodeForm() {
+    showActionContainerContentCall();
     $(nodeFormContainerSelector).show();
   }
 
   function hideNodeForm() {
     $(nodeFormContainerSelector).hide();
+    hideActionContainerContentCall();
   }
 
   // TODO: add separate callbacks for submit and cancel with passing and internal processing of 'callback'
@@ -189,11 +212,13 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
 
   // TODO: encapsulate hide/show methods into submit/cancel callbacks
   function showEdgeForm() {
+    showActionContainerContentCall();
     $(edgeFormContainerSelector).show();
   }
 
   function hideEdgeForm() {
     $(edgeFormContainerSelector).hide();
+    hideActionContainerContentCall();
   }
 
   function clearEdgeForm() {
@@ -259,11 +284,13 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
 
   // TODO: encapsulate hide/show methods into submit/cancel callbacks
   function showNodeGroupForm() {
+    showActionContainerContentCall();
     $(nodeFormGroupContainerSelector).show();
   }
 
   function hideNodeGroupForm() {
     $(nodeFormGroupContainerSelector).hide();
+    hideActionContainerContentCall();
   }
 
   function bindNodeGroupFormEvent(network, network_data) {

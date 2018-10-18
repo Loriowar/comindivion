@@ -25,11 +25,11 @@
 }
 
 .flex-row .flex-interactive-column {
-  flex: 70%
+  flex: 7;
 }
 
 .flex-row .flex-input-column {
-  flex: 30%
+  flex: 3;
 }
 
 .flex-row .flex-input-column h2 {

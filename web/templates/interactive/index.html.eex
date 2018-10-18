@@ -10,14 +10,14 @@
   </h3>
 <% end %>
 
-<div id="search-container" class="">
+<div id="search-container">
   <%= render "search_form.html"%>
 </div>
 
 <div class="flex-row">
   <div id="interactive" class="flex-interactive-column"></div>
 
-  <div class="flex-input-column">
+  <div class="flex-input-column" style="display: none;">
     <div id="readonly-mind-object-container" style="display: none;">
       <h2>Mind Object info</h2>
       <%= render "readonly_mind_object_stub.html"%>
@@ -41,8 +41,6 @@
                                                       action: "",
                                                       predicates_for_select: @predicates_for_select %>
     </div>
-
-    <%= link "Back", to: "/" %>
   </div>
 
 </div>
