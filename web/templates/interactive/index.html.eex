@@ -1,46 +1,54 @@
-<h2>
-  Interactive Mind Map
-  <%= render "howto_tooltip.html" %>
-</h2>
+<div class="interactive-container">
+  <div class="flex-rows">
+    <div class="interactive-header-container">
+      <h2>
+        Interactive Mind Map
+        <%= render "howto_tooltip.html" %>
+      </h2>
 
-<%= if @is_predicates_blank do %>
-  <h3 class="no-predicates-warning">
-    You has no any Predicate. This means that you can't create edges on the network.
-    Please, create some predicates <%= link "here", to: predicate_path(@conn, :new) %>.
-  </h3>
-<% end %>
+      <%= if @is_predicates_blank do %>
+        <h3 class="no-predicates-warning">
+          You has no any Predicate. This means that you can't create edges on the network.
+          Please, create some predicates <%= link "here", to: predicate_path(@conn, :new) %>.
+        </h3>
+      <% end %>
 
-<div id="search-container">
-  <%= render "search_form.html"%>
-</div>
-
-<div class="flex-row">
-  <div id="interactive" class="flex-interactive-column"></div>
-
-  <div class="flex-input-column" style="display: none;">
-    <div id="readonly-mind-object-container" style="display: none;">
-      <h2>Mind Object info</h2>
-      <%= render "readonly_mind_object_stub.html"%>
+      <div id="search-container">
+        <%= render "search_form.html"%>
+      </div>
     </div>
 
-    <div id="editable-mind-object-container" style="display: none;">
-      <h2>Mind Object editor</h2>
-      <%= render "mind_object_form.html", changeset: @mind_object_changeset,
-                                          action: "" %>
-    </div>
+    <div class="flex-row">
+      <div class="flex-columns">
+        <div id="interactive"></div>
+        <div class="flex-interactive-column"></div>
 
-    <div id="editable-mind-object-group-container" style="display: none;">
-      <h2>Mind Object(s) Group editor</h2>
-      <%= render "mind_object_group_form.html", changeset: @position_changeset,
+        <div class="flex-input-column" style="display: none;">
+          <div id="editable-mind-object-container" style="display: none;">
+            <h2>Mind Object editor</h2>
+            <%= render "mind_object_form.html", changeset: @mind_object_changeset,
                                                 action: "" %>
-    </div>
+          </div>
 
-    <div id="editable-relation" style="display: none;">
-      <h2>Relation</h2>
-      <%= render "subject_object_relation_form.html", changeset: @subject_object_relation_changeset,
-                                                      action: "",
-                                                      predicates_for_select: @predicates_for_select %>
+          <div id="editable-relation" style="display: none;">
+            <h2>Relation</h2>
+            <%= render "subject_object_relation_form.html", changeset: @subject_object_relation_changeset,
+                                                            action: "",
+                                                            predicates_for_select: @predicates_for_select %>
+          </div>
+
+          <div id="editable-mind-object-group-container" style="display: none;">
+            <h2>Mind Object(s) Group editor</h2>
+            <%= render "mind_object_group_form.html", changeset: @position_changeset,
+                                                      action: "" %>
+          </div>
+
+          <div id="readonly-mind-object-container" style="display: none;">
+            <h2>Mind Object info</h2>
+            <%= render "readonly_mind_object_stub.html"%>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
 </div>

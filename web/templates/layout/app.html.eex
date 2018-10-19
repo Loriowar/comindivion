@@ -64,7 +64,7 @@
       <!-- End Google Analytics -->
     <% end %>
     <div class="application-version">
-    Comindivion (version <%= Application.spec(:comindivion, :vsn) %>)
+      Comindivion (version <%= Application.spec(:comindivion, :vsn) %>)
     </div>
   </footer>
 </html>

@@ -21,42 +21,36 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
     $nodeForm.find('#mind-object-cancel').first().off('click');
   }
 
-  function showActionContainerContentCall() {
-    amountVisibleActions += 1;
-    if(amountVisibleActions === 1) {
-      $(nodeActionsContainerSelector).show();
-    }
+  function showActionContainer() {
+    $(nodeActionsContainerSelector).show();
   }
 
-  function hideActionContainerContentCall() {
-    if(amountVisibleActions > 0) {
-      amountVisibleActions -= 1;
-    }
-    if(amountVisibleActions === 0) {
+  function hideActionContainer() {
+    if($(nodeActionsContainerSelector).children(':visible').length === 0) {
       $(nodeActionsContainerSelector).hide();
     }
   }
 
   // TODO: encapsulate hide/show methods into submit/cancel callbacks
   function showNodeInfo() {
-    showActionContainerContentCall();
+    showActionContainer();
     $(nodeInfoContainerSelector).show();
   }
 
   function hideNodeInfo() {
     $(nodeInfoContainerSelector).hide();
-    hideActionContainerContentCall();
+    hideActionContainer();
   }
 
   // TODO: encapsulate hide/show methods into submit/cancel callbacks
   function showNodeForm() {
-    showActionContainerContentCall();
+    showActionContainer();
     $(nodeFormContainerSelector).show();
   }
 
   function hideNodeForm() {
     $(nodeFormContainerSelector).hide();
-    hideActionContainerContentCall();
+    hideActionContainer();
   }
 
   // TODO: add separate callbacks for submit and cancel with passing and internal processing of 'callback'
@@ -212,13 +206,13 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
 
   // TODO: encapsulate hide/show methods into submit/cancel callbacks
   function showEdgeForm() {
-    showActionContainerContentCall();
+    showActionContainer();
     $(edgeFormContainerSelector).show();
   }
 
   function hideEdgeForm() {
     $(edgeFormContainerSelector).hide();
-    hideActionContainerContentCall();
+    hideActionContainer();
   }
 
   function clearEdgeForm() {
@@ -284,13 +278,13 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
 
   // TODO: encapsulate hide/show methods into submit/cancel callbacks
   function showNodeGroupForm() {
-    showActionContainerContentCall();
+    showActionContainer();
     $(nodeFormGroupContainerSelector).show();
   }
 
   function hideNodeGroupForm() {
     $(nodeFormGroupContainerSelector).hide();
-    hideActionContainerContentCall();
+    hideActionContainer();
   }
 
   function bindNodeGroupFormEvent(network, network_data) {
@@ -700,6 +694,10 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
     fetchAndShowNodeInfo(node_id);
   });
 
+  $('#search-clear-button').on('click', function(event) {
+    clearSearchResult();
+  });
+
   // Additional network manipulation actions
 
   let MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
@@ -726,6 +724,11 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
   });
 
   bindNodeGroupFormEvent(network, network_data);
+
+  // Hide a footer block with application version to extend the interactive working area
+  $( document ).ready(function(){
+    $('.application-version').hide();
+  });
 
   return {network: network, network_data: network_data};
 }
