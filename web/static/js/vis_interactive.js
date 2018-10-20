@@ -54,7 +54,7 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
   }
 
   // TODO: add separate callbacks for submit and cancel with passing and internal processing of 'callback'
-  function bindNodeFormEvents(node_data, callback = function(arg){}, id = '', network) {
+  function bindNodeFormEvents(node_data, callback = function(arg){}, id = '', network, nodes_dataset) {
     let $nodeForm = $(nodeFormContainerSelector).first('form');
     $nodeForm.submit(function(event) {
       let form_data = $(event.target).serializeArray();
@@ -72,6 +72,11 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
             node_data['label'] = ajax_data['mind_object']['title'];
 
             callback(node_data);
+            // Library bug: vis.js doesn't set a right position for a new nodes: its position properly stored in backend
+            //              and all params properly passed to `callback`, but doesn't works, so this is workaround
+            if(nodes_dataset !== 'undefined' && id.length === 0) {
+              nodes.update(node_data)
+            }
 
             hideNodeForm();
             clearNodeForm();
