@@ -2,7 +2,8 @@
   <div class="interactive-flex-content">
     <div class="form-group flex-row">
       <%= label f, :predicate_id, class: "control-label flex-label" %>
-      <%= select f, :predicate_id, @predicates_for_select, class: "form-control simple-select2 flex-value" %>
+      <%= select f, :predicate_id, @predicates_for_select, class: "form-control simple-select2 flex-value",
+                                                           id: "subject-object-relation-predicate-id" %>
     </div>
 
     <div class="form-group flex-controllers-container">

@@ -46,6 +46,7 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
   function showNodeForm() {
     showActionContainer();
     $(nodeFormContainerSelector).show();
+    $('#mind-object-title').focus();
   }
 
   function hideNodeForm() {
@@ -80,6 +81,12 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
 
             hideNodeForm();
             clearNodeForm();
+
+            // If a node just created, then select it and open an info tab
+            if(id.length === 0) {
+              network.selectNodes([node_data['id']]);
+              fetchAndShowNodeInfo(node_data['id']);
+            }
 
             // Update a node info if it was opened during an edit session
             let selected_nodes = network.getSelectedNodes();
@@ -197,6 +204,10 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
       data: {mind_object_ids: node_ids}})
         .done(function(_ajax_data) {
           callback(data);
+          // Close an info section if was removed a single node, i.e. hide an information about the deleted node
+          if(node_ids.length === 1) {
+            hideNodeInfo();
+          }
         })
         .fail(function(event) {
           // TODO: implement displaying of errors after the mind object controller improvement
@@ -213,6 +224,8 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
   function showEdgeForm() {
     showActionContainer();
     $(edgeFormContainerSelector).show();
+    // NOTE: usually, a last selected edge type is preferable to an opened select element; but needs to investigate use cases
+    // $('#subject-object-relation-predicate-id').select2('open');
   }
 
   function hideEdgeForm() {
@@ -285,6 +298,7 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
   function showNodeGroupForm() {
     showActionContainer();
     $(nodeFormGroupContainerSelector).show();
+    $('#mind-object-group-name').focus();
   }
 
   function hideNodeGroupForm() {
@@ -472,13 +486,14 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
       const [startX, endX] = correctRange(sX, eX);
       const [startY, endY] = correctRange(sY, eY);
 
-      network.selectNodes(nodes.get().reduce(
+      let selected_nodes = nodes.get().reduce(
           (selected, { id }) => {
             const { x, y } = network.getPositions(id)[id];
             return (startX <= x && x <= endX && startY <= y && y <= endY) ?
                 selected.concat(id) : selected;
           }, []
-      ));
+      );
+      network.selectNodes(selected_nodes);
 
       // Dirty hack. In an ideal world, needs to fire the `selectNode` event from `selectNodes(...)`, but  there is no
       // any triggering of events. So, we manually process required actions through calling of private methods of
@@ -487,6 +502,11 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
         network.manipulation._createSeperator();
         // TODO: remember about hardcode of a locale
         network.manipulation._createDeleteButton('en');
+      }
+
+      // Hide an info tab if selected multiple nodes
+      if(selected_nodes.length > 1) {
+        hideNodeInfo();
       }
     };
 
