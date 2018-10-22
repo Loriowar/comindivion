@@ -31,17 +31,19 @@ Usage of application is very simple. Needs to keep in mind a base structure of a
 
 ## Current functions
 - One endless interactive mind map.
+- Async updating of the interactive view and an ability of a parallel edition of the graph network.
 - Multiple selection and moving of nodes.
 - Search over nodes.
 - Grouping of nodes.
 - Listing of similar nodes.
+- Export all users data to the file.
 - Small tutorial in format of "How to...".
 
 ## Future functions
 - Import data from a file to the application.
-- Export all users data to the file.
-- Async updating of the interactive view and an ability of a parallel edition of the graph network.
 - API for an access to all user data.
+- Undo/redo actions.
+- Snapshots of the network state.
 - Sharing nodes and node groups between users.
 
 And of course, feel free to offer any functions which can help yo achieve your personal aims.
@@ -80,7 +82,7 @@ Go to root directory of the project and do follows things:
 - Fill all required env variables in `sys/env/list.template`. Variables must be actual for you local machine.
 - Export previously filled env variables to you current env. Use `export`, `set` or anything else.
 - Run `_build/prod/rel/comindivion/bin/comindivion console` and looks on messages in console.
-- If no errors in console visit `localhost:4001` and check proper working of the built release.
+- If no errors in the console - visit `localhost:4001` and check proper working of the built release.
 
 ### Deploy assembled package
 Use [Edeliver](https://github.com/edeliver/edeliver) or do all actions manually:
@@ -90,7 +92,7 @@ Use [Edeliver](https://github.com/edeliver/edeliver) or do all actions manually:
 - Extract it by `tar -xzf comindivion.tar.gz`.
 - Assign proper right on directory using `chmod`.
 - Prepare analog of `sys/env/list.template` with all required data for production.
-- Run application server by any preferable way (foreground, daemon, systemd etc), but don't foreget about usage of the env variables from the file described in the previous step.
+- Run the application server by any preferable way (foreground, daemon, systemd etc), but don't foreget about usage of the env variables from the file described in the previous step.
 
 ### Systemd unit
 Assume what you extract tarball with release to `/opt/webapp/comindivion/current`. Then systemd unit looks follows:
@@ -126,9 +128,9 @@ Assume, you put the required symlink to `/opt/webapp/comindivion/static`. In thi
 sudo certbot certonly --webroot --webroot-path /opt/webapp/comindivion/static/ --renew-by-default -d <FULL_DOMAIN_NAME_OF_YOUR_PRODUCTION_SERVER>
 ```
 
-After this you obtain fullchain and privkey for ssl.
+After this you obtain a fullchain and privkey for ssl.
 
-Finally, you can configure you elixir application for using https. Or you can make a reverse-proxy with support of https and run your elixir app locally using simple http protocol. Anyway, here you better know your available resources and aims.
+Finally, you can configure you elixir application for using https. Or you can make a reverse-proxy with support of https/wss and run your elixir app locally using simple http/ws protocol. Anyway, here you better know your available resources and aims.
 
 ## Integration with Google Analytics
 This is extremely simple. Set the env variable `GA_IDENTIFIER` for a production server. In case of the previously described
