@@ -16,29 +16,24 @@ defmodule Comindivion.Api.PositionController do
              where: mo.id in ^mind_object_ids,
              select: mo.id)
       |> Repo.all
-    position_changesets =
-      Enum.map(allowed_mind_object_ids,
-        fn(mind_object_id) ->
-          Position.changeset(
-            %Position{mind_object_id: mind_object_id},
-            mind_objects[mind_object_id]
-          )
+
+    positions_data =
+      Enum.reduce(
+        allowed_mind_object_ids,
+        %{},
+        fn(mo_id, acc) ->
+          Map.put(acc, mo_id, mind_objects[mo_id])
         end
       )
 
     result =
-      position_changesets
-      |> Enum.reduce(Ecto.Multi.new, fn(changeset, multi) ->
-                                       Ecto.Multi.insert(multi,
-                                                         changeset.data.mind_object_id,
-                                                         changeset,
-                                                         on_conflict: :replace_all,
-                                                         conflict_target: :mind_object_id)
-                                     end)
-      |> Repo.transaction
+      Comindivion.Context.Position.BulkUpdate.execute(
+        positions_params: positions_data,
+        user_id: current_user_id(conn)
+      )
 
     case result do
-      {:ok, multi_position_result }  ->
+      {:ok, multi_position_result, _}  ->
         result_data = %{positions: Map.values(multi_position_result)}
 
         Comindivion.Endpoint.broadcast(
@@ -47,7 +42,9 @@ defmodule Comindivion.Api.PositionController do
           Comindivion.Serializer.Interactive.Position.json(result_data))
 
         render(conn, "show.json", result_data)
-      {:error, _, changeset, _ } ->
+      {:error, :history} ->
+        conn |> put_status(500) |> text("Internal server error: history problem")
+      {:error, changeset} ->
         render(conn, "show.json", changeset: changeset)
     end
   end

@@ -13,6 +13,8 @@ defmodule Comindivion.User do
     field :password, :string, virtual: true
     field :password_hash, :string
 
+    has_many :history, Comindivion.History
+
     timestamps()
   end
 
@@ -29,7 +31,6 @@ defmodule Comindivion.User do
     |> hash_password
     |> validate_required([:password_hash])
   end
-
 
   defp hash_password(changeset) do
     case changeset do
