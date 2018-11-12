@@ -13,7 +13,7 @@ defmodule Comindivion.Context.Position.BulkUpdate do
   #   }
   # }
   # TODO: single transaction for read and write operations for data consistency
-  def execute(positions_params: positions_params, user_id: user_id) do
+  def execute(positions_params: positions_params, user: user) do
     position_changesets =
       Enum.map(positions_params,
         fn({mind_object_id, position_data}) ->
@@ -31,8 +31,11 @@ defmodule Comindivion.Context.Position.BulkUpdate do
            fn(_) ->
              diff = Comindivion.Service.History.Diff.Generate.call(changesets: position_changesets, query: Position, primary_key: :mind_object_id)
              history_content = Comindivion.Service.Converter.DiffToDbFormat.call(diff: diff, model_name: (position_changesets |> hd).data.__struct__)
-             History.changeset(%History{user_id: user_id, previous_history_id: last_history_id(user_id)}, %{diff: history_content})
-             |> Repo.insert
+             new_history =
+               History.changeset(%History{user_id: user.id, previous_history_id: current_history_id(user)}, %{diff: history_content})
+               |> Repo.insert!
+             Ecto.Changeset.change(user, current_history_id: new_history.id)
+             |> Repo.update
            end
          )
 

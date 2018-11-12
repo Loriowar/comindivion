@@ -14,6 +14,7 @@ defmodule Comindivion.User do
     field :password_hash, :string
 
     has_many :history, Comindivion.History
+    belongs_to :current_history, Comindivion.History
 
     timestamps()
   end

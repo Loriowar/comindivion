@@ -29,7 +29,7 @@ defmodule Comindivion.Api.PositionController do
     result =
       Comindivion.Context.Position.BulkUpdate.execute(
         positions_params: positions_data,
-        user_id: current_user_id(conn)
+        user: current_user(conn)
       )
 
     case result do
