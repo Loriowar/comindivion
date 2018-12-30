@@ -73,5 +73,10 @@ defmodule Comindivion.Router do
     post "/subject_object_relations/:id", SubjectObjectRelationController, :update
 
     resources "/search", SearchController, only: [:index]
+
+    scope "/history" do
+      post "/undo",  HistoryController, :undo, as: :undo_history
+      post "/redo",  HistoryController, :redo, as: :redo_history
+    end
   end
 end

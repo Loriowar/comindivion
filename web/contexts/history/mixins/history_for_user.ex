@@ -34,5 +34,6 @@ defmodule Comindivion.Context.History.Mixin.HistoryForUser do
          on: h.previous_history_id == ph.id,
          select: [ph])
     |> Repo.one
+    |> hd
   end
 end

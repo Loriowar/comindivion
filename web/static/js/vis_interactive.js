@@ -723,6 +723,17 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
     clearSearchResult();
   });
 
+  // Initialize history actions
+
+  $('#history-undo-button').on('click', function (event) {
+    $.ajax({
+      type: "POST",
+      url: "/api/history/undo"})
+        .fail(function(event) {
+          notifyUser();
+        });
+  });
+
   // Additional network manipulation actions
 
   let MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;

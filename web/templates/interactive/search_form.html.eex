@@ -2,6 +2,8 @@
   Search by node: <input id="search-string" type="text" name="q">
   <button id="search-submit-button" type="submit">Search</button>
   <button id="search-clear-button" type="button">Clear</button>
+  &emsp;
+  <button id="history-undo-button" type="button">Undo</button>
 </form>
 
 <div class="search-result-container">

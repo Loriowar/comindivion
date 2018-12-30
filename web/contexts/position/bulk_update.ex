@@ -2,6 +2,14 @@ defmodule Comindivion.Context.Position.BulkUpdate do
   alias Comindivion.{Position, History, Repo}
   import Comindivion.Context.History.Mixin.HistoryForUser
 
+  def execute(positions_params: positions_params, user: user) do
+    execute_with_options(positions_params: positions_params, user: user, history_id: nil)
+  end
+
+  def execute_with_custom_history(positions_params: positions_params, user: user, history_id: history_id) do
+    execute_with_options(positions_params: positions_params, user: user, history_id: history_id)
+  end
+
   # Expected structure of input data:
   # { position_params:
   #   { mind_object1_uuid:
@@ -12,8 +20,7 @@ defmodule Comindivion.Context.Position.BulkUpdate do
   #     ...
   #   }
   # }
-  # TODO: single transaction for read and write operations for data consistency
-  def execute(positions_params: positions_params, user: user) do
+  defp execute_with_options(positions_params: positions_params, user: user, history_id: history_id) do
     position_changesets =
       Enum.map(positions_params,
         fn({mind_object_id, position_data}) ->
@@ -29,13 +36,11 @@ defmodule Comindivion.Context.Position.BulkUpdate do
       |> Ecto.Multi.run(
            :history,
            fn(_) ->
-             diff = Comindivion.Service.History.Diff.Generate.call(changesets: position_changesets, query: Position, primary_key: :mind_object_id)
-             history_content = Comindivion.Service.Converter.DiffToDbFormat.call(diff: diff, model_name: (position_changesets |> hd).data.__struct__)
-             new_history =
-               History.changeset(%History{user_id: user.id, previous_history_id: current_history_id(user)}, %{diff: history_content})
-               |> Repo.insert!
-             Ecto.Changeset.change(user, current_history_id: new_history.id)
-             |> Repo.update
+             create_history(
+               position_changesets: position_changesets,
+               user: user,
+               history_id: history_id
+             )
            end
          )
 
@@ -68,5 +73,31 @@ defmodule Comindivion.Context.Position.BulkUpdate do
             {:error, failed_value}
         end
     end
+  end
+
+  defp create_history(position_changesets: position_changesets, user: user, history_id: history_id) do
+    new_history_id =
+      if history_id do
+        history_id
+      else
+        diff =
+          Comindivion.Service.History.Diff.Generate.call(
+            changesets: position_changesets,
+            query: Position,
+            primary_key: :mind_object_id)
+        history_content =
+          Comindivion.Service.Converter.DiffToDbFormat.call(
+            diff: diff,
+            model_name: (position_changesets |> hd).data.__struct__
+          )
+        new_history =
+          History.changeset(
+            %History{user_id: user.id, previous_history_id: current_history_id(user)},
+            %{diff: history_content})
+          |> Repo.insert!
+        new_history.id
+      end
+    Ecto.Changeset.change(user, current_history_id: new_history_id)
+    |> Repo.update
   end
 end
