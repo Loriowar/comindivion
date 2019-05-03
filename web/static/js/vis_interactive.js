@@ -5,8 +5,6 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
   let nodeInfoContainerSelector = '#readonly-mind-object-container';
   let nodeActionsContainerSelector = '.flex-input-column';
 
-  let amountVisibleActions = 0;
-
   function fillNodeForm(data) {
     let $nodeForm = $(nodeFormContainerSelector);
     $nodeForm.find('#mind-object-title').val(data['title']);
@@ -753,6 +751,12 @@ export default function initializeVisInteractive(vis, awesomplete, container) {
   // Hide a footer block with application version to extend the interactive working area
   $( document ).ready(function(){
     $('.application-version').hide();
+  });
+
+  // Disable the old Firefox event to prevent propagation of scroll event to body;
+  // this has led to annoying scroll of body during zoom of network
+  container.addEventListener("MozMousePixelScroll", function(event) {
+    event.preventDefault();
   });
 
   return {network: network, network_data: network_data};
