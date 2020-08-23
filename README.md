@@ -64,6 +64,7 @@ And of course, feel free to offer any functions which can help yo achieve your p
   - `mix ecto.migrate`.
 - Run the server and console: `iex -S mix phx.server`.
 - Go to `localhost:4000` and check working of the application.
+- For debug use `require IEx; IEx.pry` in any place among the source code.
 
 ## Deploy
 Assume what you have a local copy of the application and in the development mode anything works perfect.

@@ -36,7 +36,7 @@ end
 environment :prod do
   set include_erts: false
   set include_src: false
-  set cookie: :"${ERLANG_COOKIE}"
+  set cookie: System.get_env("ERLANG_COOKIE")
 end
 
 # You may define one or more releases in this file.

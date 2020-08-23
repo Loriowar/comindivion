@@ -25,21 +25,21 @@ config :comindivion, Comindivion.Endpoint,
 config :logger, level: :info
 
 # Fetch Google Analytics identifier from system environment
-config :comindivion, ga_identifier: "${GA_IDENTIFIER}"
+config :comindivion, ga_identifier: System.get_env("GA_IDENTIFIER")
 
 config :comindivion, Comindivion.Endpoint,
-       secret_key_base: "${ENDPOINT_SECRET_KEY_BASE}"
+       secret_key_base: System.get_env("ENDPOINT_SECRET_KEY_BASE")
 
 config :guardian, Guardian,
-       secret_key: "${GUADRIAN_SECRET_KEY_BASE}"
+       secret_key: System.get_env("GUADRIAN_SECRET_KEY_BASE")
 
 # Configure your database
 config :comindivion, Comindivion.Repo,
        adapter: Ecto.Adapters.Postgres,
-       username: "${DB_USERNAME}",
-       password: "${DB_PASSWORD}",
-       database: "${DB_NAME}",
-       hostname: "${DB_HOST}",
+       username: System.get_env("DB_USERNAME"),
+       password: System.get_env("DB_PASSWORD"),
+       database: System.get_env("DB_NAME"),
+       hostname: System.get_env("DB_HOST"),
        size: 20 # The amount of database connections in the pool
 
 # ## SSL Support
