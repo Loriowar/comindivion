@@ -10,7 +10,7 @@
     "phoenix": "file:deps/phoenix",
     "phoenix_html": "file:deps/phoenix_html",
     "flatpickr": "^4.4.0",
-    "select2": "~4.0.0",
+    "select2": "~4.0.6",
     "select2-bootstrap-css": "^1.4.6",
     "awesomplete": "^1.1.2",
     "vis": "^4.21.0"
